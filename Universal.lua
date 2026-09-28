@@ -6674,14 +6674,47 @@ local BLUMacroWS = {
 
 local function ApplyBLUMacros(player)
     if not player or player.MainJob ~= 'BLU' then return end
-    BindSpell('^`', 'Pollen', '<stpc>')
-    BindSpell('^1', 'Wild Carrot', '<stpc>')
-    BindSpell('^2', 'Magic Fruit', '<stpc>')
-    BindSpell('^3', 'Cocoon', '<stpc>')
+
+    -- CTRL: healing / support / defensive / self-enhancement.
+    -- The layout deliberately parallels RDM's CTRL philosophy while using
+    -- BLU's actual level-75 functional vocabulary.
+    BindSpell('^`', 'Wild Carrot', '<stpc>')
+    BindSpell('^1', 'Magic Fruit', '<stpc>')
+    BindSpell('^2', 'Plenilune Embrace', '<stpc>')
+    BindSpell('^3', 'Healing Breeze', '<me>')
+    BindSpell('^4', 'Battery Charge', '<me>')
+    BindSpell('^5', 'Animating Wail', '<me>')
+    BindSpell('^6', 'Diamondhide', '<me>')
+    BindSpell('^7', 'Zephyr Mantle', '<me>')
+    BindSpell('^8', 'Saline Coat', '<me>')
+    BindSpell('^9', 'Orcish Counterstance', '<me>')
+    BindSpell('^0', 'Cocoon', '<me>')
+    BindSpell('^-', 'Harden Shell', '<me>')
+    BindSpell('^=', 'Carcharian Verve', '<me>')
+
+    -- Ctrl-Backspace retains the RDM-family "status removal" concept:
+    -- Exuviation restores HP and removes a detrimental status effect.
+    BindSpell('^Backspace', 'Exuviation', '<me>')
+
+    -- CTRL-BACKSLASH is intentionally NOT bound here.  It remains the
+    -- universal Dynamic Enspell key for any job running /RDM.
+    --
+    -- ALT: offensive / offensive utility / control / magical damage.
     BindSpell('!`', 'Head Butt', '<stnpc>')
-    BindSpell('!1', 'Blank Gaze', '<stnpc>')
-    BindSpell('!2', 'Sprout Smack', '<stnpc>')
-    BindSpell('!3', 'Wild Oats', '<stnpc>')
+    BindSpell('!1', 'Tail Slap', '<stnpc>')
+    BindSpell('!2', 'Frenetic Rip', '<stnpc>')
+    BindSpell('!3', 'Disseverment', '<stnpc>')
+    BindSpell('!4', 'Quadratic Continuum', '<stnpc>')
+    BindSpell('!5', 'Actinic Burst', '<stnpc>')
+    BindSpell('!6', 'Sheep Song', '<stnpc>')
+    BindSpell('!7', 'MP Drainkiss', '<stnpc>')
+    BindSpell('!8', 'Acrid Stream', '<stnpc>')
+    BindSpell('!9', 'Entomb', '<stnpc>')
+    BindSpell('!0', 'Spectral Floe', '<stnpc>')
+    BindSpell('!-', 'Anvil Lightning', '<stnpc>')
+    BindSpell('!=', 'Blinding Fulgor', '<stnpc>')
+    BindSpell('!Backspace', 'Tenebral Crush', '<stnpc>')
+
     for key, ws in pairs(BLUMacroWS) do BindWS(key, ws) end
 end
 
