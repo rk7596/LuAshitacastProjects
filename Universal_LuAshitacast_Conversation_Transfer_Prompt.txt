@@ -1,0 +1,506 @@
+UNIVERSAL LUASHITACAST WIP — CONVERSATION TRANSFER / CONTINUATION PROMPT
+=======================================================================
+
+ROLE
+----
+You are continuing an ongoing FFXI Ashita v4 / LuAshitacast project. Do NOT restart the project from first principles. The user will upload a Lua file alongside this prompt. Treat that uploaded Lua file as the current working source of truth for code. Preserve good existing work and continue from it.
+
+At the very TOP of EVERY response, begin with a concise status line such as:
+
+Status — Overall ~66% | RDM ~95% | PLD ~80% | BLU ~80% | SMN ~75% | Core/Macro architecture ~90% | Remaining 18 jobs mostly starter/WIP.
+
+Then answer the user's request. Do not end every response with a routine follow-up question or offer. The user prefers concise, technically rigorous, source-aware answers with occasional dry humor.
+
+PROJECT GOAL
+------------
+Create ONE universal, shareable, human-readable LuAshitacast Universal.lua for character Finley (character ID 51953), covering all 22 jobs at the CatsEyeXI level-75 era while respecting the fact that the character's jobs are NOT all level 75 yet.
+
+Deployment architecture:
+  Ashita\config\addons\LuAshitacast\Finley_51953\Universal.lua
+  plus the normal per-job loader wrappers:
+    WAR.lua, MNK.lua, WHM.lua, BLM.lua, THF.lua, DRK.lua, BST.lua,
+    BRD.lua, RNG.lua, SAM.lua, NIN.lua, DRG.lua, PLD.lua, RDM.lua,
+    SMN.lua, COR.lua, PUP.lua, DNC.lua, SCH.lua, GEO.lua, RUN.lua, BLU.lua
+
+Each wrapper is tiny and should simply return:
+  return gFunc.LoadFile("Universal.lua")
+
+No root-level wrappers are required.
+
+CURRENT CHARACTER JOB LEVELS (AUTHORITATIVE)
+---------------------------------------------
+WAR 40
+WHM 41
+RDM 75
+PLD 75
+BST 42
+RNG 43
+NIN 40
+SMN 75
+COR 50
+DNC 40
+GEO 51
+MNK 75
+BLM 60
+THF 60
+DRK 41
+BRD 40
+SAM 75
+DRG 75
+BLU 75
+PUP 55
+SCH 40
+RUN 51
+
+Important distinction:
+* Equipment/action definitions must respect the current job level. Do not assume every job is level 75.
+* Macro decks MAY be prepared for the eventual level-75 endpoint even while the job is still leveling.
+* Do not create executable WS/JA/MA mappings merely because an action exists at level 75 if the job currently cannot use it, unless that mapping is explicitly part of a future-reference section rather than active runtime logic.
+* Macro preparation is the exception: future level-75 macro bindings are acceptable and preferred when the user has not yet finalized positions.
+
+INVENTORY / EQUIPMENT AUTHORITY
+--------------------------------
+The current inventory file supplied by the user is the primary evidence for owned gear. Public guides and BG-Wiki/CatsEyeXI pages are for mechanics and optimization benchmarks only; they do NOT authorize adding gear the character does not own.
+
+Known character-specific rule:
+* All owned Magus / "Mag." +1 BLU equipment is treated as having the maximum Tier 3 CatsEyeXI Artifact +1 augment, per the user's established project rule.
+* Do not infer +1/+2 or other upgrades merely because NQ gear is owned. The user has separately stated that the character owns NQ Artifact/Relic pieces for applicable jobs; future upgraded tiers are not assumed unless explicitly owned.
+* Keep gear lists human-readable and explicit, one slot per line where practical.
+* Empty slots should be commented out rather than represented by empty strings, because commenting an item should not cause an accidental unequip.
+
+IMPORTANT SOURCE-OF-TRUTH PRIORITY
+-----------------------------------
+1. Explicit user feedback and uploaded character files.
+2. CatsEyeXI BG-Wiki when it documents the server-specific implementation.
+3. Standard FFXI/BG-Wiki mechanics when applicable to CatsEyeXI.
+4. Other public guides only as benchmarks.
+
+When a server-specific fact matters, search the web and cite the source. Do not silently substitute Retail behavior for CatsEyeXI behavior.
+
+CORE ARCHITECTURE / INVARIANTS
+-------------------------------
+The universal file already has:
+* One profile table.
+* 22 job containers created by NewJob().
+* Separate job namespaces: JOBS.RDM, JOBS.PLD, JOBS.BLU, JOBS.SMN, etc.
+* Job-specific Sets, MA, JA, WS, PET, Weapons tables.
+* Shared HandleDefault / HandlePrecast / HandleAbility / HandleWeaponskill / HandleMidcast callbacks.
+* Shared macro lifecycle.
+* Shared TP weapon-lock logic.
+* Shared movement overlay logic.
+* Dynamic Enspell logic.
+* A human-readable WS reference library.
+
+Do not collapse job-specific WS sets into one universal WS classification. The same WS may legitimately use different gear on different jobs. Each job must own its own WS map and execution sets.
+
+WEAPON / TP LOCK
+----------------
+Weapon lock threshold is 50 TP.
+When TP >= 50, disable Main/Sub so spells/other state changes do not destroy banked TP by changing weapons.
+Re-enable below threshold.
+
+DUAL WIELD RULE
+---------------
+CatsEyeXI subjob rule currently established:
+  NIN, THF, DNC all grant Dual Wield here.
+Native-DW levels currently defined:
+  NIN 10
+  DNC 20
+  THF/BLU native DW is above the current level-75 endpoint in this project and should not be assumed below cap.
+
+MOVEMENT-SPEED FIX (IMPORTANT)
+-------------------------------
+The original implementation did:
+  gFunc.EquipSet(stateSet)
+  then, while moving,
+  gFunc.EquipSet(movementSet)
+
+That caused visible equipment oscillation while moving because LuAshitacast repeatedly received competing Legs-slot requests at every poll. Standing still was stable because only the state set was sent.
+
+The current working file fixes this by MERGING movement Legs into the current Idle/Resting/Engaged state and making ONE EquipSet() call per poll.
+
+Established movement rule:
+* At level 73+ for RDM, PLD, DRK, RNG, DRG, BLU, COR, RUN: Blood Cuisses.
+* Everyone else: Track Pants +1.
+* Track Pants +1 movement overlay intentionally contains no Feet entry.
+* Mounted status ID 252 suppresses movement gear so mounted idle gear remains intact, notably BLU Magus Shalwar +1's augment.
+
+Do not reintroduce a second movement EquipSet call.
+
+DYNAMIC ENSPELL — FROZEN BEHAVIOR
+----------------------------------
+The user specifically requires the Dynamic Enspell behavior from the original uploaded Finley_RDM.lua to be preserved.
+
+Only the six elemental Enspells are selectable:
+  Enfire
+  Enblizzard
+  Enaero
+  Enstone
+  Enthunder
+  Enwater
+
+Never select Enlight or Endark. The user explicitly clarified that only PLD main can cast Enlight and only DRK main can cast Endark, and they are irrelevant at the current CatsEyeXI level anyway.
+
+Element wheel:
+  Fire -> Water
+  Ice -> Fire
+  Wind -> Ice
+  Earth -> Wind
+  Thunder -> Earth
+  Water -> Thunder
+
+Original decision behavior:
+* Missing day and weather -> Fire.
+* Missing one -> use the other.
+* Same day/weather -> that element.
+* Weather beats an opposing day.
+* If day beats weather and weather is not double, use day.
+* Otherwise use weather.
+* Double weather is detected via the environment weather value containing x2 / the equivalent established double-weather marker.
+
+Dynamic bind:
+* Ctrl-\\ only when RDM is main OR /RDM.
+* All other main/subjob combinations: Ctrl-\\ unbound.
+* /lac c enspell may manually force refresh/report.
+* Do not replace this algorithm with a different “better” Enspell policy unless the user explicitly asks.
+
+RDM — VERY NEARLY FINAL
+------------------------
+RDM is the most mature job and should be treated as a frozen design except for verified bug fixes / user feedback.
+
+RDM MACRO POSITIONS ARE FROZEN:
+CTRL (self/party, defensive/enhancing):
+  Ctrl-`  = Cure II, EXCEPT RDM/WHM where it is Erase
+  Ctrl-1  = Cure III
+  Ctrl-2  = Cure IV
+  Ctrl-3  = Regen
+  Ctrl-4  = Refresh
+  Ctrl-5  = Haste
+  Ctrl-6  = Aquaveil
+  Ctrl-7  = Blink
+  Ctrl-8  = Stoneskin
+  Ctrl-9  = Blaze Spikes
+  Ctrl-0  = Ice Spikes
+  Ctrl--  = Shock Spikes
+  Ctrl-=  = Phalanx
+  Ctrl-\\ = Dynamic Enspell
+
+ALT (enemy-targeted/offensive/enfeebling):
+  Alt-`  = Dispel
+  Alt-1  = Silence
+  Alt-2  = Gravity
+  Alt-3  = Paralyze II
+  Alt-4  = Slow II
+  Alt-5  = Blind II
+  Alt-6  = Sleep
+  Alt-7  = Sleep II
+  Alt-8  = Fire III
+  Alt-9  = Blizzard III
+  Alt-0  = Thunder III
+  Alt--  = Bio II
+  Alt-=  = Poison II
+
+Conditional:
+  Ctrl-Backspace = Aspir for RDM main /BLM when main level >49 OR /DRK when main level >39.
+
+RDM WS macro deck:
+  Ctrl+Alt-` = Flat Blade
+  Ctrl+Alt-1 = Vorpal Blade
+  Ctrl+Alt-2 = Red Lotus Blade
+  Ctrl+Alt-3 = Seraph Blade
+  Ctrl+Alt-4 = Savage Blade
+  Ctrl+Alt-5 = Death Blossom
+  Ctrl+Alt-6 = Gust Slash
+  Ctrl+Alt-7 = Cyclone
+  Ctrl+Alt-8 = Energy Drain
+  Ctrl+Alt-9 = Evisceration
+  Ctrl+Alt-0 = Knights of Round
+  Ctrl+Alt-- = Spirits Within
+  Ctrl+Alt-= = Spirit Taker
+
+RDM/NIN and RDM/DNC shared-job macros:
+* Alt-[ = Utsusemi: Ichi when NIN main or /NIN.
+* Alt-] = Utsusemi: Ni when NIN main or /NIN.
+* Alt-[ / Alt-] = Quickstep / Box Step when DNC main or /DNC.
+* Alt-' = Spectral Jig when DNC main or /DNC.
+* If both NIN and DNC are available through main/sub, MAIN JOB precedence wins for the shared keys.
+
+RDM spell macro target convention:
+* The macro helper defaults to <stpc> even for self-only spells.
+* This is intentional so the user can inspect recast and press Enter to confirm, or select another valid player target for spells such as Haste and Cures.
+* Enemy-targeted spells use <stnpc>.
+* Do not change this convention to <me> unless a specific macro truly requires it (e.g. Holy Circle is a JA on self).
+
+RDM HASTE / REFRESH GEARING
+----------------------------
+Haste and Refresh are Enhancing Magic spells but their spell effect is not increased by Enhancing Magic skill.
+They should use the dedicated FastCastHaste set rather than EnhancingSkill.
+
+Current dedicated set concept:
+  Head  = Wlk. Chapeau +1
+  Ear1  = Loquac. Earring
+  Body  = Duelist's Tabard
+  Back  = Grapevine Cape
+  Waist = Ninurta's Sash
+  Feet  = Dusk Ledelsens +1
+
+This combines Fast Cast, Haste, and CatsEyeXI Enhancing Magic Duration on Grapevine Cape.
+Keep the FastCastHaste set equipped through midcast so cast time and subsequent recast are both minimized while duration gear is active.
+
+RDM SET CORRECTION ALREADY MADE:
+* EnfeeblingSkill Feet should be Yigit Crackows, not Yigit Gages.
+
+RDM WS SET NAMING:
+  WS-Physical-STR
+  WS-Physical-DEX
+  WS-Physical-STR-DEX
+  WS-Physical-STR-MND
+  WS-Physical-MND
+  WS-Physical-MND-STR
+  WS-Magical-MND
+  WS-Magical-STR-INT
+  WS-Magical-INT-STR
+  WS-Magical-INT-DEX
+  WS-Magical-STR-MND
+  WS-Magical-MND-STR
+  WS-Magical-INT
+  WS-Magical-INT-MND
+
+RDM WS mapping must remain job-specific and follow the original Finley_RDM blueprint.
+Death Blade is NOT a real WS; use Death Blossom where applicable.
+
+PLD — ADVANCED WIP
+-------------------
+PLD source macro deck was cleaned up from obvious artifacts:
+CTRL:
+  Ctrl-` = Cure
+  Ctrl-1 = Cure II
+  Ctrl-2 = Cure III
+  Ctrl-3 = Holy Circle
+  Ctrl-[ = Utsusemi: Ichi
+  Ctrl-] = Utsusemi: Ni
+ALT:
+  Alt-1 = Flash
+  Alt-5 = Provoke
+
+PLD equipment and JA framework exists, including:
+* Shield Bash / Sentinel / Rampart / Cover defensive handling.
+* Provoke / Flash enmity handling.
+* Cure I-IV.
+* Stoneskin / Phalanx / Reprisal enhancing handling.
+* Joyeuse + Koenig Shield standard player-party policy.
+* Solo/Trust scenarios can use the established DW weapon policy when appropriate.
+
+Important PLD correction already made:
+* Death Blossom is an RDM WS, not a PLD WS.
+* Starlight/Moonlight are staff WS and do not belong in the current Joyeuse/Octave Club PLD policy.
+
+PLD still needs a final WS/action audit before considered frozen.
+
+BLU — ADVANCED WIP
+-------------------
+BLU job-specific sets, Blue Magic categories, ranged physical overlay, weapons, WS maps, and macros are present.
+
+Current owned BLU gear established by the project includes:
+  Magus Keffiyeh +1
+  Fortitude Torque
+  Suppanomimi
+  Brutal Earring
+  Magus Jubbah +1
+  Mag. Bazubands +1
+  Rajas Ring
+  Mars's Ring
+  Stormlord Shawl
+  Ninurta's Sash
+  Blood Cuisses
+  Magus Charuqs +1
+  Magus Shalwar +1
+  Mirage Shalwar
+  Mirage Keffiyeh
+  Mirage Bazubands
+  Mirage Charuqs
+  Mimesis
+  Perdu Hanger
+  Chatoyant Staff
+  Wizzan Grip
+  Visionary Obi
+  etc., as verified in the supplied inventory.
+
+CatsEyeXI Magus +1 Tier 3 assumption applies to owned Magus/Mag. +1 pieces.
+
+BLU macro deck currently includes common Pollen/Wild Carrot/Magic Fruit/Cocoon and offensive magic such as Head Butt, Blank Gaze, Sprout Smack, Wild Oats, plus WS bindings.
+
+BLU still needs an audit for complete ownership, spell classification, WS mapping, and final optimization.
+
+SMN — ADVANCED WIP / IMPORTANT MODEL
+------------------------------------
+SMN is NOT to be treated like a player WS job.
+
+Blood Pacts are not weapon skills.
+Do not derive BP gear from the player's WS WSC. Example: Predator Claws uses Avatar-side stats; it does NOT imply player DEX gear.
+
+BP activation vs execution are separate:
+* At activation, use Blood Pact Ability Delay gear.
+* After the pact is sent, use avatar/pact-specific execution gear.
+* Current BP Delay model documents the ordinary combined delay cap and Avatar's Favor interaction; keep this sourced and server-aware.
+
+Current owned SMN equipment confirmed by the user's inventory includes NQ:
+  Summoner's Horn
+  Summoner's Doublet
+  Summoner's Bracers
+  Summoner's Spats
+  Summoner's Pigaches
+  Evoker's Horn
+  Evoker's Doublet
+  Evoker's Bracers
+  Evoker's Spats
+  Evoker's Pigaches
+  Evoker's Ring
+  Smn. Torque
+
+SMN weapons include:
+  Gridarvor
+  Kukulcan's Staff
+  Tamaxchi
+  Matre Bell
+  Melampus Staff
+  Chatoyant Staff
+  Ossa Grip
+
+SMN weapon policy:
+* Prefer Gridarvor while engaged or an avatar is active.
+* Chatoyant Staff is the alternate staff mode.
+* Manual toggle command exists: /lac c smnstaff.
+* Hotkey: Alt+Backspace.
+* Gridarvor provides the established small perpetuation benefit when the avatar matches the day; user generally prefers Gridarvor while engaged even when the day does not match.
+* Preserve the 50 TP weapon-lock logic.
+
+SMN BP macro structure:
+* Alt = Rage / offensive Blood Pacts.
+* Ctrl = Ward / defensive/buff/self/group Blood Pacts.
+* Current macro implementation is avatar-aware: the key selects the appropriate pact for the currently active avatar.
+* The database should retain all relevant pact mappings even when only common BPs are macro-bound.
+* Do not put player WS like Raging Fists into the BP database.
+
+SMN still needs a final pact-by-pact mechanics/gear audit and a final macro-key pass.
+
+MACRO DESIGN FOR ALL OTHER JOBS
+--------------------------------
+Macro decks have a lot of space:
+  Alt / Ctrl / Ctrl+Alt + Grave through Backspace.
+
+Category convention:
+* ALT = enemy-targeted / offensive / enfeebling / debuff actions.
+* CTRL = self / party-targeted / defensive / enhancing / buff actions.
+* CTRL+ALT = weapon skills.
+
+When creating a NEW job macro deck (do not reshuffle the frozen RDM deck):
+* Group related actions together by type, as RDM does: Cures together, Enfeebling together, Elemental damage together, etc.
+* Within each group, order the actions by acquisition level from lowest to highest, assigning the lowest key among that deck/group to the lowest-level action.
+* It is acceptable and preferred to prepare the macro deck through level 75 before the job reaches 75.
+* Macro bindings may therefore include future level-75 spells/abilities/WS even while the job is currently lower level.
+* This macro exception does NOT authorize active gear/action runtime mappings for actions the current job cannot yet use.
+
+RDM macro positions are already memorized by the user and MUST NOT be rearranged simply to fit the generic rule.
+
+WEAPONSKILL REFERENCE LIBRARY
+-----------------------------
+The Universal file contains a human-readable WS reference section.
+Purpose:
+* document real WS mechanics
+* remain useful for future CatsEyeXI progression
+* document weapon, physical/magical/special type, hits, WSC, fTP at 1000/2000/3000 TP where applicable, replication, crit behavior, dSTAT, skillchain properties, and special behavior
+* distinguish current level-75 availability from future relevance
+
+Important correction:
+* Death Blade is not a real WS.
+* Death Blossom is the real RDM WS.
+* Chant du Cygne should remain in the reference library as future-relevant even though it is above the current level-75 endpoint.
+
+Do not let the reference library itself drive runtime equipment selection. Runtime selection remains job-specific.
+
+UTILITY / AREA-SPECIFIC GEAR
+----------------------------
+Protected utility items include:
+  Empress Band
+  Chariot Band
+  Anniversary Ring
+  Warp Ring
+  Echad Ring
+  Tavnazian Ring
+  Venture Ring
+  Dcl.Grd. Ring
+  Sprout Beret
+
+Area handling established in the project:
+* Balrahn's Ring can be forced to Ring1 in the Assault/Remnants group of named areas already documented in the file.
+* Maquette Abdhaljs-Legion can force Maquette Ring to Ring2.
+* Re-equipment is handled carefully because utility ring use should win rather than be immediately undone by a disable/enable cycle.
+
+DEFENSIVE MODES
+---------------
+Manual defense keys:
+  !pageup  -> PDT
+  !pagedown -> MDT
+
+Manual lock duration currently 5 seconds.
+Do not introduce autonomous defensive toggling unless the user explicitly asks.
+
+NO AUTONOMOUS COMBAT ACTIONS
+-----------------------------
+Universal.lua must never autonomously cast spells, use JAs, execute WS, use items, or deploy pet actions.
+It should only react to player-initiated actions by changing gear and by providing explicit user-triggered macro commands.
+
+KNOWN CURRENT WIP LIMITATIONS / THINGS TO AUDIT
+-----------------------------------------------
+1. The 18 less-developed jobs currently have starter state sets that are still provisional. Some were originally written assuming level 75 and therefore need an explicit current-level gear audit before they can be called production-ready.
+2. BLM is currently level 60 and has now been given a level-appropriate Wizard's Attire starter concept.
+3. BLM correction: the Body slot is Wizard's Coat; Wizard's Tonban is the Legs slot. This is verified by standard FFXI item data.
+4. The starter-set comments now label Idle / Resting / Engaged arguments locally so the reader does not have to scroll upward and infer argument order.
+5. RDM EnfeeblingSkill Feet was corrected to Yigit Crackows.
+6. Movement oscillation is fixed structurally by merging movement gear into the current state set before the single EquipSet() call; live in-game confirmation is still desirable.
+7. No Lua interpreter/parser is installed in the working environment. Do not claim runtime Lua syntax validation. Structural checks can be done manually.
+8. Continue to inspect for misspellings, stale item names, unowned gear, impossible slot assignments, and job-level-inappropriate items.
+9. Avoid resurrecting stale/unowned gear from older BLU or RDM source variants unless the current inventory/user source confirms it.
+
+CURRENT WORKING FILE
+--------------------
+The uploaded Universal_*.lua file in the NEW conversation is the authoritative current working build. It is the result of the latest transfer pass and includes:
+* current job level table
+* BLM level-60 starter set edit
+* local Idle/Resting/Engaged comments for starter sets
+* RDM EnfeeblingSkill feet correction
+* RDM FastCastHaste with Grapevine Cape duration gear
+* <stpc> spell macro convention
+* original Dynamic Enspell behavior and Ctrl-\\ binding policy
+* movement single-EquipSet fix
+* current RDM/PLD/BLU/SMN work
+
+DO NOT silently discard those changes.
+
+RECOMMENDED WORK ORDER FROM HERE
+---------------------------------
+Work down the highest-completion sections first and use user feedback as the final authority:
+1. Freeze / polish RDM and its integration issues.
+2. Finish PLD WS/action audit.
+3. Finish BLU spell/WS/gear ownership audit.
+4. Finish SMN BP mechanics, gear, and macro audit.
+5. Then expand the remaining jobs systematically, prioritizing jobs currently at level 75, then highest-level non-75 jobs, then the low-level jobs.
+6. For each job, separate:
+   * current-level active runtime data
+   * future level-75 macro preparation
+   * future-reference-only mechanics when needed.
+7. After all jobs have been audited, perform a global integration audit and package the wrappers + Universal.lua.
+
+USER STYLE / WORKING PREFERENCES
+---------------------------------
+* User prefers concise answers and rigorous technical reasoning.
+* User likes descriptive /echo strings.
+* User dislikes needless clarification questions and routine follow-up offers.
+* User wants sources when a game-mechanic claim affects gearing or behavior.
+* Treat skeptical review as a feature; do not defend a previous answer merely because it was previously given.
+* If something is wrong, say so plainly and fix it.
+
+MOST IMPORTANT CONTINUITY RULE
+------------------------------
+This prompt + the uploaded Universal.lua are the project's continuity package. Continue from them. Do not reset the design, invent a different architecture, or replace the established RDM/movement/Enspell/macro decisions without explicit user direction.
