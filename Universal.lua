@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-08-28.1106
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-29.0000
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -71,6 +71,11 @@ local CONFIG = {
     -- deliberately refuses opposing elements, preventing Hachirin's latent
     -- negative day/weather effect from making a spell worse.
     HachirinObiOwned = true,
+
+    -- Plain F12 displays the effective Universal macro deck. Alt-F12 remains
+    -- reserved for the global engaged-weapon selection toggle.
+    MacroDisplayKey = "F12",
+
     ManualSetSeconds = 5,
 
     -- CatsEyeXI subjob rule: all three currently grant DW as subjobs here.
@@ -127,12 +132,12 @@ local CONFIG = {
 -- ============================================================================
 -- FINLEY CURRENT JOB LEVELS
 -- ============================================================================
--- Current character levels as of 2026-09-23.  These levels are authoritative
+-- Current character levels as of 2026-09-29.  These levels are authoritative
 -- for equipment/action availability.  Macro decks are intentionally allowed to
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 40, WHM = 50, RDM = 75, PLD = 75, BST = 42, RNG = 43,
+    WAR = 40, WHM = 56, RDM = 75, PLD = 75, BST = 42, RNG = 43,
     NIN = 40, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -554,6 +559,8 @@ local OpposingElement = {
     Earth = "Wind",
     Wind = "Ice",
     Ice = "Fire",
+    Light = "Dark",
+    Dark = "Light",
 }
 
 -- The elemental wheel also defines which element is ascendant to the next.
@@ -987,7 +994,7 @@ WAR.Weapons = { Main="Sturdy Axe" }
 -- ============================================================================
 -- WHM: WHITE MAGE
 -- ============================================================================
--- Current job level: 50
+-- Current job level: 56
 --
 -- This is the complete WHM home.  It follows the RDM organizational model:
 -- state sets first, then action-specific sets/maps, weapons, progression notes,
@@ -2371,7 +2378,7 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 -- ============================================================================
 -- COR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 50
+-- Current job level: 56
 -- This section is the authoritative home for COR-specific configuration.
 -- Runtime equipment/action mappings must respect the current job level.
 -- Future level-75 macro preparation may be documented here without becoming
@@ -5975,33 +5982,26 @@ local SMNMacroWard = {'^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-
 
 
 -- ============================================================================
--- HACHIRIN-NO-OBI WEATHER/DAY OVERLAY
+-- HACHIRIN-NO-OBI / DAY-WEATHER MAGIC OVERLAY
 -- ============================================================================
--- Hachirin-no-Obi grants the full favorable day/weather bonus, including its
--- Magic Accuracy effect, but it also permits the corresponding opposing-element
--- penalty.  Therefore this is NOT a static Waist entry in every caster set.
--- The shared helper applies it only when the spell element matches the live
--- day or weather.
+-- Hachirin-no-Obi forces active day/weather effects instead of leaving the
+-- normal proc chance to game behavior. It can therefore also force the
+-- corresponding opposing-element penalty, so it remains conditional.
 --
--- Deliberate scope:
---   * Elemental Magic
---   * Enfeebling Magic (including MND-based Paralyze/Slow: MAcc improves,
---     while MND still determines their potency)
---   * Dark Magic
---   * Divine Magic
---   * magical Blue Magic only
---   * Ninjutsu
+-- Included:
+--   Elemental, Healing, Enfeebling, Dark, Divine, magical Blue Magic,
+--   Blue Magic healing/enfeebling, and Ninjutsu.
 --
--- Deliberate exclusions:
---   * Dia / Diaga / Dia II / Dia III
---   * Bio / Bio II / Bio III
---   * self/party-targeted spells
---   * physical/breath/healing/enhancing Blue Magic
---   * Summoning Magic, Geomancy, Singing, and Quick Draw are not guessed here
---     because their weather/day interaction has not been audited for this build.
+-- Excluded:
+--   Dia/Diaga, Bio, physical/breath/enhancing Blue Magic, Summoning,
+--   Geomancy, Singing, and Quick Draw.
+--
+-- Healing Magic is deliberately allowed on self/party targets because Cure
+-- and Blue Magic healing spells are modified by elemental day/weather.
 
 local HachirinEligibleSkills = {
     ["Elemental Magic"] = true,
+    ["Healing Magic"] = true,
     ["Enfeebling Magic"] = true,
     ["Dark Magic"] = true,
     ["Divine Magic"] = true,
@@ -6028,6 +6028,7 @@ local HachirinBlueMagicSets = {
     ["BlueMagic_Magical_AGI"] = true,
     ["BlueMagic_Magical_VIT"] = true,
     ["BlueMagic_Magical_STR"] = true,
+    ["BlueMagic_Healing"] = true,
     ["BlueMagic_Drain"] = true,
     ["BlueMagic_Enfeebling"] = true,
 }
@@ -6064,10 +6065,13 @@ local function IsHachirinEligibleAction(action)
         return false
     end
 
-    -- The user explicitly does not want the Obi considered for self/party
-    -- magic.  This also protects cure/buff-style Blue Magic if its set happens
-    -- to be classified as magical elsewhere in the profile.
-    if IsHachirinPartyTarget(gData.GetActionTarget()) then
+    local isHealingAction = action.Skill == "Healing Magic"
+        or (action.Skill == "Blue Magic"
+            and BLU_MagicSets[action.Name] == "BlueMagic_Healing")
+
+    -- Healing is allowed on self/party targets. Other eligible magic remains
+    -- enemy-targeted in this profile.
+    if not isHealingAction and IsHachirinPartyTarget(gData.GetActionTarget()) then
         return false
     end
 
@@ -6085,6 +6089,31 @@ local function IsHachirinEligibleAction(action)
     return true
 end
 
+local function ShouldEquipHachirinObi(action, env)
+    if not action or not env then
+        return false
+    end
+
+    local element = action.Element
+    local day = env.DayElement
+    local weather = env.WeatherElement
+
+    if element ~= day and element ~= weather then
+        return false
+    end
+
+    -- If the spell matches the day but opposing double weather is active,
+    -- forcing both effects would be net-negative. Matching weather remains
+    -- beneficial or neutral against an opposing day.
+    if element == day
+        and weather == OpposingElement[element]
+        and IsDoubleWeather(env) then
+        return false
+    end
+
+    return true
+end
+
 local function EquipHachirinObi(action)
     if not IsHachirinEligibleAction(action) then
         return
@@ -6095,12 +6124,11 @@ local function EquipHachirinObi(action)
         return
     end
 
-    if action.Element == env.DayElement or action.Element == env.WeatherElement then
+    if ShouldEquipHachirinObi(action, env) then
         gFunc.Equip("Waist", "Hachirin-no-Obi")
     end
 end
 
--- ============================================================================
 -- GENERIC SKILL FALLBACKS
 -- ============================================================================
 
@@ -6122,6 +6150,41 @@ local defenseSet = nil
 local engagedWeaponLogicEnabled = true
 local lastEngagedState = nil
 local ApplyMacroDeck
+local ShowMacroDeck
+
+-- Fencer's Ring is a RDM-main persistent state overlay. Dynamic Enspell
+-- selection is deliberately unrelated to this latent-effect check.
+local FencerEnspellBuffs = {
+    "Enfire", "Enblizzard", "Enaero", "Enstone", "Enthunder", "Enwater",
+    "Enfire II", "Enblizzard II", "Enaero II", "Enstone II",
+    "Enthunder II", "Enwater II",
+}
+
+local function HasActiveEnspell()
+    for _, buffName in ipairs(FencerEnspellBuffs) do
+        if gData.GetBuffCount(buffName) > 0 then
+            return true
+        end
+    end
+    return false
+end
+
+local function ShouldEquipFencerRing(player)
+    return player
+        and player.MainJob == "RDM"
+        and (player.MainJobLevel or 0) >= 50
+        and (player.HPP or 0) < 75
+        and (player.TP or 0) < 1000
+        and HasActiveEnspell()
+end
+
+local function ApplyFencerRingOverlay(stateSet, player)
+    if ShouldEquipFencerRing(player) then
+        -- Ring2 is the existing secondary RDM ring slot; Ring1 remains Tamas.
+        return MergeSets(stateSet, { Ring2 = "Fencer's Ring" })
+    end
+    return stateSet
+end
 
 -- ============================================================================
 -- PET RESOLUTION
@@ -6246,6 +6309,10 @@ profile.HandleDefault = function()
     if moving then
         stateSet = MergeSets(stateSet, GetMovementSet(player))
     end
+
+    -- Persistent latent-effect overlay; part of the final state set so it
+    -- cannot fight movement or state equipment with a second Equip request.
+    stateSet = ApplyFencerRingOverlay(stateSet, player)
 
     gFunc.EquipSet(stateSet)
 
@@ -6641,6 +6708,13 @@ profile.HandleCommand = function(args)
         return
     end
 
+    if command == "macros" then
+        if ShowMacroDeck then
+            ShowMacroDeck()
+        end
+        return
+    end
+
     if command == "job" then
         local player = gData.GetPlayer()
         if player then
@@ -6658,15 +6732,76 @@ end
 -- ============================================================================
 -- UNIVERSAL MACRO DECKS
 -- ============================================================================
--- Macro policy: decks may be prepared through the level-75 endpoint even while
--- a job is still leveling.  RDM's established positions are preserved exactly.
--- For new job decks, order entries by acquisition level (lowest key = lowest
--- level), while grouping related actions by role: Alt = enemy-targeted /
--- offensive / enfeebling, Ctrl = self/party / defensive / enhancing, and
--- Ctrl+Alt = weapon skills.  Do not reshuffle the established RDM deck.
--- ============================================================================
+-- Universal records its effective macro deck as bindings are installed. F12
+-- therefore shows the profile's actual job deck, including later shared
+-- NIN/DNC overrides, rather than Ashita's unrelated global bind table.
+
+local macroDeck = {
+    Ctrl = {},
+    Alt = {},
+    CtrlAlt = {},
+}
+
+local function MacroDeckCategory(key)
+    if key:sub(1, 2) == "^!" then
+        return "CtrlAlt"
+    elseif key:sub(1, 1) == "^" then
+        return "Ctrl"
+    elseif key:sub(1, 1) == "!" then
+        return "Alt"
+    end
+    return nil
+end
+
+local function RecordMacro(key, label)
+    local category = MacroDeckCategory(key)
+    if category then
+        macroDeck[category][key] = label
+    end
+end
+
+local function RecordMacroFromCommand(key, command)
+    local label = command:match('/ma "([^"]+)"')
+        or command:match('/ja "([^"]+)"')
+        or command:match('/ws "([^"]+)"')
+        or command:match('/lac fwd ([^%s;]+)')
+    if label then
+        RecordMacro(key, label)
+    end
+end
+
+local function MacroDeckLine(category, label)
+    local parts = {}
+    for _, key in ipairs(CONFIG.MacroKeys) do
+        if MacroDeckCategory(key) == category and macroDeck[category][key] then
+            parts[#parts + 1] = key .. "=" .. macroDeck[category][key]
+        end
+    end
+    return label .. ": " .. (#parts > 0 and table.concat(parts, " | ") or "(none)")
+end
+
+ShowMacroDeck = function()
+    local player = gData.GetPlayer()
+    if not player then
+        return
+    end
+
+    ApplyMacroDeck(player)
+
+    gFunc.Message(
+        "[Macros] " .. tostring(player.MainJob or "None")
+            .. tostring(player.MainJobLevel or 0)
+            .. "/" .. tostring(player.SubJob or "None")
+            .. tostring(player.SubJobLevel or 0)
+    )
+    gFunc.Message(MacroDeckLine("Ctrl", "CTRL"))
+    gFunc.Message(MacroDeckLine("Alt", "ALT"))
+    gFunc.Message(MacroDeckLine("CtrlAlt", "CTRL+ALT"))
+end
 
 local function QueueBind(key, command)
+    RecordMacroFromCommand(key, command)
+
     -- Explicitly bind on key-down.  This is equivalent to Ashita's default,
     -- but makes the intended behavior unambiguous for punctuation keys such
     -- as Alt-[ and Alt-].  Ashita documents [ and ] as bindable key names.
@@ -7094,6 +7229,10 @@ ApplyMacroDeck = function(player, force)
         return
     end
 
+    macroDeck.Ctrl = {}
+    macroDeck.Alt = {}
+    macroDeck.CtrlAlt = {}
+
     ClearOwnedMacroBinds()
     ApplyWHMMacros(player)
     ApplyTHFMacros(player)
@@ -7139,6 +7278,11 @@ profile.OnLoad = function()
             .. " down /lac fwd toggleengagedweapons"
     )
 
+    AshitaCore:GetChatManager():QueueCommand(
+        -1,
+        "/bind " .. CONFIG.MacroDisplayKey .. " down /lac fwd macros"
+    )
+
     local player = gData.GetPlayer()
     lastEngagedState = player and player.Status == "Engaged" or false
     ApplyMacroDeck(player, true)
@@ -7155,7 +7299,11 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.PDTKey)
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MDTKey)
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.EngagedWeaponToggleKey .. " down")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MacroDisplayKey .. " down")
     ClearOwnedMacroBinds()
+    macroDeck.Ctrl = {}
+    macroDeck.Alt = {}
+    macroDeck.CtrlAlt = {}
     lastEngagedState = nil
 end
 
