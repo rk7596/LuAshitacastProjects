@@ -64,6 +64,13 @@ local CONFIG = {
     -- ON by default. OFF lets the player manually choose Main/Sub weapons
     -- without the shared state handler restoring the configured weapon pair.
     EngagedWeaponToggleKey = "!F12",
+
+    -- Global Hachirin-no-Obi ownership toggle.  When true, the shared magic
+    -- handler may replace a caster set's Waist slot with Hachirin-no-Obi
+    -- when the spell element matches the current day or weather.  The helper
+    -- deliberately refuses opposing elements, preventing Hachirin's latent
+    -- negative day/weather effect from making a spell worse.
+    HachirinObiOwned = true,
     ManualSetSeconds = 5,
 
     -- CatsEyeXI subjob rule: all three currently grant DW as subjobs here.
@@ -5968,6 +5975,132 @@ local SMNMacroWard = {'^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-
 
 
 -- ============================================================================
+-- HACHIRIN-NO-OBI WEATHER/DAY OVERLAY
+-- ============================================================================
+-- Hachirin-no-Obi grants the full favorable day/weather bonus, including its
+-- Magic Accuracy effect, but it also permits the corresponding opposing-element
+-- penalty.  Therefore this is NOT a static Waist entry in every caster set.
+-- The shared helper applies it only when the spell element matches the live
+-- day or weather.
+--
+-- Deliberate scope:
+--   * Elemental Magic
+--   * Enfeebling Magic (including MND-based Paralyze/Slow: MAcc improves,
+--     while MND still determines their potency)
+--   * Dark Magic
+--   * Divine Magic
+--   * magical Blue Magic only
+--   * Ninjutsu
+--
+-- Deliberate exclusions:
+--   * Dia / Diaga / Dia II / Dia III
+--   * Bio / Bio II / Bio III
+--   * self/party-targeted spells
+--   * physical/breath/healing/enhancing Blue Magic
+--   * Summoning Magic, Geomancy, Singing, and Quick Draw are not guessed here
+--     because their weather/day interaction has not been audited for this build.
+
+local HachirinEligibleSkills = {
+    ["Elemental Magic"] = true,
+    ["Enfeebling Magic"] = true,
+    ["Dark Magic"] = true,
+    ["Divine Magic"] = true,
+    ["Blue Magic"] = true,
+    ["Ninjutsu"] = true,
+}
+
+local HachirinExcludedSpells = {
+    ["Dia"] = true,
+    ["Diaga"] = true,
+    ["Dia II"] = true,
+    ["Dia III"] = true,
+    ["Bio"] = true,
+    ["Bio II"] = true,
+    ["Bio III"] = true,
+}
+
+local HachirinBlueMagicSets = {
+    ["BlueMagic_Magical_INT"] = true,
+    ["BlueMagic_Magical_MND"] = true,
+    ["BlueMagic_Magical_INT_MND"] = true,
+    ["BlueMagic_Magical_CHR"] = true,
+    ["BlueMagic_Magical_DEX"] = true,
+    ["BlueMagic_Magical_AGI"] = true,
+    ["BlueMagic_Magical_VIT"] = true,
+    ["BlueMagic_Magical_STR"] = true,
+    ["BlueMagic_Drain"] = true,
+    ["BlueMagic_Enfeebling"] = true,
+}
+
+local function IsHachirinPartyTarget(target)
+    if not target or not target.Name or target.Name == "" then
+        return true
+    end
+
+    local party = AshitaCore:GetMemoryManager():GetParty()
+    if not party then
+        return true
+    end
+
+    for i = 0, 17 do
+        local name = party:GetMemberName(i)
+        if name ~= nil and name ~= "" and name == target.Name then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function IsHachirinEligibleAction(action)
+    if not CONFIG.HachirinObiOwned or not action then
+        return false
+    end
+
+    if not HachirinEligibleSkills[action.Skill]
+        or HachirinExcludedSpells[action.Name]
+        or not action.Element
+        or action.Element == "" then
+        return false
+    end
+
+    -- The user explicitly does not want the Obi considered for self/party
+    -- magic.  This also protects cure/buff-style Blue Magic if its set happens
+    -- to be classified as magical elsewhere in the profile.
+    if IsHachirinPartyTarget(gData.GetActionTarget()) then
+        return false
+    end
+
+    if action.Skill == "Blue Magic" then
+        if BLU_RangedPhysical[action.Name] then
+            return false
+        end
+
+        local setName = BLU_MagicSets[action.Name]
+        if not HachirinBlueMagicSets[setName] then
+            return false
+        end
+    end
+
+    return true
+end
+
+local function EquipHachirinObi(action)
+    if not IsHachirinEligibleAction(action) then
+        return
+    end
+
+    local env = gData.GetEnvironment()
+    if not env then
+        return
+    end
+
+    if action.Element == env.DayElement or action.Element == env.WeatherElement then
+        gFunc.Equip("Waist", "Hachirin-no-Obi")
+    end
+end
+
+-- ============================================================================
 -- GENERIC SKILL FALLBACKS
 -- ============================================================================
 
@@ -6382,6 +6515,7 @@ profile.HandleMidcast = function()
             gFunc.EquipSet(BLU.Sets.Chatoyant)
         end
 
+        EquipHachirinObi(action)
         return
     end
 
@@ -6390,6 +6524,7 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(GetSet(job, namedSet))
         EquipWHMSpellWeapons(player, action)
         EquipBLMSpellWeapons(player, action)
+        EquipHachirinObi(action)
         return
     end
 
@@ -6398,6 +6533,7 @@ profile.HandleMidcast = function()
         gFunc.EquipSet(GetSet(job, skillSet))
         EquipWHMSpellWeapons(player, action)
         EquipBLMSpellWeapons(player, action)
+        EquipHachirinObi(action)
     end
 end
 
