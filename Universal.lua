@@ -6009,6 +6009,24 @@ local HachirinEligibleSkills = {
     ["Ninjutsu"] = true,
 }
 
+local HachirinHealingSpells = {
+    ["Cure"] = true,
+    ["Cure II"] = true,
+    ["Cure III"] = true,
+    ["Cure IV"] = true,
+    ["Cure V"] = true,
+    ["Cure VI"] = true,
+    ["Curaga"] = true,
+    ["Curaga II"] = true,
+    ["Curaga III"] = true,
+    ["Curaga IV"] = true,
+    ["Curaga V"] = true,
+    ["Cura"] = true,
+    ["Cura II"] = true,
+    ["Cura III"] = true,
+    ["Full Cure"] = true,
+}
+
 local HachirinExcludedSpells = {
     ["Dia"] = true,
     ["Diaga"] = true,
@@ -6065,7 +6083,7 @@ local function IsHachirinEligibleAction(action)
         return false
     end
 
-    local isHealingAction = action.Skill == "Healing Magic"
+    local isHealingAction = HachirinHealingSpells[action.Name] == true
         or (action.Skill == "Blue Magic"
             and BLU_MagicSets[action.Name] == "BlueMagic_Healing")
 
