@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.1105
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.1130
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -1035,7 +1035,7 @@ local WHM = JOBS.WHM
 
 WHM.Sets.Idle = {
     Head  = "Healer's Cap",
-    Body  = "Healer's Bliaut",
+    Body  = "Noble's Tunic",
     Hands = "Healer's Mitts",
     Ring1 = "Tamas Ring",
     Ring2 = "Balrahn's Ring",
@@ -1068,6 +1068,7 @@ WHM.Sets.Precast = {
 -- Cure-family spell names get the dedicated Cure set.  This intentionally does
 -- not mean every Healing Magic spell receives Cure-specific gear.
 WHM.Sets.Cure = {
+    Body  = "Noble's Tunic",
     Ear1  = "Fylgja Torque +1",
 	Back  = "Dew Silk Cape +1",
 }
