@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.0018
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.0024
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -1037,15 +1037,24 @@ WHM.Sets.Idle = {
     Head  = "Healer's Cap",
     Body  = "Healer's Bliaut",
     Hands = "Healer's Mitts",
-    Legs  = "Healer's Pantaloons",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Legs  = "Healer's Pantaln.",
     Feet  = "Healer's Duckbills",
 }
 
 WHM.Sets.Resting = {
-    Body  = "Seer's Tunic",
+    Body = "Seer's Tunic",
 }
 
 WHM.Sets.Engaged = {
+    Head  = "Empress Hairpin",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Ulthalam's Ring",
+    Back  = "Ryl. Army Mantle",
+    Waist = "Swift Belt",
+    Legs  = "Healer's Pantaln.",
+    Feet  = "Healer's Duckbills",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1249,12 +1258,13 @@ WHM.MA = {
 -- WeaponsByLevel resolver, not by polluting the current runtime weapon line.
 
 WHM.Weapons = {
-    Main = "Chatoyant Staff",
+    Main = "Arcana Breaker",
+    Sub  = "Hoplon",
 }
 
 WHM.WeaponsByLevel = {
-    [54] = { Main = "Arcana Breaker"},
-    [55] = { Sub = "Hoplon"},
+    [55] = { Sub = "Hoplon" },
+    [63] = { Main = "Octave Club" },
 }
 
 -- Cure/Curaga/Cura weapon specialization: Asklepios becomes available at 62 and
