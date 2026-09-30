@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.1019
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.1105
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -1133,27 +1133,29 @@ WHM.Sets.MDT = WHM.Sets.PDT
 -- ----------------------------------------------------------------------------
 -- WHM: WEAPON SKILLS
 -- ----------------------------------------------------------------------------
--- Current leveling weapon is a staff.  The map includes the ordinary staff WS
--- available to WHM plus the later club WS that can be prepared for level 75.
-
-WHM.Sets.WS_Staff = {
-}
-
-WHM.Sets.WS_Club = WHM.Sets.WS_Staff
-WHM.Sets.WS_Default = WHM.Sets.WS_Staff
+-- WHM club/staff WS are deliberately separated by damage model. Hecatomb Harness
+-- is NOT WHM-equipable, so it is never used here despite being in the inventory.
+WHM.Sets.WS_Club_Physical = { Head='Empress Hairpin', Neck='Ancient Torque', Ear1='Brutal Earring', Ear2='Hollow Earring', Body="Healer's Bliaut", Hands="Healer's Mitts", Ring1='Rajas Ring', Ring2="Ulthalam's Ring", Back='Aesir Mantle', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet="Healer's Duckbills" }
+WHM.Sets.WS_HexaStrike = WHM.Sets.WS_Club_Physical
+WHM.Sets.WS_BlackHalo = { Head='Healer\'s Cap', Neck='Ancient Torque', Ear1='Static Earring', Ear2='Hollow Earring', Body="Healer's Bliaut", Hands="Healer's Mitts", Ring1='Rajas Ring', Ring2='Tamas Ring', Back='Aesir Mantle', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet="Healer's Duckbills" }
+WHM.Sets.WS_Club_STR = WHM.Sets.WS_Club_Physical
+WHM.Sets.WS_Club_MND = { Head='Healer\'s Cap', Neck='Ancient Torque', Ear1='Static Earring', Ear2='Hollow Earring', Body="Healer's Bliaut", Hands="Healer's Mitts", Ring1='Tamas Ring', Ring2="Balrahn's Ring", Back='Aesir Mantle', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet="Healer's Duckbills" }
+WHM.Sets.WS_Club_Magical_STR_MND = { Head="Hecate's Crown", Neck='Ancient Torque', Ear1='Moldavite Earring', Ear2='Static Earring', Body="Healer's Bliaut", Hands='Yigit Gages', Ring1='Tamas Ring', Ring2="Balrahn's Ring", Back='Merciful Cape', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet='Yigit Crackows' }
+WHM.Sets.WS_Staff_STR = WHM.Sets.WS_Club_STR
+WHM.Sets.WS_Staff_Magical_STR_INT = WHM.Sets.WS_Club_Magical_STR_MND
+WHM.Sets.WS_Staff_Magical_INT_MND = WHM.Sets.WS_Club_Magical_STR_MND
+WHM.Sets.WS_Randgrith = WHM.Sets.WS_BlackHalo
+WHM.Sets.WS_MysticBoon = WHM.Sets.WS_BlackHalo
+WHM.Sets.WS_Dagan = {}
+WHM.Sets.WS_Default = WHM.Sets.WS_Club_Physical
 
 WHM.WS = {
-    ["Heavy Swing"]   = "WS_Staff",
-    ["Rock Crusher"]  = "WS_Staff",
-    ["Earth Crusher"]  = "WS_Staff",
-    ["Shell Crusher"]  = "WS_Staff",
-    ["Full Swing"]    = "WS_Staff",
-    ["Spirit Taker"]  = "WS_Staff",
-    ["Hexa Strike"]   = "WS_Club",
-    ["Black Halo"]    = "WS_Club",
-    ["Shining Strike"] = "WS_Club",
-    ["Seraph Strike"]  = "WS_Club",
-    ["Brainshaker"]   = "WS_Club",
+    ["Heavy Swing"]='WS_Staff_STR', ["Rock Crusher"]='WS_Staff_Magical_STR_INT', ["Earth Crusher"]='WS_Staff_Magical_STR_INT',
+    ["Starburst"]='WS_Staff_Magical_STR_INT', ["Sunburst"]='WS_Staff_Magical_STR_INT', ["Shell Crusher"]='WS_Staff_STR',
+    ["Full Swing"]='WS_Staff_STR', ["Spirit Taker"]='WS_Staff_Magical_INT_MND', ["Shining Strike"]='WS_Club_Magical_STR_MND',
+    ["Seraph Strike"]='WS_Club_Magical_STR_MND', ["Brainshaker"]='WS_Club_STR', ["Skullbreaker"]='WS_Club_STR',
+    ["True Strike"]='WS_Club_STR', ["Judgment"]='WS_Club_Physical', ["Hexa Strike"]='WS_HexaStrike',
+    ["Black Halo"]='WS_BlackHalo', ["Randgrith"]='WS_Randgrith', ["Mystic Boon"]='WS_MysticBoon', ["Dagan"]='WS_Dagan',
 }
 
 -- ----------------------------------------------------------------------------
@@ -1257,14 +1259,12 @@ WHM.MA = {
 -- Current WHM50 weapon.  Future weapon milestones are selected by the shared
 -- WeaponsByLevel resolver, not by polluting the current runtime weapon line.
 
-WHM.Weapons = {
-    Main = "Arcana Breaker",
-    Sub  = "Hoplon",
-}
-
+WHM.Weapons = { Main = "Arcana Breaker", Sub = "Hoplon" }
 WHM.WeaponsByLevel = {
-    [55] = { Sub = "Hoplon" },
-    [63] = { Main = "Octave Club" },
+    [55] = { Main="Arcana Breaker", Sub="Hoplon" },
+    [63] = { Main="Octave Club", Sub="Hoplon" },
+    [71] = { Main="Brass Jadagna", Sub="Hoplon", DWMain="Brass Jadagna", DWSub="Octave Club" },
+    [74] = { Main="Brass Jadagna", Shield="Genbu's Shield", DWMain="Brass Jadagna", DWSub="Octave Club" },
 }
 
 -- Cure/Curaga/Cura weapon specialization: Asklepios becomes available at 62 and
@@ -7146,13 +7146,20 @@ local function ApplyWHMMacros(player)
     BindSpell('!=', 'Banishga II', '<stnpc>')
     BindSpell('!Backspace', 'Dia II', '<stnpc>')
 
-    -- WS: practical staff/club progression plus future level-75 entries.
+    -- CTRL+ALT: WHM damage WS, including future relic/mythic/empyrean entries.
     BindWS('^!`', 'Rock Crusher')
     BindWS('^!1', 'Shell Crusher')
     BindWS('^!2', 'Full Swing')
     BindWS('^!3', 'Spirit Taker')
     BindWS('^!4', 'Hexa Strike')
     BindWS('^!5', 'Black Halo')
+    BindWS('^!6', 'Shining Strike')
+    BindWS('^!7', 'Seraph Strike')
+    BindWS('^!8', 'Brainshaker')
+    BindWS('^!9', 'Judgment')
+    BindWS('^!0', 'True Strike')
+    BindWS('^!-', 'Randgrith')
+    BindWS('^!=', 'Mystic Boon')
 end
 
 local function ApplyTHFMacros(player)
