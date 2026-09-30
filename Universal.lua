@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.0024
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.1019
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -137,7 +137,7 @@ local CONFIG = {
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 40, WHM = 60, RDM = 75, PLD = 75, BST = 42, RNG = 43,
+    WAR = 40, WHM = 66, RDM = 75, PLD = 75, BST = 42, RNG = 43,
     NIN = 40, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -7103,38 +7103,48 @@ end
 local function ApplyWHMMacros(player)
     if not player or player.MainJob ~= 'WHM' then return end
 
-    -- CTRL: healing / support / defensive actions, arranged for practical play.
-    BindSpell('^`', 'Cure II', '<stpc>')
-    BindSpell('^1', 'Cure III', '<stpc>')
-    BindSpell('^2', 'Cure IV', '<stpc>')
-    BindSpell('^3', 'Regen II', '<stpc>')
-    BindSpell('^4', 'Haste', '<stpc>')
-    BindSpell('^5', 'Erase', '<stpc>')
-    BindSpell('^6', 'Protect III', '<stpc>')
-    BindSpell('^7', 'Shell II', '<stpc>')
+    -- CTRL: healing / support / defensive actions.
+    BindSpell('^`', 'Cure III', '<stpc>')
+    BindSpell('^1', 'Cure IV', '<stpc>')
+    BindSpell('^2', 'Cure V', '<stpc>')
+    BindSpell('^3', 'Curaga II', '<stpc>')
+    BindSpell('^4', 'Curaga III', '<stpc>')
+    BindSpell('^5', 'Haste', '<stpc>')
+    BindSpell('^6', 'Erase', '<stpc>')
+    BindSpell('^7', 'Blink', '<stpc>')
     BindSpell('^8', 'Stoneskin', '<stpc>')
-    BindSpell('^9', 'Curaga II', '<stpc>')
-    BindSpell('^0', 'Raise', '<stpc>')
-    BindSpell('^-', 'Reraise', '<me>')
-    BindSpell('^=', 'Aquaveil', '<stpc>')
+    BindSpell('^9', 'Aquaveil', '<stpc>')
+    BindSpell('^0', 'Raise II', '<stpc>')
+    BindSpell('^-', 'Sacrifice', '<stpc>')
+    BindSpell('^=', 'Esuna', '<stpc>')
+    BindSpell('^Backspace', 'Auspice', '<me>')
 
-    -- ALT: enemy-targeted / offensive / enfeebling.
-    BindSpell('!`', 'Dia II', '<stnpc>')
-    BindSpell('!1', 'Paralyze', '<stnpc>')
-    BindSpell('!2', 'Slow', '<stnpc>')
-    BindSpell('!3', 'Silence', '<stnpc>')
-    BindSpell('!4', 'Repose', '<stnpc>')
+    -- ALT: hostile magic / enfeebling / Divine damage.
+    -- Alt-BACKTICK and Alt-2 are support-job-aware:
+    --   /RDM : Dispel / Gravity
+    --   /BLM : Aspir  / Blind
+    -- Sleep II is not available through either subjob at WHM's normal
+    -- subjob cap, so Alt-7 uses the highest shared Sleep spell instead.
+    if player.SubJob == 'RDM' then
+        BindSpell('!`', 'Dispel', '<stnpc>')
+        BindSpell('!2', 'Gravity', '<stnpc>')
+    elseif player.SubJob == 'BLM' then
+        BindSpell('!`', 'Aspir', '<stnpc>')
+        BindSpell('!2', 'Blind', '<stnpc>')
+    end
+
+    BindSpell('!1', 'Silence', '<stnpc>')
+    BindSpell('!3', 'Paralyze', '<stnpc>')
+    BindSpell('!4', 'Slow', '<stnpc>')
     BindSpell('!5', 'Flash', '<stnpc>')
-    BindSpell('!6', 'Banish II', '<stnpc>')
-    BindSpell('!7', 'Holy', '<stnpc>')
-    BindSpell('!8', 'Cure', '<stpc>')
-    BindSpell('!9', 'Curaga', '<stpc>')
-    BindSpell('!0', 'Cura', '<stpc>')
-    BindSpell('!-', 'Protectra III', '<stpc>')
-    BindSpell('!=', 'Shellra II', '<stpc>')
-
-    -- JA: these are rare enough to keep out of the dense healing deck.
-    BindJA('^Backspace', 'Divine Seal', '<me>')
+    BindSpell('!6', 'Repose', '<stnpc>')
+    BindSpell('!7', 'Sleep', '<stnpc>')
+    BindSpell('!8', 'Banish II', '<stnpc>')
+    BindSpell('!9', 'Banish III', '<stnpc>')
+    BindSpell('!0', 'Holy', '<stnpc>')
+    BindSpell('!-', 'Banishga', '<stnpc>')
+    BindSpell('!=', 'Banishga II', '<stnpc>')
+    BindSpell('!Backspace', 'Dia II', '<stnpc>')
 
     -- WS: practical staff/club progression plus future level-75 entries.
     BindWS('^!`', 'Rock Crusher')
