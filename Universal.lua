@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-29.1955
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.0015
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -132,12 +132,12 @@ local CONFIG = {
 -- ============================================================================
 -- FINLEY CURRENT JOB LEVELS
 -- ============================================================================
--- Current character levels as of 2026-09-29.  These levels are authoritative
+-- Current character levels as of 2026-09-30.  These levels are authoritative
 -- for equipment/action availability.  Macro decks are intentionally allowed to
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 40, WHM = 56, RDM = 75, PLD = 75, BST = 42, RNG = 43,
+    WAR = 40, WHM = 60, RDM = 75, PLD = 75, BST = 42, RNG = 43,
     NIN = 40, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -994,7 +994,7 @@ WAR.Weapons = { Main="Sturdy Axe" }
 -- ============================================================================
 -- WHM: WHITE MAGE
 -- ============================================================================
--- Current job level: 56
+-- Current job level: 60
 --
 -- This is the complete WHM home.  It follows the RDM organizational model:
 -- state sets first, then action-specific sets/maps, weapons, progression notes,
@@ -1016,34 +1016,36 @@ local WHM = JOBS.WHM
 -- ----------------------------------------------------------------------------
 -- WHM: IDLE / RESTING / ENGAGED
 -- ----------------------------------------------------------------------------
--- At WHM50, use the owned Seer's set rather than silently equipping the
--- level-70+ Cleric/Endgame pieces that are planned for later.
+-- Idle priority:
+--   Enmity reduction > high MP > defensive stats > high HP.
+-- The complete level-60 Healer's Attire set is an unusually clean fit:
+--   -10 Enmity, +63 MP, +15 Healing skill, +15 Divine skill,
+--   and solid defense/HP contribution from the AF pieces.
+--
+-- Resting priority is specifically MP recovered while healing (hMP), not
+-- maximum MP.  Keep the known hMP gear here; Chatoyant Staff is selected by
+-- the shared WHM weapon resolver while resting.
+--
+-- Engaged priority remains:
+--   Haste > Accuracy > Attack > Store TP > DEX > STR > Crit Rate > Crit Damage.
+-- No verified WHM-legal melee armor set from the supplied inventory has enough
+-- relevant offensive stats to justify inventing one here.  Leave Engaged
+-- intentionally empty rather than wearing mage/idle gear and calling it a
+-- melee set.
 
 WHM.Sets.Idle = {
-    Head  = "Seer's Crown",
-    Body  = "Seer's Tunic",
-    Hands = "Seer's Mitts",
-    Legs  = "Seer's Slacks",
-    Feet  = "Seer's Pumps",
-    -- Back  = "",
+    Head  = "Healer's Cap",
+    Body  = "Healer's Bliaut",
+    Hands = "Healer's Mitts",
+    Legs  = "Healer's Pantaloons",
+    Feet  = "Healer's Duckbills",
 }
 
 WHM.Sets.Resting = {
-    Head  = "Seer's Crown",
     Body  = "Seer's Tunic",
-    Hands = "Seer's Mitts",
-    Legs  = "Seer's Slacks",
-    Feet  = "Seer's Pumps",
-    -- Back  = "",
 }
 
 WHM.Sets.Engaged = {
-    Head  = "Seer's Crown",
-    Body  = "Seer's Tunic",
-    Hands = "Seer's Mitts",
-    Legs  = "Seer's Slacks",
-    Feet  = "Seer's Pumps",
-    -- Back  = "",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1148,7 +1150,7 @@ WHM.WS = {
 -- ----------------------------------------------------------------------------
 -- WHM: MAGIC ACTION MAP
 -- ----------------------------------------------------------------------------
--- Current runtime mappings are limited to spells available by WHM50.
+-- Current runtime mappings are limited to spells available by WHM60.
 -- Future spells may be added below to the macro deck without becoming active
 -- runtime gear selections before their acquisition level.
 
@@ -1158,7 +1160,6 @@ WHM.MA = {
     ["Cure II"] = "Cure",
     ["Cure III"] = "Cure",
     ["Cure IV"] = "Cure",
-    ["Cure V"] = "Cure",
     ["Curaga"] = "Curaga",
     ["Curaga II"] = "Curaga",
     ["Curaga III"] = "Curaga",
@@ -1167,7 +1168,9 @@ WHM.MA = {
 
     -- Healing / status / utility.
     ["Raise"] = "Precast",
+    ["Raise II"] = "Precast",
     ["Reraise"] = "Precast",
+    ["Reraise II"] = "Precast",
     ["Erase"] = "Precast",
 
     -- Enhancing Magic.
@@ -1197,6 +1200,7 @@ WHM.MA = {
     ["Haste"] = "EnhancingSkill",
     ["Regen"] = "EnhancingSkill",
     ["Regen II"] = "EnhancingSkill",
+    ["Auspice"] = "EnhancingSkill",
     ["Barfire"] = "EnhancingSkill",
     ["Barblizzard"] = "EnhancingSkill",
     ["Baraero"] = "EnhancingSkill",
@@ -1281,7 +1285,8 @@ local WHMCureSpells = {
 --   Raise II: 56
 --   Shell III / Shellra III: 57
 --   Cure V / Esuna and later status/bar spells should only enter active MA maps
---   once WHM reaches their actual levels.
+--   once WHM reaches their actual levels.  WHM60 therefore stops just short
+--   of Cure V.
 --
 -- Cleric's base pieces become available from Lv71 through Lv75; CatsEyeXI also
 -- has server-specific Artifact augmentation paths.  Those pieces are eventual
@@ -2378,7 +2383,7 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 -- ============================================================================
 -- COR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 56
+-- Current job level: 60
 -- This section is the authoritative home for COR-specific configuration.
 -- Runtime equipment/action mappings must respect the current job level.
 -- Future level-75 macro preparation may be documented here without becoming
