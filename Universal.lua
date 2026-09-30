@@ -2383,7 +2383,7 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 -- ============================================================================
 -- COR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 60
+-- Current job level: 50
 -- This section is the authoritative home for COR-specific configuration.
 -- Runtime equipment/action mappings must respect the current job level.
 -- Future level-75 macro preparation may be documented here without becoming
