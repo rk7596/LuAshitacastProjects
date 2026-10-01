@@ -137,7 +137,7 @@ local CONFIG = {
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 40, WHM = 66, RDM = 75, PLD = 75, BST = 42, RNG = 43,
+    WAR = 40, WHM = 75, RDM = 75, PLD = 75, BST = 42, RNG = 43,
     NIN = 40, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -1097,7 +1097,21 @@ WHM.Sets.EnfeeblingSkill = {
 WHM.Sets.DivineSkill = {
 }
 
-WHM.Sets.DivineDamage = WHM.Sets.DivineSkill
+WHM.Sets.DivineDamage = {
+    -- Priority: Magic Atk. Bonus > Magic Accuracy > MND.
+    -- Static Earring is retained here because its +5% Magic Burst bonus
+    -- is directly relevant when Banish/Holy are used as Light skillchain MBs.
+    Head  = "Yigit Turban",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Static Earring",
+    Body  = "Yigit Gomlek",
+    Hands = "Yigit Gages",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Waist = "Salire Belt",
+    Legs  = "Healer's Pantaln.",
+    Feet  = "Yigit Crackows",
+}
 
 -- ----------------------------------------------------------------------------
 -- WHM: JOB ABILITY SETS
@@ -1162,7 +1176,7 @@ WHM.WS = {
 -- ----------------------------------------------------------------------------
 -- WHM: MAGIC ACTION MAP
 -- ----------------------------------------------------------------------------
--- Current runtime mappings are limited to spells available by WHM60.
+-- Current runtime mappings cover the WHM75 spell set.
 -- Future spells may be added below to the macro deck without becoming active
 -- runtime gear selections before their acquisition level.
 
@@ -1257,7 +1271,7 @@ WHM.MA = {
 -- ----------------------------------------------------------------------------
 -- WHM: WEAPONS / PROGRESSION
 -- ----------------------------------------------------------------------------
--- Current WHM50 weapon.  Future weapon milestones are selected by the shared
+-- Current WHM75 weapon.  Future weapon milestones are selected by the shared
 -- WeaponsByLevel resolver, not by polluting the current runtime weapon line.
 
 WHM.Weapons = { Main = "Arcana Breaker", Sub = "Hoplon" }
@@ -7118,7 +7132,7 @@ local function ApplyWHMMacros(player)
     BindSpell('^0', 'Raise II', '<stpc>')
     BindSpell('^-', 'Sacrifice', '<stpc>')
     BindSpell('^=', 'Esuna', '<stpc>')
-    BindSpell('^Backspace', 'Auspice', '<me>')
+    BindSpell('^Backspace', 'Auspice', '<stpc>')
 
     -- ALT: hostile magic / enfeebling / Divine damage.
     -- Alt-BACKTICK and Alt-2 are support-job-aware:
