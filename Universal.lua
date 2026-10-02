@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-02.0455
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-02.0606
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -43,7 +43,7 @@ local profile = { "Universal, All Jobs, 75" }
 local sets = {}
 local smnStaffMode = "Gridarvor"
 
--- Finley character-specific build: 2026-10-02 / WHM75 implementation pass + structural graduation preservation
+-- Finley character-specific build: 2026-10-02 / WHM75 + DRK75 implementation pass + structural graduation preservation
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -1768,29 +1768,19 @@ DRK.Sets.Idle = {
     Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Static Earring",
-    Body  = "Hecatomb Harness",
+    Body  = "Chaos Cuirass",
     Hands = "Abyss Gauntlets",
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
     Back  = "Aesir Mantle",
     Waist = "Ninurta's Sash",
-    Legs  = "Blood Cuisses",
-    Feet  = "Blood Greaves",
+    Legs  = "Homam Cosciales",
+    Feet  = "Dusk Ledelsens +1",
 }
 
 DRK.Sets.Resting = {
-    Head  = "Walahra Turban",
-    Neck  = "Ancient Torque",
-    Ear1  = "Ethereal Earring",
-    Ear2  = "Static Earring",
-    Body  = "Hecatomb Harness",
-    Hands = "Abyss Gauntlets",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Mars's Ring",
-    Back  = "Aesir Mantle",
-    Waist = "Ninurta's Sash",
-    Legs  = "Blood Cuisses",
-    Feet  = "Blood Greaves",
+    Main  = "Chatoyant Staff",
+    Body  = "Errant Hpl.",
 }
 
 -- DRK engaged priority remains the universal project convention:
@@ -1804,7 +1794,7 @@ DRK.Sets.Engaged = {
     Neck  = "Ancient Torque",
     Ear1  = "Brutal Earring",
     Ear2  = "Hollow Earring",
-    Body  = "Amir Korazin",
+    Body  = "Chaos Cuirass",
     Hands = "Abyss Gauntlets",
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
@@ -1836,11 +1826,13 @@ DRK.Sets.MDT = {}
 -- Loquac. Earring is the one established generic Fast Cast piece that is both
 -- owned and safe for DRK at the current level.
 DRK.Sets.Precast = {
-    Ear1 = "Loquac. Earring",
+    Ear1  = "Loquac. Earring",
+    Legs  = "Homam Cosciales",
 }
 
 DRK.Sets.FastCast = {
-    Ear1 = "Loquac. Earring",
+    Ear1  = "Loquac. Earring",
+    Legs  = "Homam Cosciales",
 }
 
 -- Dark-magic skill set. Aesir Torque is a direct +7 Dark Magic piece at 75;
@@ -1863,10 +1855,29 @@ DRK.Sets.DrainAspir = {
     Feet  = "Abyss Sollerets",
 }
 DRK.Sets.EnfeeblingMagic = {
-    Neck = "Enfeebling Torque",
-    Body = "Chaos Cuirass",
+    Neck  = "Enfeebling Torque",
+    Body  = "Chaos Cuirass",
+    Feet  = "Abyss Sollerets",
 }
-DRK.Sets.ElementalDamage = {}
+
+DRK.Sets.ElementalDamage = {
+    Main  = "Chatoyant Staff",
+    Sub   = "Wizzan Grip",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Static Earring",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+}
+
+-- Dread Spikes is HP-scaled at cast time.  This set intentionally uses only
+-- owned pieces with documented HP+ values.
+DRK.Sets.DreadSpikes = {
+    Body  = "Chaos Cuirass",
+    Ear1  = "Ethereal Earring",
+    Ring1 = "Bomb Queen Ring",
+    Ring2 = "Sattva Ring",
+    Legs  = "Homam Cosciales",
+}
 
 -- ----------------------------------------------------------------------------
 -- DRK: JOB-ABILITY SETS
@@ -1920,7 +1931,7 @@ DRK.MA = {
     ["Absorb-ACC"]   = "DarkMagic",
     ["Absorb-Attri"] = "DarkMagic",
     ["Stun"]         = "DarkMagic",
-    ["Dread Spikes"] = "DarkMagic",
+    ["Dread Spikes"] = "DreadSpikes",
 
     ["Poison"]       = "EnfeeblingMagic",
     ["Bind"]         = "EnfeeblingMagic",
@@ -1943,12 +1954,6 @@ DRK.MA = {
     ["Fire II"]      = "ElementalDamage",
     ["Blizzard II"]  = "ElementalDamage",
     ["Thunder II"]   = "ElementalDamage",
-    ["Stone III"]    = "ElementalDamage",
-    ["Water III"]    = "ElementalDamage",
-    ["Aero III"]     = "ElementalDamage",
-    ["Fire III"]     = "ElementalDamage",
-    ["Blizzard III"] = "ElementalDamage",
-    ["Thunder III"]  = "ElementalDamage",
     ["Tractor"]      = "FastCast",
 }
 
@@ -1968,34 +1973,10 @@ DRK.Weapons = {
 -- Physical WS use the owned Hecatomb Harness despite its Slow because WS
 -- snapshots are separate from TP generation. Fotia Gorget is used for the
 -- skillchain-property WS family; Hollow/Brutal provide accuracy/DA where useful.
-DRK.Sets.WS_Default = {
-    Head  = "Chaos Burgeonet",
-    Neck  = "Fotia Gorget",
-    Ear1  = "Brutal Earring",
-    Ear2  = "Hollow Earring",
-    Body  = "Hecatomb Harness",
-    Hands = "Abyss Gauntlets",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Mars's Ring",
-    Back  = "Aesir Mantle",
-    Waist = "Ninurta's Sash",
-    Legs  = "Homam Cosciales",
-    Feet  = "Adsilio Boots +1",
+D
 }
 
-local DRK_WS_PhysicalBase = {
-    Head  = "Chaos Burgeonet",
-    Neck  = "Fotia Gorget",
-    Ear1  = "Brutal Earring",
-    Ear2  = "Hollow Earring",
-    Body  = "Hecatomb Harness",
-    Hands = "Abyss Gauntlets",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Mars's Ring",
-    Back  = "Aesir Mantle",
-    Waist = "Ninurta's Sash",
-    Legs  = "Homam Cosciales",
-    Feet  = "Adsilio Boots +1",
+l
 }
 
 DRK.Sets["WS-Physical-STR"] = DRK_WS_PhysicalBase
@@ -2058,7 +2039,7 @@ DRK.Macro = {
         ['!-'] = 'Bio II',
         ['!='] = 'Poison II',
         ['!Backspace'] = 'Drain II',
-        ['!\\'] = 'Absorb-ACC',
+        ['!\\'] = 'Absorb-Attri',
     },
 
     Ctrl = {
@@ -2067,11 +2048,14 @@ DRK.Macro = {
         ['^2'] = 'Last Resort',
         ['^3'] = 'Weapon Bash',
         ['^4'] = 'Souleater',
-        ['^5'] = 'Dread Spikes',
         ['^6'] = 'Dark Seal',
         ['^7'] = 'Diabolic Eye',
         ['^8'] = 'Nether Void',
         ['^9'] = 'Scarlet Delirium',
+    },
+
+    Spells = {
+        ['^5'] = 'Dread Spikes',
     },
 
     WS = {
@@ -7233,8 +7217,13 @@ local function ApplyDRKMacros(player)
         BindSpell(key, spell, '<stnpc>')
     end
 
+    for key, spell in pairs(DRK.Macro.Spells or {}) do
+        BindSpell(key, spell, '<me>')
+    end
+
     for key, ja in pairs(DRK.Macro.Ctrl) do
-        BindJA(key, ja, '<me>')
+        local target = ja == 'Weapon Bash' and '<stnpc>' or '<me>'
+        BindJA(key, ja, target)
     end
 
     for key, ws in pairs(DRK.Macro.WS) do
