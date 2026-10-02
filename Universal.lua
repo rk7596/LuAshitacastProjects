@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-09-30.2124
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-02.0455
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -43,7 +43,7 @@ local profile = { "Universal, All Jobs, 75" }
 local sets = {}
 local smnStaffMode = "Gridarvor"
 
--- Finley character-specific build: 2026-09-18 / BLM75-THF69 progression + structural graduation pass
+-- Finley character-specific build: 2026-10-02 / WHM75 implementation pass + structural graduation preservation
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -994,17 +994,17 @@ WAR.Weapons = { Main="Sturdy Axe" }
 -- ============================================================================
 -- WHM: WHITE MAGE
 -- ============================================================================
--- Current job level: 60
+-- Current job level: 75
 --
 -- This is the complete WHM home.  It follows the RDM organizational model:
 -- state sets first, then action-specific sets/maps, weapons, progression notes,
--- and the job's macro deck.  Runtime definitions are level-safe for WHM50;
--- future level-75 equipment/action planning is documented separately.
+-- and the job's macro deck.  WHM is now at the level-75 endpoint.
 --
--- Owned current-level armor baseline:
---   Seer's Crown / Tunic / Mitts / Slacks / Pumps
--- Owned WHM progression weapons:
---   Federation Signet Staff (current), Asklepios (Lv62), Kirin's Pole (Lv75)
+-- Owned WHM equipment used here includes the complete base Artifact/Relic sets
+-- and the explicitly confirmed inventory listed in the project reference files.
+-- No WHM +1/+augmented Artifact pieces are assumed unless explicitly confirmed.
+-- Key WHM weapons include Arcana Breaker / Hoplon, Brass Jadagna / Genbu's Shield,
+-- Asklepios, Chatoyant Staff, and Kirin's Pole.
 --
 -- Global Engaged priority applies here as elsewhere:
 --   Haste > Double/Triple Attack > Accuracy > Attack > Store TP > DEX > STR
@@ -1023,15 +1023,18 @@ local WHM = JOBS.WHM
 --   and solid defense/HP contribution from the AF pieces.
 --
 -- Resting priority is specifically MP recovered while healing (hMP), not
--- maximum MP.  Keep the known hMP gear here; Chatoyant Staff is selected by
--- the shared WHM weapon resolver while resting.
+-- maximum MP.  Chatoyant Staff is explicitly equipped here alongside the
+-- owned hMP-focused armor pieces.
 --
 -- Engaged priority remains:
---   Haste > Accuracy > Attack > Store TP > DEX > STR > Crit Rate > Crit Damage.
--- No verified WHM-legal melee armor set from the supplied inventory has enough
--- relevant offensive stats to justify inventing one here.  Leave Engaged
--- intentionally empty rather than wearing mage/idle gear and calling it a
--- melee set.
+--   Haste > Double/Triple Attack > Accuracy > Attack > Store TP > DEX > STR
+--   > Critical Hit Rate > Critical Hit Damage.
+--
+-- The current WHM75 engaged set deliberately uses the user's explicit baseline:
+-- Walahra Turban / Ancient Torque / Brutal + Hollow / Noble's Tunic /
+-- Healer's Mitts / Rajas + Mars's / Aesir Mantle / Ninurta's / Cleric's Pantaln. /
+-- Healer's Duckbills.  Suppanomimi is not inserted unconditionally because this
+-- set must remain valid when WHM is not actually dual-wielding.
 
 WHM.Sets.Idle = {
     Head  = "Healer's Cap",
@@ -1044,16 +1047,24 @@ WHM.Sets.Idle = {
 }
 
 WHM.Sets.Resting = {
-    Body = "Seer's Tunic",
+    Head  = "Seer's Crown",
+    Body  = "Errant Hpl.",
+    Main  = "Chatoyant Staff",
+    Feet  = "Seer's Pumps",
 }
 
 WHM.Sets.Engaged = {
-    Head  = "Empress Hairpin",
+    Head  = "Walahra Turban",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Noble's Tunic",
+    Hands = "Healer's Mitts",
     Ring1 = "Rajas Ring",
-    Ring2 = "Ulthalam's Ring",
-    Back  = "Ryl. Army Mantle",
-    Waist = "Swift Belt",
-    Legs  = "Healer's Pantaln.",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Cleric's Pantaln.",
     Feet  = "Healer's Duckbills",
 }
 
@@ -1068,9 +1079,15 @@ WHM.Sets.Precast = {
 -- Cure-family spell names get the dedicated Cure set.  This intentionally does
 -- not mean every Healing Magic spell receives Cure-specific gear.
 WHM.Sets.Cure = {
+    Head  = "Healer's Cap",
+    Neck  = "Fylgja Torque +1",
     Body  = "Noble's Tunic",
-    Ear1  = "Fylgja Torque +1",
-	Back  = "Dew Silk Cape +1",
+    Hands = "Healer's Mitts",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Dew Silk Cape +1",
+    Legs  = "Healer's Pantaln.",
+    Feet  = "Healer's Duckbills",
 }
 
 WHM.Sets.Curaga = WHM.Sets.Cure
@@ -1099,18 +1116,17 @@ WHM.Sets.DivineSkill = {
 
 WHM.Sets.DivineDamage = {
     -- Priority: Magic Atk. Bonus > Magic Accuracy > MND.
-    -- Static Earring is retained here because its +5% Magic Burst bonus
-    -- is directly relevant when Banish/Holy are used as Light skillchain MBs.
-    Head  = "Yigit Turban",
+    -- Static Earring is retained for magic-burst use.
+    Head  = "Goliard Chapeau",
     Ear1  = "Moldavite Earring",
     Ear2  = "Static Earring",
-    Body  = "Yigit Gomlek",
-    Hands = "Yigit Gages",
+    Body  = "Healer's Bliaut",
+    Hands = "Healer's Mitts",
     Ring1 = "Tamas Ring",
     Ring2 = "Balrahn's Ring",
     Waist = "Salire Belt",
     Legs  = "Healer's Pantaln.",
-    Feet  = "Yigit Crackows",
+    Feet  = "Healer's Duckbills",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1155,22 +1171,13 @@ WHM.Sets.WS_HexaStrike = WHM.Sets.WS_Club_Physical
 WHM.Sets.WS_BlackHalo = { Head='Healer\'s Cap', Neck='Ancient Torque', Ear1='Static Earring', Ear2='Hollow Earring', Body="Healer's Bliaut", Hands="Healer's Mitts", Ring1='Rajas Ring', Ring2='Tamas Ring', Back='Aesir Mantle', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet="Healer's Duckbills" }
 WHM.Sets.WS_Club_STR = WHM.Sets.WS_Club_Physical
 WHM.Sets.WS_Club_MND = { Head='Healer\'s Cap', Neck='Ancient Torque', Ear1='Static Earring', Ear2='Hollow Earring', Body="Healer's Bliaut", Hands="Healer's Mitts", Ring1='Tamas Ring', Ring2="Balrahn's Ring", Back='Aesir Mantle', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet="Healer's Duckbills" }
-WHM.Sets.WS_Club_Magical_STR_MND = { Head="Hecate's Crown", Neck='Ancient Torque', Ear1='Moldavite Earring', Ear2='Static Earring', Body="Healer's Bliaut", Hands='Yigit Gages', Ring1='Tamas Ring', Ring2="Balrahn's Ring", Back='Merciful Cape', Waist='Swift Belt', Legs="Healer's Pantaln.", Feet='Yigit Crackows' }
-WHM.Sets.WS_Staff_STR = WHM.Sets.WS_Club_STR
-WHM.Sets.WS_Staff_Magical_STR_INT = WHM.Sets.WS_Club_Magical_STR_MND
-WHM.Sets.WS_Staff_Magical_INT_MND = WHM.Sets.WS_Club_Magical_STR_MND
-WHM.Sets.WS_Randgrith = WHM.Sets.WS_BlackHalo
-WHM.Sets.WS_MysticBoon = WHM.Sets.WS_BlackHalo
-WHM.Sets.WS_Dagan = {}
-WHM.Sets.WS_Default = WHM.Sets.WS_Club_Physical
-
-WHM.WS = {
-    ["Heavy Swing"]='WS_Staff_STR', ["Rock Crusher"]='WS_Staff_Magical_STR_INT', ["Earth Crusher"]='WS_Staff_Magical_STR_INT',
-    ["Starburst"]='WS_Staff_Magical_STR_INT', ["Sunburst"]='WS_Staff_Magical_STR_INT', ["Shell Crusher"]='WS_Staff_STR',
-    ["Full Swing"]='WS_Staff_STR', ["Spirit Taker"]='WS_Staff_Magical_INT_MND', ["Shining Strike"]='WS_Club_Magical_STR_MND',
-    ["Seraph Strike"]='WS_Club_Magical_STR_MND', ["Brainshaker"]='WS_Club_STR', ["Skullbreaker"]='WS_Club_STR',
-    ["True Strike"]='WS_Club_STR', ["Judgment"]='WS_Club_Physical', ["Hexa Strike"]='WS_HexaStrike',
-    ["Black Halo"]='WS_BlackHalo', ["Randgrith"]='WS_Randgrith', ["Mystic Boon"]='WS_MysticBoon', ["Dagan"]='WS_Dagan',
+WHM.Sets.WS_Club_Magical_STR_MND = {
+    Head="Goliard Chapeau", Neck='Ancient Torque',
+    Ear1='Moldavite Earring', Ear2='Static Earring',
+    Body="Healer's Bliaut", Hands="Healer's Mitts",
+    Ring1='Tamas Ring', Ring2="Balrahn's Ring",
+    Back='Merciful Cape', Waist='Swift Belt',
+    Legs="Healer's Pantaln.", Feet="Healer's Duckbills"
 }
 
 -- ----------------------------------------------------------------------------
@@ -1186,6 +1193,7 @@ WHM.MA = {
     ["Cure II"] = "Cure",
     ["Cure III"] = "Cure",
     ["Cure IV"] = "Cure",
+    ["Cure V"] = "Cure",
     ["Curaga"] = "Curaga",
     ["Curaga II"] = "Curaga",
     ["Curaga III"] = "Curaga",
@@ -1195,9 +1203,12 @@ WHM.MA = {
     -- Healing / status / utility.
     ["Raise"] = "Precast",
     ["Raise II"] = "Precast",
+    ["Raise III"] = "Precast",
     ["Reraise"] = "Precast",
     ["Reraise II"] = "Precast",
     ["Erase"] = "Precast",
+    ["Sacrifice"] = "Precast",
+    ["Esuna"] = "Precast",
 
     -- Enhancing Magic.
     ["Protect"] = "Precast",
@@ -1292,30 +1303,26 @@ local WHMCureSpells = {
     ["Cure II"] = true,
     ["Cure III"] = true,
     ["Cure IV"] = true,
-    ["Cure V"] = true,
     ["Curaga"] = true,
     ["Curaga II"] = true,
-    ["Curaga III"] = true,
-    ["Cura"] = true,
-    ["Cura II"] = true,
 }
 
 -- ----------------------------------------------------------------------------
--- WHM: FUTURE LEVEL-75 NOTES
+-- WHM: LEVEL-75 PROGRESSION / REFERENCE NOTES
 -- ----------------------------------------------------------------------------
--- CatsEyeXI / classic 75-era progression worth preserving as reference:
+-- WHM is now level 75, so the level-75 runtime mappings above are active.
+-- Historical acquisition checkpoints retained for reference:
 --   Cure V / Esuna: 61
+--   Raise III: 75
 --   Curaga III: 51
 --   Auspice: 55
 --   Raise II: 56
 --   Shell III / Shellra III: 57
---   Cure V / Esuna and later status/bar spells should only enter active MA maps
---   once WHM reaches their actual levels.  WHM60 therefore stops just short
---   of Cure V.
 --
--- Cleric's base pieces become available from Lv71 through Lv75; CatsEyeXI also
--- has server-specific Artifact augmentation paths.  Those pieces are eventual
--- WHM progression, not current WHM50 runtime equipment.
+-- Base Cleric Artifact pieces are now part of the current WHM75 equipment pool.
+-- +1/+augmented WHM Artifact upgrades are not assumed unless explicitly confirmed.
+-- Asklepios remains a documented WHM weapon milestone; Chatoyant Staff is used by
+-- the low-TP Cure/elemental/dark/enfeebling spell overlay and for resting.
 -- ============================================================================
 
 -- END WHM
@@ -6377,20 +6384,15 @@ profile.HandleDefault = function()
 end
 
 -- ============================================================================
--- WHM CURE WEAPON OVERLAY
+-- WHM SPELL WEAPON OVERLAY
 -- ============================================================================
--- Asklepios is a future WHM cure-specialized weapon in the user's progression.
--- Use it for explicit Cure-family spells once WHM reaches Lv62 and TP is below
--- the universal 50-TP weapon-lock threshold.  This mirrors the BLM Chatoyant
--- model without broadening Healing Magic into a cure-specific wildcard.
+-- While TP is below the universal 50-TP lock threshold, WHM uses Chatoyant Staff
+-- + Wizzan Grip for the explicitly selected Cure/elemental/dark/enfeebling spells.
+-- The TP lock remains independent; at TP >= 50 no spell overlay changes Main/Sub.
 
 local function EquipWHMSpellWeapons(player, action)
     if not player or player.MainJob ~= "WHM" or not action
         or action.ActionType ~= "Spell" then
-        return
-    end
-
-    if (player.MainJobLevel or 0) < 62 then
         return
     end
 
@@ -6399,7 +6401,17 @@ local function EquipWHMSpellWeapons(player, action)
     end
 
     if WHMCureSpells[action.Name] then
-        gFunc.Equip("Main", "Asklepios")
+        gFunc.Equip("Main", "Chatoyant Staff")
+        gFunc.Equip("Sub", "Wizzan Grip")
+        return
+    end
+
+    local setName = WHM.MA[action.Name]
+    if setName == "ElementalDamage"
+        or setName == "DarkDamage"
+        or setName == "EnfeeblingSkill" then
+        gFunc.Equip("Main", "Chatoyant Staff")
+        gFunc.Equip("Sub", "Wizzan Grip")
     end
 end
 
@@ -7129,10 +7141,10 @@ local function ApplyWHMMacros(player)
     BindSpell('^7', 'Blink', '<stpc>')
     BindSpell('^8', 'Stoneskin', '<stpc>')
     BindSpell('^9', 'Aquaveil', '<stpc>')
-    BindSpell('^0', 'Raise II', '<stpc>')
+    BindSpell('^0', 'Raise III', '<stpc>')
     BindSpell('^-', 'Sacrifice', '<stpc>')
     BindSpell('^=', 'Esuna', '<stpc>')
-    BindSpell('^Backspace', 'Auspice', '<stpc>')
+    BindSpell('^Backspace', 'Auspice', '<me>')
 
     -- ALT: hostile magic / enfeebling / Divine damage.
     -- Alt-BACKTICK and Alt-2 are support-job-aware:
@@ -7149,11 +7161,12 @@ local function ApplyWHMMacros(player)
     end
 
     BindSpell('!1', 'Silence', '<stnpc>')
+    BindSpell('!2', 'Blind', '<stnpc>')
     BindSpell('!3', 'Paralyze', '<stnpc>')
     BindSpell('!4', 'Slow', '<stnpc>')
     BindSpell('!5', 'Flash', '<stnpc>')
     BindSpell('!6', 'Repose', '<stnpc>')
-    BindSpell('!7', 'Sleep', '<stnpc>')
+    BindSpell('!7', 'Sleep II', '<stnpc>')
     BindSpell('!8', 'Banish II', '<stnpc>')
     BindSpell('!9', 'Banish III', '<stnpc>')
     BindSpell('!0', 'Holy', '<stnpc>')
