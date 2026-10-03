@@ -171,7 +171,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 169,Pln. Khazagand,True,Body,73.0,THF DRG,,inventory-confirmed; metadata pending
 170,Pln. Qalansuwa,True,,,,,present in Universal.lua; metadata pending
 171,Pythia Sash,True,,,,,present in Universal.lua; metadata pending
-172,Rajas Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+172,Rajas Ring,True,Ring,30.0,ALL,STR+2 DEX+2 Store TP+5 Subtle Blow+5,verified
 173,Rambler's Cloak,True,,,,,present in Universal.lua; metadata pending
 174,Rogue's Armlets,True,,,,,present in Universal.lua; metadata pending
 175,Rogue's Bonnet,True,,,,,present in Universal.lua; metadata pending
@@ -188,7 +188,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 186,Saotome Kabuto,True,,,,,present in Universal.lua; metadata pending
 187,Saotome Kote,True,,,,,present in Universal.lua; metadata pending
 188,Saotome Sune-Ate,True,,,,,present in Universal.lua; metadata pending
-189,Sattva Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+189,Sattva Ring,True,Ring,30.0,ALL,HP+15 VIT+2 AGI+2 Enmity+3,verified
 190,Scout's Beret,True,,,,,present in Universal.lua; metadata pending
 191,Scout's Braccae,True,,,,,present in Universal.lua; metadata pending
 192,Scout's Bracers,True,,,,,present in Universal.lua; metadata pending
@@ -208,7 +208,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 206,Sorcerer\'s Sabots,True,,,,,present in Universal.lua; metadata pending
 207,Sorcerer\'s Tonban,True,,,,,present in Universal.lua; metadata pending
 208,Sowilo Claymore,True,,,,,present in Universal.lua; metadata pending
-209,Spike Necklace,True,,,,,present in Universal.lua; metadata pending
+209,Spike Necklace,True,Neck,21.0,ALL,STR+3 DEX+3 MND-6,verified
 210,Star Necklace,True,,,,,present in Universal.lua; metadata pending
 211,Static Earring,True,,,,,present in Universal.lua; metadata pending
 212,Stone Gorget,True,Neck,71.0,ALL,,inventory-confirmed; metadata pending
@@ -222,7 +222,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 220,Summoner's Spats,True,,,,,present in Universal.lua; metadata pending
 221,Suppanomimi,True,Ear,72.0,NIN THF DNC,,inventory-confirmed; metadata pending
 222,Swift Belt,True,Waist,50.0,ALL,,inventory-confirmed; metadata pending
-223,Tamas Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+223,Tamas Ring,True,Ring,30.0,ALL,MP+15 INT+2 MND+2 Enmity-3,verified
 224,Tartaglia,True,,,,,present in Universal.lua; metadata pending
 225,Temple Crown,True,,,,,present in Universal.lua; metadata pending
 226,Temple Cyclas,True,,,,,present in Universal.lua; metadata pending
