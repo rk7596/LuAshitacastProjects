@@ -7528,6 +7528,8 @@ profile.OnUnload = function()
 end
 
 profile.OnZone = function()
+    ReleaseWarpRingReservation(nil)
+
     local player = gData.GetPlayer()
     lastEngagedState = player and player.Status == "Engaged" or false
     ApplyMacroDeck(player, true)
