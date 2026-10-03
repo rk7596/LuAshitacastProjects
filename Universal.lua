@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-02.0606
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.0246
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -43,7 +43,7 @@ local profile = { "Universal, All Jobs, 75" }
 local sets = {}
 local smnStaffMode = "Gridarvor"
 
--- Finley character-specific build: 2026-10-02 / WHM75 + DRK75 implementation pass + structural graduation preservation
+-- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN41 leveling update + structural graduation preservation
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -132,13 +132,13 @@ local CONFIG = {
 -- ============================================================================
 -- FINLEY CURRENT JOB LEVELS
 -- ============================================================================
--- Current character levels as of 2026-09-30.  These levels are authoritative
+-- Current character levels as of 2026-10-03.  These levels are authoritative
 -- for equipment/action availability.  Macro decks are intentionally allowed to
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
     WAR = 40, WHM = 75, RDM = 75, PLD = 75, BST = 42, RNG = 43,
-    NIN = 40, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
+    NIN = 41, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
