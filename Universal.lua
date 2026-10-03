@@ -2236,12 +2236,20 @@ local NIN = JOBS.NIN
 --   Bounding Boots = DEX+3 AGI+3; no Haste item is needed while idle.
 --
 -- Engaged:
+--   Spike Necklace = STR+3 DEX+3, level 21; shifts the set toward direct
+--   melee damage for the current Innin/DD leveling role.
 --   Sarutobi Kyahan = Haste+3%, available at NIN39.
 --   Ochimusha Kote = Attack+20, available at NIN34; retained over Shade
 --   Mittens for the engaged attack priority.
+--   Rajas Ring + Sattva Ring are both available at level 30. Rajas supplies
+--   STR/DEX/Store TP; Sattva supplies AGI/HP/VIT and preserves the preferred
+--   AGI-oriented defensive bias.
+--
+-- Tamas Ring is also level-30 and documented in Equipment.csv, but its
+-- MP/INT/MND profile is not preferred for this melee-oriented NIN set.
 --
 -- Low-level accessory slots use only owned, level-appropriate pieces whose
--- relevant stats are documented in Equipment.csv.  No future-level NIN gear
+-- relevant stats are documented in Equipment.csv. No future-level NIN gear
 -- is allowed to enter the active runtime sets.
 
 NIN.Sets.Idle = {
@@ -2251,8 +2259,8 @@ NIN.Sets.Idle = {
     Ear2  = "Wing Earring",
     Body  = "Shade Harness",
     Hands = "Shade Mittens",
-    Ring1 = "Bastokan Ring",
-    Ring2 = "Windurstian Ring",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Legs  = "Shade Tights",
     Feet  = "Bounding Boots",
@@ -2265,8 +2273,8 @@ NIN.Sets.Resting = {
     Ear2  = "Wing Earring",
     Body  = "Shade Harness",
     Hands = "Shade Mittens",
-    Ring1 = "Bastokan Ring",
-    Ring2 = "Windurstian Ring",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Legs  = "Shade Tights",
     Feet  = "Bounding Boots",
@@ -2274,13 +2282,13 @@ NIN.Sets.Resting = {
 
 NIN.Sets.Engaged = {
     Head  = "Empress Hairpin",
-    Neck  = "Wing Pendant",
+    Neck  = "Spike Necklace",
     Ear1  = "Wing Earring",
     Ear2  = "Wing Earring",
     Body  = "Shade Harness",
     Hands = "Ochimusha Kote",
-    Ring1 = "Bastokan Ring",
-    Ring2 = "Windurstian Ring",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Legs  = "Shade Tights",
     Feet  = "Sarutobi Kyahan",
