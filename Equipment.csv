@@ -37,7 +37,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 35,Blood Cuisses,True,Legs,73.0,RDM PLD DRK RNG DRG BLU COR RUN,Lv73 movement-overlay piece for DRK and other listed jobs,verified
 36,Bloodbead Ring,True,,,,,present in Universal.lua; metadata pending
 37,Bomb Queen Ring,True,Ring,57.0,ALL,,inventory-confirmed; metadata pending
-38,Bounding Boots,True,,,,,present in Universal.lua; metadata pending
+38,Bounding Boots,True,Feet,7.0,ALL,DEX+3 AGI+3,verified
 39,Brutal Earring,True,Ear,72.0,ALL,Double Attack +5%,verified
 40,Bushinomimi,True,,,,,present in Universal.lua; metadata pending
 41,Cerberus Mantle,True,Back,75.0,ALL,,inventory-confirmed; metadata pending
@@ -73,7 +73,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 71,Eisendiechlings,True,,,,,present in Universal.lua; metadata pending
 72,Eisenhentzes,True,,,,,present in Universal.lua; metadata pending
 73,Elementium Torque,True,Neck,72.0,ALL,Magic Skill +3,verified
-74,Empress Hairpin,True,,,,,present in Universal.lua; metadata pending
+74,Empress Hairpin,True,Head,24.0,ALL,HP-15 DEX+3 AGI+3 Evasion+10,verified
 75,Enfeebling Torque,True,Neck,70.0,ALL,,inventory-confirmed; metadata pending
 76,Enhancing Torque,True,Neck,70.0,RDM WHM SCH,,inventory-confirmed; metadata pending
 77,Errant Hpl.,True,,,,,present in Universal.lua; metadata pending
@@ -260,3 +260,15 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 258,Yigit Gages,True,Hands,72.0,RDM BLM BRD SMN BLU PUP,,inventory-confirmed; metadata pending
 259,Yigit Turban,True,Head,72.0,RDM BLM BRD SMN BLU PUP,,inventory-confirmed; metadata pending
 260,Zenith Crown +1,True,Head,75.0,WHM BLM RDM SMN,,inventory-confirmed; metadata pending
+
+261,Bastokan Ring,True,Ring,1.0,ALL,HP+3 DEX+1 VIT+1,verified
+262,Frugal Cape,True,Back,23.0,WAR MNK RDM THF PLD DRK BST BRD RNG SAM NIN DRG BLU COR DNC RUN,Adds Recycle effect,verified
+263,Ochimusha Kote,True,Hands,34.0,MNK SAM NIN,Attack+20 Evasion-5,verified
+264,Sarutobi Kyahan,True,Feet,39.0,MNK SAM NIN,Haste+3%,verified
+265,Shade Tiara,True,Head,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,STR+2 CHR+2; CatsEyeXI quest reward from Empty Handed,verified
+266,Shade Harness,True,Body,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,VIT+2 MND+2; CatsEyeXI quest reward from Empty Handed,verified
+267,Shade Mittens,True,Hands,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,STR+2 INT+2; CatsEyeXI quest reward from Empty Handed,verified
+268,Shade Tights,True,Legs,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,STR+2 INT+2; CatsEyeXI quest reward from Empty Handed,verified
+269,Shade Leggings,True,Feet,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,DEX+2 MND+2; CatsEyeXI quest reward from Empty Handed,verified
+270,Windurstian Ring,True,Ring,1.0,ALL,MP+3 AGI+1 INT+1,verified
+271,Wing Pendant,True,Neck,7.0,ALL,AGI+1,verified
