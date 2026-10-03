@@ -7516,6 +7516,8 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MDTKey)
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.EngagedWeaponToggleKey .. " down")
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MacroDisplayKey .. " down")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!W down")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!+W down")
     ClearOwnedMacroBinds()
     macroDeck.Ctrl = {}
     macroDeck.Alt = {}
