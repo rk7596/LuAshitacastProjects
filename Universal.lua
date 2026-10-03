@@ -2216,7 +2216,7 @@ RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
 -- ============================================================================
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 40
+-- Current job level: 41
 -- This section is the authoritative home for NIN-specific configuration.
 -- Runtime equipment/action mappings must respect the current job level.
 -- Future level-75 macro preparation may be documented here without becoming
@@ -2227,23 +2227,64 @@ local NIN = JOBS.NIN
 -- ----------------------------------------------------------------------------
 -- NIN: IDLE / RESTING / ENGAGED
 -- ----------------------------------------------------------------------------
+-- NIN41 currently uses the owned CatsEyeXI quest-reward Shade set as the
+-- level-appropriate armor foundation.  Idle and Engaged both explicitly own
+-- Legs and Feet so the global Track Pants +1 movement overlay never leaves
+-- these state slots empty.
+--
+-- Idle:
+--   Bounding Boots = DEX+3 AGI+3; no Haste item is needed while idle.
+--
+-- Engaged:
+--   Sarutobi Kyahan = Haste+3%, available at NIN39.
+--   Ochimusha Kote = Attack+20, available at NIN34; retained over Shade
+--   Mittens for the engaged attack priority.
+--
+-- Low-level accessory slots use only owned, level-appropriate pieces whose
+-- relevant stats are documented in Equipment.csv.  No future-level NIN gear
+-- is allowed to enter the active runtime sets.
 
 NIN.Sets.Idle = {
-        Head="Koga Hatsuburi", Neck="Fortitude Torque", Ear1="Suppanomimi", Ear2="Brutal Earring",
-        Body="Koga Chainmail", Hands="Koga Tekko", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="Aesir Mantle", Waist="Swift Belt", Legs="Koga Hakama", Feet="Koga Kyahan",
-    }
+    Head  = "Empress Hairpin",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Bastokan Ring",
+    Ring2 = "Windurstian Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
 
 NIN.Sets.Resting = {
-        Head="Koga Hatsuburi", Neck="Fortitude Torque", Body="Koga Chainmail", Hands="Koga Tekko",
-        Ring1="Rajas Ring", Ring2="Ulthalam's Ring", Legs="Koga Hakama", Feet="Koga Kyahan",
-    }
+    Head  = "Empress Hairpin",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Bastokan Ring",
+    Ring2 = "Windurstian Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
 
 NIN.Sets.Engaged = {
-        Head="Walahra Turban", Neck="Fortitude Torque", Ear1="Suppanomimi", Ear2="Brutal Earring",
-        Body="Koga Chainmail", Hands="Koga Tekko", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="Aesir Mantle", Waist="Swift Belt", Legs="Koga Hakama", Feet="Koga Kyahan",
-    }
+    Head  = "Empress Hairpin",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Shade Harness",
+    Hands = "Ochimusha Kote",
+    Ring1 = "Bastokan Ring",
+    Ring2 = "Windurstian Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Sarutobi Kyahan",
+}
 
 -- ----------------------------------------------------------------------------
 -- NIN: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
