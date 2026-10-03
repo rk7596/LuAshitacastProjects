@@ -1,0 +1,13 @@
+Name,Type,OptimizationMode,Rule,SetCategory
+0,Haste,MA,DURATION_RECAST,Enhancing duration; then optimize for next recast. Haste affects recast; Fast Cast also affects recast but is not interchangeable with Haste.,EnhancingDuration
+1,Refresh,MA,DURATION_RECAST,Duration/effect first; recast availability is a separate optimization axis.,EnhancingDuration
+2,Regen,MA,DURATION_RECAST,Duration/effect first; recast availability is a separate optimization axis.,EnhancingDuration
+3,Dia / Dia II / Dia III,MA,PRECAST_ONLY,Cannot be resisted except by complete magic immunity; standard precast/Fast Cast handling.,Precast
+4,Bio / Bio II / Bio III,MA,PRECAST_ONLY,Cannot be fully resisted except by complete magic immunity; standard precast/Fast Cast handling.,Precast
+5,Drain / Aspir,MA,POTENCY,Dark Magic plus Drain/Aspir-specific potency.,DrainAspir
+6,Stun,MA,CAST_RELIABILITY,Normal resistible spell: Dark Magic/M.Acc matter.,DarkMagic
+7,Absorb-*,MA,CAST_RELIABILITY,Dark Magic/M.Acc and the specific Absorb effect.,DarkMagic
+8,Dread Spikes,MA,POTENCY,Dark Magic-focused specialized set.,DarkMagic
+9,Elemental damage,MA,POTENCY,Elemental skill/MAB/etc.; individual spells can be refined later.,ElementalDamage
+10,Job Ability,JA,JA_EFFECT,Use equipment whose documented effect modifies that JA.,JA-specific
+11,Blood Pact,PET,PET_DAMAGE_OR_EFFECT,Separate activation and execution/performance concepts.,Pet
