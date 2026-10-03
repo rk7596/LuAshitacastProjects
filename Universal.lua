@@ -6309,6 +6309,81 @@ end
 -- DEFAULT / STATE HANDLING
 -- ============================================================================
 
+-- ============================================================================
+-- UNIVERSAL WARP RING / NIN TOOL UTILITIES
+-- ============================================================================
+
+local function ResetWarpRingState()
+    warpRingState = "idle"
+    warpRingReadyAt = 0
+    warpRingExpireAt = 0
+    warpRingReadyAnnounced = false
+end
+
+local function ReleaseWarpRingReservation(message)
+    if warpRingState ~= "idle" then
+        gFunc.Enable("Ring2")
+        ResetWarpRingState()
+        if message then gFunc.Message(message) end
+    end
+end
+
+local function UpdateWarpRingState()
+    if warpRingState == "idle" then return end
+    local now = os.clock()
+    if not warpRingReadyAnnounced and now >= warpRingReadyAt then
+        warpRingReadyAnnounced = true
+        gFunc.Message("[Universal.lua] Warp Ring is ready; press Enter to confirm the selected target.")
+    end
+    if now >= warpRingExpireAt then
+        gFunc.Enable("Ring2")
+        ResetWarpRingState()
+        gFunc.Message("[Universal.lua] Warp Ring window expired; Ring2 re-enabled.")
+    end
+end
+
+local function PrepareWarpRing()
+    if warpRingState ~= "idle" then
+        gFunc.Message("[Universal.lua] Warp Ring is already armed; use CTRL+ALT+SHIFT+W to cancel.")
+        return
+    end
+    gFunc.Disable("Ring2")
+    gFunc.Equip("Ring2", "Warp Ring")
+    local now = os.clock()
+    warpRingState = "armed"
+    warpRingReadyAt = now + 5
+    warpRingExpireAt = now + 10
+    warpRingReadyAnnounced = false
+    gFunc.Message("[Universal.lua] Warp Ring armed in Ring2; confirm the target before the 10-second window expires.")
+
+    AshitaCore:GetChatManager():QueueCommand(-1, '/item "Warp Ring" <stpc>')
+end
+
+local function CancelWarpRing()
+    if warpRingState == "idle" then
+        gFunc.Message("[Universal.lua] No pending Warp Ring operation.")
+        return
+    end
+    gFunc.Enable("Ring2")
+    ResetWarpRingState()
+    gFunc.Message("[Universal.lua] Warp Ring cancelled; Ring2 re-enabled.")
+end
+
+local function ShowNINToolCounts(player)
+    if not player then return end
+    if player.MainJob == "NIN" then
+        gFunc.Message("[NIN Tools] Master tools: Inoshishinofuda=Elemental | Shikanofuda=Self-enhancing | Chonofuda=Foe-enfeebling | Shihei=Utsusemi")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Inoshishinofuda")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Shikanofuda")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Chonofuda")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Shihei")
+    elseif player.SubJob == "NIN" then
+        gFunc.Message("[/NIN Tools] Shihei=Utsusemi | Sanjaku-Tenugui=Monomi | Shinobi-tabi=Tonko")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Shihei")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Sanjaku-Tenugui")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/find Shinobi-tabi")
+    end
+end
 profile.HandleDefault = function()
     local player = gData.GetPlayer()
     if not player then
