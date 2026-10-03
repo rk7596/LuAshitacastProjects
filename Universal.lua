@@ -2247,92 +2247,53 @@ RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
 -- ============================================================================
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 41
--- This section is the authoritative home for NIN-specific configuration.
--- Runtime equipment/action mappings must respect the current job level.
--- Future level-75 macro preparation may be documented here without becoming
--- executable runtime gear.
+-- Current job level: 51
+-- NIN51 uses the owned CatsEyeXI Shade foundation while leveling toward 75.
+-- Idle/Resting use Ryl.Kgt. Belt; Engaged/TP use Swift Belt.
+-- Ryl.Kgt. Belt is also the explicit WS waist choice.
+-- Legs and Feet remain explicit so movement overlays never leave them empty.
 
 local NIN = JOBS.NIN
 
--- ----------------------------------------------------------------------------
--- NIN: IDLE / RESTING / ENGAGED
--- ----------------------------------------------------------------------------
--- NIN41 currently uses the owned CatsEyeXI quest-reward Shade set as the
--- level-appropriate armor foundation.  Idle and Engaged both explicitly own
--- Legs and Feet so the global Track Pants +1 movement overlay never leaves
--- these state slots empty.
---
--- Idle:
---   Bounding Boots = DEX+3 AGI+3; no Haste item is needed while idle.
---
--- Engaged:
---   Spike Necklace = STR+3 DEX+3, level 21; shifts the set toward direct
---   melee damage for the current Innin/DD leveling role.
---   Sarutobi Kyahan = Haste+3%, available at NIN39.
---   Ochimusha Kote = Attack+20, available at NIN34; retained over Shade
---   Mittens for the engaged attack priority.
---   Rajas Ring + Sattva Ring are both available at level 30. Rajas supplies
---   STR/DEX/Store TP; Sattva supplies AGI/HP/VIT and preserves the preferred
---   AGI-oriented defensive bias.
---
--- Tamas Ring is also level-30 and documented in Equipment.csv, but its
--- MP/INT/MND profile is not preferred for this melee-oriented NIN set.
---
--- Low-level accessory slots use only owned, level-appropriate pieces whose
--- relevant stats are documented in Equipment.csv. No future-level NIN gear
--- is allowed to enter the active runtime sets.
-
 NIN.Sets.Idle = {
-    Head  = "Empress Hairpin",
-    Neck  = "Wing Pendant",
-    Ear1  = "Wing Earring",
-    Ear2  = "Wing Earring",
-    Body  = "Shade Harness",
-    Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Sattva Ring",
-    Back  = "Frugal Cape",
-    Legs  = "Shade Tights",
-    Feet  = "Bounding Boots",
+    Head="Empress Hairpin", Neck="Wing Pendant", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Shade Harness", Hands="Shade Mittens", Ring1="Rajas Ring", Ring2="Sattva Ring",
+    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Bounding Boots",
 }
 
 NIN.Sets.Resting = {
-    Head  = "Empress Hairpin",
-    Neck  = "Wing Pendant",
-    Ear1  = "Wing Earring",
-    Ear2  = "Wing Earring",
-    Body  = "Shade Harness",
-    Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Sattva Ring",
-    Back  = "Frugal Cape",
-    Legs  = "Shade Tights",
-    Feet  = "Bounding Boots",
+    Head="Empress Hairpin", Neck="Wing Pendant", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Shade Harness", Hands="Shade Mittens", Ring1="Rajas Ring", Ring2="Sattva Ring",
+    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Bounding Boots",
 }
 
 NIN.Sets.Engaged = {
-    Head  = "Empress Hairpin",
-    Neck  = "Spike Necklace",
-    Ear1  = "Wing Earring",
-    Ear2  = "Wing Earring",
-    Body  = "Shade Harness",
-    Hands = "Ochimusha Kote",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Sattva Ring",
-    Back  = "Frugal Cape",
-    Legs  = "Shade Tights",
-    Feet  = "Sarutobi Kyahan",
+    Head="Empress Hairpin", Neck="Spike Necklace", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Shade Harness", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Sattva Ring",
+    Back="Frugal Cape", Waist="Swift Belt", Legs="Shade Tights", Feet="Sarutobi Kyahan",
 }
 
--- ----------------------------------------------------------------------------
--- NIN: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
--- ----------------------------------------------------------------------------
--- Dedicated mechanics and ownership audit remains to be completed here.
--- Keep all NIN-specific additions inside this section.
+NIN.Sets.WS_Default = {
+    Head="Empress Hairpin", Neck="Spike Necklace", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Shade Harness", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Sattva Ring",
+    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Sarutobi Kyahan",
+}
 
+NIN.Macro = {
+    Alt = {
+        ['!2']='Dokumori: Ni', ['!3']='Jubaku: Ni', ['!4']='Hojo: Ni',
+        ['!5']='Kurayami: Ni', ['!6']='Katon: San', ['!7']='Hyoton: San',
+        ['!9']='Huton: San', ['!0']='Doton: San', ['!-']='Raiton: San',
+        ['!=']='Suiton: San',
+    },
+    Ctrl = {
+        ['^`']='Futae', ['^1']='Yonin', ['^2']='Innin', ['^3']='Defender',
+        ['^4']='Berserk', ['^5']='Sange', ['^6']='Mijin Gakure',
+    },
+}
 
--- ============================================================================
+-- END NIN
+
 -- DRG: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 75
