@@ -1,0 +1,5 @@
+OptimizationMode,PrimaryRule,Mechanics,Evidence
+0,DURATION_RECAST,Duration/effect first; recast is optimized separately.,Fast Cast reduces cast and recast; Haste reduces recast only.,BG-Wiki Spell Recast / FFXIclopedia Fast Cast
+1,PRECAST_ONLY,Use normal Precast/FastCast.,Dia/Bio cannot be resisted except by complete magic immunity.,BG-Wiki Dia/Bio
+2,CAST_RELIABILITY,Use relevant magic skill + M.Acc where applicable.,Only for ordinary resistible actions.,Project rule
+3,POTENCY,Research the specific spell/action mechanics.,Do not assume one universal stat.,Project rule
