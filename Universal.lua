@@ -6330,7 +6330,7 @@ end
 
 local function UpdateWarpRingState()
     if warpRingState == "idle" then return end
-    local now = os.clock()
+    local now = os.time()
     if not warpRingReadyAnnounced and now >= warpRingReadyAt then
         warpRingReadyAnnounced = true
         gFunc.Message("[Universal.lua] Warp Ring is ready; press Enter to confirm the selected target.")
@@ -6349,7 +6349,7 @@ local function PrepareWarpRing()
     end
     gFunc.Disable("Ring2")
     gFunc.Equip("Ring2", "Warp Ring")
-    local now = os.clock()
+    local now = os.time()
     warpRingState = "armed"
     warpRingReadyAt = now + 5
     warpRingExpireAt = now + 10
@@ -6774,7 +6774,7 @@ profile.HandleItem = function()
     local action = gData.GetAction()
     if action and action.Name == "Warp Ring" and warpRingState ~= "idle" then
         warpRingState = "active"
-        warpRingExpireAt = os.clock() + 10
+        warpRingExpireAt = os.time() + 10
         return
     end
     -- Intentionally no automatic item usage.
