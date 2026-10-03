@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.1216
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.1757
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -43,7 +43,13 @@ local profile = { "Universal, All Jobs, 75" }
 local sets = {}
 local smnStaffMode = "Gridarvor"
 
--- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN41 leveling update + DRK WS integrity repair + structural graduation preservation
+-- Universal Warp Ring reservation state. The profile never blocks on /wait.
+local warpRingState = "idle"
+local warpRingReadyAt = 0
+local warpRingExpireAt = 0
+local warpRingReadyAnnounced = false
+
+-- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN51 + Warp Ring safety + NIN tool reporting + DRK WS integrity repair
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -114,7 +120,8 @@ local CONFIG = {
         '^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-','^=',
         '!`','!1','!2','!3','!4','!5','!6','!7','!8','!9','!0','!-','!=',
         '^!`','^!1','^!2','^!3','^!4','^!5','^!6','^!7','^!8','^!9','^!0','^!-','^!=',
-        '!Backspace','^Backspace',"!LEFTBRACKET", "!RIGHTBRACKET", "!\'", '!\\',
+        '!Backspace','^Backspace',"!LEFTBRACKET", "!RIGHTBRACKET", "!\'", '!\\',,
+        "^!W", "^!+W"
     },
 }
 
@@ -138,7 +145,7 @@ local CONFIG = {
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
     WAR = 40, WHM = 75, RDM = 75, PLD = 75, BST = 42, RNG = 43,
-    NIN = 41, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
+    NIN = 51, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
