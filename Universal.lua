@@ -7501,6 +7501,8 @@ profile.OnLoad = function()
     lastEngagedState = player and player.Status == "Engaged" or false
     ApplyMacroDeck(player, true)
     UpdateEnspellBind(true)
+    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!W down /lac fwd warpring")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!+W down /lac fwd warpringcancel")
 end
 
 profile.OnUnload = function()
