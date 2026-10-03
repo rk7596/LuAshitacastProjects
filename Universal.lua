@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.0246
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.1216
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -43,7 +43,7 @@ local profile = { "Universal, All Jobs, 75" }
 local sets = {}
 local smnStaffMode = "Gridarvor"
 
--- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN41 leveling update + structural graduation preservation
+-- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN41 leveling update + DRK WS integrity repair + structural graduation preservation
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -1973,10 +1973,34 @@ DRK.Weapons = {
 -- Physical WS use the owned Hecatomb Harness despite its Slow because WS
 -- snapshots are separate from TP generation. Fotia Gorget is used for the
 -- skillchain-property WS family; Hollow/Brutal provide accuracy/DA where useful.
-D
+DRK.Sets.WS_Default = {
+    Head  = "Chaos Burgeonet",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Hecatomb Harness",
+    Hands = "Abyss Gauntlets",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Homam Cosciales",
+    Feet  = "Dusk Ledelsens +1",
 }
 
-l
+local DRK_WS_PhysicalBase = {
+    Head  = "Chaos Burgeonet",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Hecatomb Harness",
+    Hands = "Abyss Gauntlets",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Homam Cosciales",
+    Feet  = "Dusk Ledelsens +1",
 }
 
 DRK.Sets["WS-Physical-STR"] = DRK_WS_PhysicalBase
