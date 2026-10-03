@@ -1,0 +1,262 @@
+Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
+0,Abyss Burgeonet,True,Head,73.0,DRK,,inventory-confirmed; metadata pending
+1,Abyss Flanchard,True,Legs,73.0,DRK,MP+18 MND+5 MDB+5 Dark Magic Skill+5,verified
+2,Abyss Gauntlets,True,Hands,72.0,DRK,MP+20 DEX+5 INT+8 Dark Magic Skill+5,verified
+3,Abyss Sollerets,True,Feet,71.0,DRK,MP+12 Enfeebling Magic Skill+5; enhances Last Resort,verified
+4,Abyssal Earring,True,Ear,72.0,DRK,,inventory-confirmed; metadata pending
+5,Aesir Mantle,True,Back,75.0,ALL,,inventory-confirmed; metadata pending
+6,Aesir Torque,True,Neck,75.0,ALL,,inventory-confirmed; metadata pending
+7,Ajjub Bow,True,,,,,present in Universal.lua; metadata pending
+8,Ancient Torque,True,Neck,70.0,ALL,,inventory-confirmed; metadata pending
+9,Animator,True,,,,,present in Universal.lua; metadata pending
+10,Aqua Ring,True,,,,,present in Universal.lua; metadata pending
+11,Argute Bracers,True,,,,,present in Universal.lua; metadata pending
+12,Argute Gown,True,,,,,present in Universal.lua; metadata pending
+13,Argute Loafers,True,,,,,present in Universal.lua; metadata pending
+14,Argute M.board,True,,,,,present in Universal.lua; metadata pending
+15,Argute Pants,True,,,,,present in Universal.lua; metadata pending
+16,Asklepios,True,Main,75.0,WHM,,inventory-confirmed; metadata pending
+17,Assassin's Armlets,True,Hands,73.0,THF,,inventory-confirmed; metadata pending
+18,Assassin's Cape,True,,,,,present in Universal.lua; metadata pending
+19,Augment. Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
+20,Augmenting Earring,True,,,,,present in Universal.lua; metadata pending
+21,Avengers,True,,,,,present in Universal.lua; metadata pending
+22,Axe Grip,True,Sub,71.0,WAR PLD DRK SAM,Final DRK Lv75 grip,verified
+23,Bagua Galero,True,,,,,present in Universal.lua; metadata pending
+24,Bagua Mitaines,True,,,,,present in Universal.lua; metadata pending
+25,Bagua Pants,True,,,,,present in Universal.lua; metadata pending
+26,Bagua Sandals,True,,,,,present in Universal.lua; metadata pending
+27,Balrahn's Ring,True,Ring,75.0,ALL,,inventory-confirmed; metadata pending
+28,Balrahn\'s Ring,True,,,,,present in Universal.lua; metadata pending
+29,Bard's Cannions,True,,,,,present in Universal.lua; metadata pending
+30,Bard's Cuffs,True,,,,,present in Universal.lua; metadata pending
+31,Bard's Roundlet,True,,,,,present in Universal.lua; metadata pending
+32,Bard's Slippers,True,,,,,present in Universal.lua; metadata pending
+33,Bellona's Ring,True,,,,,present in Universal.lua; metadata pending
+34,Blau Dolch,True,Main,72.0,THF,,inventory-confirmed; metadata pending
+35,Blood Cuisses,True,Legs,73.0,RDM PLD DRK RNG DRG BLU COR RUN,Lv73 movement-overlay piece for DRK and other listed jobs,verified
+36,Bloodbead Ring,True,,,,,present in Universal.lua; metadata pending
+37,Bomb Queen Ring,True,Ring,57.0,ALL,,inventory-confirmed; metadata pending
+38,Bounding Boots,True,,,,,present in Universal.lua; metadata pending
+39,Brutal Earring,True,Ear,72.0,ALL,Double Attack +5%,verified
+40,Bushinomimi,True,,,,,present in Universal.lua; metadata pending
+41,Cerberus Mantle,True,Back,75.0,ALL,,inventory-confirmed; metadata pending
+42,Chaos Burgeonet,True,Head,60.0,DRK,Dark Magic Skill+5; enhances Souleater,verified
+43,Chaos Cuirass,True,Body,58.0,DRK,DEF46 HP+20 VIT+3 Attack+5 Enfeebling Magic Skill+5,verified
+44,Chaos Flanchard,True,Legs,56.0,DRK,,inventory-confirmed; metadata pending
+45,Chaos Gauntlets,True,Hands,54.0,DRK,Enhances Weapon Bash; Weapon Bash +10,verified
+46,Chaos Sollerets,True,Feet,52.0,DRK,Enhances Arcane Circle,verified
+47,Charmer's Sash,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
+48,Charmer\'s Sash,True,,,,,present in Universal.lua; metadata pending
+49,Chasuble +1,True,Body,74.0,RDM,,inventory-confirmed; metadata pending
+50,Chatoyant Staff,True,Main,75.0,ALL,,inventory-confirmed; metadata pending
+51,Chiroptera Dagger,True,,,,,present in Universal.lua; metadata pending
+52,Chivalrous Chain,True,,,,,present in Universal.lua; metadata pending
+53,Comm. Bottes,True,,,,,present in Universal.lua; metadata pending
+54,Comm. Trews,True,,,,,present in Universal.lua; metadata pending
+55,Comm. Tricorne,True,,,,,present in Universal.lua; metadata pending
+56,Commodore Belt,True,,,,,present in Universal.lua; metadata pending
+57,Commodore Gants,True,,,,,present in Universal.lua; metadata pending
+58,Demon Arrow,True,,,,,present in Universal.lua; metadata pending
+59,Dew Silk Cape +1,True,Back,71.0,ALL,,inventory-confirmed; metadata pending
+60,Dls. Chapeau +1,True,Head,75.0,RDM,,inventory-confirmed; metadata pending
+61,Dls. Gloves +1,True,Hands,73.0,RDM,,inventory-confirmed; metadata pending
+62,Drachen Brais,True,,,,,present in Universal.lua; metadata pending
+63,Drachen Fng. Gnt.,True,,,,,present in Universal.lua; metadata pending
+64,Drachen Mail,True,,,,,present in Universal.lua; metadata pending
+65,Duelist's Boots,True,Feet,71.0,RDM,,inventory-confirmed; metadata pending
+66,Duelist's Chapeau,True,Head,71.0,RDM,,inventory-confirmed; metadata pending
+67,Duelist's Tabard,True,Body,71.0,RDM,,inventory-confirmed; metadata pending
+68,Duelist's Tights,True,Legs,71.0,RDM,,inventory-confirmed; metadata pending
+69,Dusk Ledelsens +1,True,Feet,72.0,WAR MNK THF RDM PLD DRK SAM NIN DRG,Haste +4%,verified
+70,Egeking,True,Main,72.0,RDM PLD,,inventory-confirmed; metadata pending
+71,Eisendiechlings,True,,,,,present in Universal.lua; metadata pending
+72,Eisenhentzes,True,,,,,present in Universal.lua; metadata pending
+73,Elementium Torque,True,Neck,72.0,ALL,Magic Skill +3,verified
+74,Empress Hairpin,True,,,,,present in Universal.lua; metadata pending
+75,Enfeebling Torque,True,Neck,70.0,ALL,,inventory-confirmed; metadata pending
+76,Enhancing Torque,True,Neck,70.0,RDM WHM SCH,,inventory-confirmed; metadata pending
+77,Errant Hpl.,True,,,,,present in Universal.lua; metadata pending
+78,Errant Pigaches,True,,,,,present in Universal.lua; metadata pending
+79,Errant Slops,True,Legs,72.0,ALL,,inventory-confirmed; metadata pending
+80,Ethereal Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
+81,Etoile Bangles,True,,,,,present in Universal.lua; metadata pending
+82,Etoile Casaque,True,,,,,present in Universal.lua; metadata pending
+83,Etoile Tiara,True,,,,,present in Universal.lua; metadata pending
+84,Etoile Tights,True,,,,,present in Universal.lua; metadata pending
+85,Etoile Toe Shoes,True,,,,,present in Universal.lua; metadata pending
+86,Evoker's Bracers,True,,,,,present in Universal.lua; metadata pending
+87,Evoker's Doublet,True,,,,,present in Universal.lua; metadata pending
+88,Evoker's Horn,True,,,,,present in Universal.lua; metadata pending
+89,Evoker's Pigaches,True,,,,,present in Universal.lua; metadata pending
+90,Evoker's Ring,True,,,,,present in Universal.lua; metadata pending
+91,Evoker's Spats,True,,,,,present in Universal.lua; metadata pending
+92,Failnaught,True,Range,75.0,RNG,,inventory-confirmed; metadata pending
+93,Fed. Signet Staff,True,,,,,present in Universal.lua; metadata pending
+94,Fencer's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+95,Fortitude Torque,True,Neck,70.0,ALL,,inventory-confirmed; metadata pending
+96,Fotia Gorget,True,Neck,71.0,ALL,,inventory-confirmed; metadata pending
+97,Futhark Bandeau,True,,,,,present in Universal.lua; metadata pending
+98,Futhark Coat,True,,,,,present in Universal.lua; metadata pending
+99,Futhark Mitons,True,,,,,present in Universal.lua; metadata pending
+100,Fylgja Torque +1,True,,,,,present in Universal.lua; metadata pending
+101,Genbu's Kabuto,True,,,,,present in Universal.lua; metadata pending
+102,Genbu's Shield,True,Sub,74.0,PLD RDM WHM,,inventory-confirmed; metadata pending
+103,Glamor Jupon,True,Body,73.0,RDM,,inventory-confirmed; metadata pending
+104,Gloom Breastplate,True,Body,50.0,DRK,Enhances Souleater,verified
+105,Glt. Breeches +1,True,,,,,present in Universal.lua; metadata pending
+106,Glt. Coronet +1,True,,,,,present in Universal.lua; metadata pending
+107,Glt. Surcoat +1,True,,,,,present in Universal.lua; metadata pending
+108,Gnole Torque,True,,,,,present in Universal.lua; metadata pending
+109,Goliard Chapeau,True,,,,,present in Universal.lua; metadata pending
+110,Grapevine Cape,True,Back,71.0,RDM,,inventory-confirmed; metadata pending
+111,Gridarvor,True,Main,75.0,SMN,,inventory-confirmed; metadata pending
+112,Hecate's Crown,True,Head,75.0,BLM RDM SCH,MP+23 Magic Accuracy-2 Magic Attack+4,verified
+113,Hecatomb Harness,True,Body,73.0,WAR MNK PLD DRK SAM,WS-only candidate; native Slow makes it unsuitable for normal TP,verified
+114,Hierarch Belt,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
+115,High Brth. Mantle,True,,,,,present in Universal.lua; metadata pending
+116,Hollow Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
+117,Homam Cosciales,True,Legs,75.0,THF PLD DRK DRG BLU,HP+26 MP+26 Accuracy+3 Haste+3% Fast Cast effect,verified
+118,Jalzahn's Ring,True,,,,,present in Universal.lua; metadata pending
+119,Joyeuse,True,Main,70.0,PLD RDM BLU COR,,inventory-confirmed; metadata pending
+120,Kirin's Pole,True,Main,75.0,WHM BLM RDM,,inventory-confirmed; metadata pending
+121,Koenig Shield,True,,,,,present in Universal.lua; metadata pending
+122,Koga Chainmail,True,,,,,present in Universal.lua; metadata pending
+123,Koga Hakama,True,,,,,present in Universal.lua; metadata pending
+124,Koga Hatsuburi,True,,,,,present in Universal.lua; metadata pending
+125,Koga Kyahan,True,,,,,present in Universal.lua; metadata pending
+126,Koga Tekko,True,,,,,present in Universal.lua; metadata pending
+127,Lmg. Medallion +1,True,,,,,present in Universal.lua; metadata pending
+128,Loquac. Earring,True,Ear,75.0,ALL,Fast Cast 2%,verified
+129,Luzaf's Ring,True,,,,,present in Universal.lua; metadata pending
+130,Mag. Bazubands +1,True,Hands,73.0,BLU,,inventory-confirmed; metadata pending
+131,Magnetic Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
+132,Magus Charuqs +1,True,Feet,71.0,BLU,,inventory-confirmed; metadata pending
+133,Magus Jubbah +1,True,,,,,present in Universal.lua; metadata pending
+134,Magus Keffiyeh +1,True,Head,75.0,BLU,,inventory-confirmed; metadata pending
+135,Magus Shalwar +1,True,Legs,73.0,BLU,,inventory-confirmed; metadata pending
+136,Mars's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+137,Mars\'s Ring,True,,,,,present in Universal.lua; metadata pending
+138,Melee Crown,True,,,,,present in Universal.lua; metadata pending
+139,Melee Cyclas,True,,,,,present in Universal.lua; metadata pending
+140,Melee Gaiters,True,,,,,present in Universal.lua; metadata pending
+141,Melee Gloves,True,,,,,present in Universal.lua; metadata pending
+142,Melee Hose,True,,,,,present in Universal.lua; metadata pending
+143,Merciful Cape,True,Back,71.0,RDM WHM,,inventory-confirmed; metadata pending
+144,Mimesis,True,Main,75.0,BLU,,inventory-confirmed; metadata pending
+145,Mirage Shalwar,True,Legs,73.0,BLU,,inventory-confirmed; metadata pending
+146,Moldavite Earring,True,Ear,47.0,ALL,,inventory-confirmed; metadata pending
+147,Monster Belt,True,,,,,present in Universal.lua; metadata pending
+148,Monster Gaiters,True,,,,,present in Universal.lua; metadata pending
+149,Monster Gloves,True,,,,,present in Universal.lua; metadata pending
+150,Monster Helm,True,,,,,present in Universal.lua; metadata pending
+151,Monster Jackcoat,True,,,,,present in Universal.lua; metadata pending
+152,Monster Trousers,True,,,,,present in Universal.lua; metadata pending
+153,Murgleis,True,Main,75.0,RDM,,inventory-confirmed; metadata pending
+154,Myochin Haidate,True,,,,,present in Universal.lua; metadata pending
+155,Myochin Kabuto,True,,,,,present in Universal.lua; metadata pending
+156,Myochin Kote,True,,,,,present in Universal.lua; metadata pending
+157,Ninurta's Sash,True,Waist,75.0,ALL,,inventory-confirmed; metadata pending
+158,Ninurta\'s Sash,True,,,,,present in Universal.lua; metadata pending
+159,Octave Club,True,Sub,75.0,THF,,inventory-confirmed; metadata pending
+160,Ogre Ledelsens +1,True,Feet,73.0,WAR MNK THF PLD DRK BST SAM NIN DRG,,inventory-confirmed; metadata pending
+161,Ossa Grip,True,,,,,present in Universal.lua; metadata pending
+162,Pantin Babouches,True,,,,,present in Universal.lua; metadata pending
+163,Pantin Churidars,True,,,,,present in Universal.lua; metadata pending
+164,Pantin Dastanas,True,,,,,present in Universal.lua; metadata pending
+165,Pantin Taj,True,,,,,present in Universal.lua; metadata pending
+166,Pantin Tobe,True,,,,,present in Universal.lua; metadata pending
+167,Perdu Hanger,True,Sub,73.0,BLU,,inventory-confirmed; metadata pending
+168,Perdu Sickle,True,Main,73.0,DRK,Final DRK Lv75 main weapon,verified
+169,Pln. Khazagand,True,Body,73.0,THF DRG,,inventory-confirmed; metadata pending
+170,Pln. Qalansuwa,True,,,,,present in Universal.lua; metadata pending
+171,Pythia Sash,True,,,,,present in Universal.lua; metadata pending
+172,Rajas Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+173,Rambler's Cloak,True,,,,,present in Universal.lua; metadata pending
+174,Rogue's Armlets,True,,,,,present in Universal.lua; metadata pending
+175,Rogue's Bonnet,True,,,,,present in Universal.lua; metadata pending
+176,Rogue's Culottes,True,Legs,70.0,THF,,inventory-confirmed; metadata pending
+177,Rogue's Poulaines,True,,,,,present in Universal.lua; metadata pending
+178,Rogue's Vest,True,,,,,present in Universal.lua; metadata pending
+179,Runeist Bottes,True,,,,,present in Universal.lua; metadata pending
+180,Runeist Trousers,True,,,,,present in Universal.lua; metadata pending
+181,Ryl. Army Mantle,True,,,,,present in Universal.lua; metadata pending
+182,Ryl.Kgt. Belt,True,,,,,present in Universal.lua; metadata pending
+183,Salire Belt,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
+184,Saotome Domaru,True,,,,,present in Universal.lua; metadata pending
+185,Saotome Haidate,True,,,,,present in Universal.lua; metadata pending
+186,Saotome Kabuto,True,,,,,present in Universal.lua; metadata pending
+187,Saotome Kote,True,,,,,present in Universal.lua; metadata pending
+188,Saotome Sune-Ate,True,,,,,present in Universal.lua; metadata pending
+189,Sattva Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+190,Scout's Beret,True,,,,,present in Universal.lua; metadata pending
+191,Scout's Braccae,True,,,,,present in Universal.lua; metadata pending
+192,Scout's Bracers,True,,,,,present in Universal.lua; metadata pending
+193,Seer's Crown,True,,,,,present in Universal.lua; metadata pending
+194,Seer's Mitts,True,,,,,present in Universal.lua; metadata pending
+195,Seer's Pumps,True,,,,,present in Universal.lua; metadata pending
+196,Seer's Slacks,True,,,,,present in Universal.lua; metadata pending
+197,Seer's Tunic,True,,,,,present in Universal.lua; metadata pending
+198,Seer\'s Tunic,True,,,,,present in Universal.lua; metadata pending
+199,Shinsoku,True,,,,,present in Universal.lua; metadata pending
+200,Shura Togi,True,Body,73.0,MNK SAM NIN,"Owned augments: Haste +2%, Crit Rate +2%, Ninja Tool Expertise +3%; NOT DRK-equipable",verified
+201,Smn. Torque,True,,,,,present in Universal.lua; metadata pending
+202,Soil Gorget,True,,,,,present in Universal.lua; metadata pending
+203,Sorcerer's Belt,True,Waist,70.0,BLM,,inventory-confirmed; metadata pending
+204,Sorcerer's Tonban,True,Legs,73.0,BLM,,inventory-confirmed; metadata pending
+205,Sorcerer\'s Petas.,True,,,,,present in Universal.lua; metadata pending
+206,Sorcerer\'s Sabots,True,,,,,present in Universal.lua; metadata pending
+207,Sorcerer\'s Tonban,True,,,,,present in Universal.lua; metadata pending
+208,Sowilo Claymore,True,,,,,present in Universal.lua; metadata pending
+209,Spike Necklace,True,,,,,present in Universal.lua; metadata pending
+210,Star Necklace,True,,,,,present in Universal.lua; metadata pending
+211,Static Earring,True,,,,,present in Universal.lua; metadata pending
+212,Stone Gorget,True,Neck,71.0,ALL,,inventory-confirmed; metadata pending
+213,Stone-splitter,True,Main,71.0,DRG,,inventory-confirmed; metadata pending
+214,Stormlord Shawl,True,Back,70.0,ALL,,inventory-confirmed; metadata pending
+215,Sturdy Axe,True,,,,,present in Universal.lua; metadata pending
+216,Summoner's Brcr.,True,,,,,present in Universal.lua; metadata pending
+217,Summoner's Dblt.,True,,,,,present in Universal.lua; metadata pending
+218,Summoner's Horn,True,,,,,present in Universal.lua; metadata pending
+219,Summoner's Pgch.,True,,,,,present in Universal.lua; metadata pending
+220,Summoner's Spats,True,,,,,present in Universal.lua; metadata pending
+221,Suppanomimi,True,Ear,72.0,NIN THF DNC,,inventory-confirmed; metadata pending
+222,Swift Belt,True,Waist,50.0,ALL,,inventory-confirmed; metadata pending
+223,Tamas Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+224,Tartaglia,True,,,,,present in Universal.lua; metadata pending
+225,Temple Crown,True,,,,,present in Universal.lua; metadata pending
+226,Temple Cyclas,True,,,,,present in Universal.lua; metadata pending
+227,Temple Gaiters,True,,,,,present in Universal.lua; metadata pending
+228,Temple Gloves,True,,,,,present in Universal.lua; metadata pending
+229,Track Pants +1,True,Legs,70.0,ALL,Movement overlay; no Feet slot,verified
+230,Ulthalam's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+231,Valor Gauntlets,True,,,,,present in Universal.lua; metadata pending
+232,Valor Leggings,True,Legs,73.0,PLD,,inventory-confirmed; metadata pending
+233,Valor Surcoat,True,,,,,present in Universal.lua; metadata pending
+234,Visionary Obi,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
+235,Walahra Turban,True,Head,75.0,ALL,,inventory-confirmed; metadata pending
+236,Warrior's Calligae,True,,,,,present in Universal.lua; metadata pending
+237,Warrior's Lorica,True,,,,,present in Universal.lua; metadata pending
+238,Warrior's Mask,True,,,,,present in Universal.lua; metadata pending
+239,Wing Earring,True,Ear,29.0,ALL,,inventory-confirmed; metadata pending
+240,Wise Braconi +1,True,Legs,73.0,RDM,,inventory-confirmed; metadata pending
+241,Wizard's Coat,True,,,,,present in Universal.lua; metadata pending
+242,Wizard's Gloves,True,,,,,present in Universal.lua; metadata pending
+243,Wizard's Petasos,True,,,,,present in Universal.lua; metadata pending
+244,Wizard's Sabots,True,,,,,present in Universal.lua; metadata pending
+245,Wizard's Tonban,True,,,,,present in Universal.lua; metadata pending
+246,Wizard\'s Coat,True,,,,,present in Universal.lua; metadata pending
+247,Wizzan Grip,True,Sub,70.0,ALL,,inventory-confirmed; metadata pending
+248,Wlk. Boots +1,True,Feet,71.0,RDM,,inventory-confirmed; metadata pending
+249,Wlk. Chapeau +1,True,Head,75.0,RDM,,inventory-confirmed; metadata pending
+250,Wlk. Gloves +1,True,Hands,73.0,RDM,,inventory-confirmed; metadata pending
+251,Wlk. Tabard +1,True,Body,75.0,RDM,,inventory-confirmed; metadata pending
+252,Wlk. Tights +1,True,Legs,75.0,RDM,,inventory-confirmed; metadata pending
+253,Wyrm Armet,True,,,,,present in Universal.lua; metadata pending
+254,Wyrm Brais,True,Legs,73.0,DRG,,inventory-confirmed; metadata pending
+255,Wyrm Fng. Gnt.,True,,,,,present in Universal.lua; metadata pending
+256,Wyrm Greaves,True,Feet,75.0,DRG,,inventory-confirmed; metadata pending
+257,Yigit Crackows,True,Feet,73.0,RDM BLM BRD SMN BLU PUP,,inventory-confirmed; metadata pending
+258,Yigit Gages,True,Hands,72.0,RDM BLM BRD SMN BLU PUP,,inventory-confirmed; metadata pending
+259,Yigit Turban,True,Head,72.0,RDM BLM BRD SMN BLU PUP,,inventory-confirmed; metadata pending
+260,Zenith Crown +1,True,Head,75.0,WHM BLM RDM SMN,,inventory-confirmed; metadata pending
