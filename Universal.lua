@@ -6385,6 +6385,8 @@ local function ShowNINToolCounts(player)
     end
 end
 profile.HandleDefault = function()
+    UpdateWarpRingState()
+
     local player = gData.GetPlayer()
     if not player then
         return
@@ -6769,6 +6771,12 @@ end
 -- ============================================================================
 
 profile.HandleItem = function()
+    local action = gData.GetAction()
+    if action and action.Name == "Warp Ring" and warpRingState ~= "idle" then
+        warpRingState = "active"
+        warpRingExpireAt = os.clock() + 10
+        return
+    end
     -- Intentionally no automatic item usage.
 end
 
@@ -6814,6 +6822,16 @@ profile.HandleCommand = function(args)
             "[Universal.lua] " .. tostring(player.MainJob) .. " -> " .. setName
             .. " (" .. tostring(CONFIG.ManualSetSeconds) .. "s test lock)"
         )
+        return
+    end
+
+    if command == "warpring" then
+        PrepareWarpRing()
+        return
+    end
+
+    if command == "warpringcancel" then
+        CancelWarpRing()
         return
     end
 
@@ -7046,57 +7064,69 @@ end
 
 local function ApplyNINDNCMacros(player)
     if not player then return end
-
-    -- GLOBAL shared-job keys.
-    --
-    --   NIN main       : Utsusemi Ichi/Ni -> Alt-Minus / Alt-Equal
-    --   DNC main       : Quickstep/Box Step -> Alt-Minus / Alt-Equal
-    --   another main / NIN
-    --                  : Utsusemi Ichi/Ni -> Alt-LBRACKET / Alt-RBRACKET
-    --   another main / DNC
-    --                  : Quickstep/Box Step -> Alt-LBRACKET / Alt-RBRACKET
-    --   NIN/DNC        : Utsusemi -> brackets; Steps -> Minus / Equal
-    --   DNC/NIN        : Steps -> brackets; Utsusemi -> Minus / Equal
-    --
-    -- This keeps the two shared skill families usable together while giving
-    -- the main job priority when only one of NIN/DNC is present.
     local mainIsNIN = player.MainJob == 'NIN'
     local mainIsDNC = player.MainJob == 'DNC'
     local subIsNIN = player.SubJob == 'NIN'
     local subIsDNC = player.SubJob == 'DNC'
     local hasDNC = mainIsDNC or subIsDNC
-
-    if mainIsNIN and subIsDNC then
-        BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
-        BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
-        BindJA('!-', 'Quickstep')
-        BindJA('!=', 'Box Step')
-    elseif mainIsDNC and subIsNIN then
-        BindJA('!LEFTBRACKET', 'Quickstep')
-        BindJA('!RIGHTBRACKET', 'Box Step')
-        BindSpell('!-', 'Utsusemi: Ichi', '<stpc>')
-        BindSpell('!=', 'Utsusemi: Ni', '<stpc>')
-    elseif mainIsNIN then
-        BindSpell('!-', 'Utsusemi: Ichi', '<stpc>')
-        BindSpell('!=', 'Utsusemi: Ni', '<stpc>')
-    elseif mainIsDNC then
-        BindJA('!-', 'Quickstep')
-        BindJA('!=', 'Box Step')
-    elseif subIsNIN then
-        BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
-        BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
-    elseif subIsDNC then
-        BindJA('!LEFTBRACKET', 'Quickstep')
-        BindJA('!RIGHTBRACKET', 'Box Step')
+    if not mainIsNIN then
+        if mainIsDNC and subIsNIN then
+            BindJA('!LEFTBRACKET', 'Quickstep')
+            BindJA('!RIGHTBRACKET', 'Box Step')
+            BindSpell('!-', 'Utsusemi: Ichi', '<stpc>')
+            BindSpell('!=', 'Utsusemi: Ni', '<stpc>')
+        elseif mainIsDNC then
+            BindJA('!-', 'Quickstep')
+            BindJA('!=', 'Box Step')
+        elseif subIsNIN then
+            BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
+            BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
+        elseif subIsDNC then
+            BindJA('!LEFTBRACKET', 'Quickstep')
+            BindJA('!RIGHTBRACKET', 'Box Step')
+        end
     end
-
-    -- Spectral Jig is available whenever DNC is main or support and occupies
-    -- the established Alt-apostrophe slot without conflicting with the matrix.
     if hasDNC then
         QueueBind('!\'', '/recast "Spectral Jig";/ja "Spectral Jig" <stpc>')
     end
 end
 
+local function ApplyNINMacros(player)
+    if not player or player.MainJob ~= 'NIN' then return end
+    if player.SubJob == 'WAR' then
+        BindJA('!`', 'Provoke', '<stnpc>')
+        BindJA('!1', 'Aggressor', '<stpc>')
+    elseif player.SubJob == 'DNC' then
+        BindJA('!`', 'Animating Flourish', '<stnpc>')
+        BindJA('!1', 'Desperate Flourish', '<stnpc>')
+    elseif player.SubJob == 'RDM' then
+        BindSpell('!1', 'Dispel', '<stnpc>')
+    elseif player.SubJob == 'BLM' then
+        BindSpell('!1', 'Aspir', '<stnpc>')
+    elseif player.SubJob == 'SAM' then
+        BindJA('!1', 'Meditate', '<stpc>')
+    elseif player.SubJob == 'THF' then
+        BindJA('!1', 'Trick Attack', '<stpc>')
+    end
+    for key, spell in pairs(NIN.Macro.Alt) do
+        BindSpell(key, spell, '<stnpc>')
+    end
+    BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
+    BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
+    for key, ja in pairs(NIN.Macro.Ctrl) do
+        BindJA(key, ja, '<stpc>')
+    end
+    if player.SubJob == 'WAR' then
+        BindJA('^7', 'Aggressor', '<stpc>')
+        BindJA('^8', 'Warcry', '<stpc>')
+    elseif player.SubJob == 'DNC' then
+        BindJA('^9', 'Quickstep', '<stnpc>')
+        BindJA('^0', 'Box Step', '<stnpc>')
+        BindJA('^-', 'Desperate Flourish', '<stnpc>')
+        BindSpell('^=', 'Curing Waltz II', '<stpc>')
+        BindSpell('^Backspace', 'Healing Waltz', '<stpc>')
+    end
+end
 local BLUMacroWS = {
     ['^!`'] = 'Flat Blade', ['^!1'] = 'Fast Blade', ['^!2'] = 'Red Lotus Blade',
     ['^!3'] = 'Seraph Blade', ['^!4'] = 'Vorpal Blade', ['^!5'] = 'Spirits Within',
@@ -7433,6 +7463,7 @@ ApplyMacroDeck = function(player, force)
     -- macros cannot overwrite the hybrid-key matrix.  Ctrl-BACKSLASH remains
     -- exclusively owned by UpdateEnspellBind().
     ApplyNINDNCMacros(player)
+    ApplyNINMacros(player)
 
     lastMacroSignature = signature
 end
@@ -7473,6 +7504,8 @@ profile.OnLoad = function()
 end
 
 profile.OnUnload = function()
+    ReleaseWarpRingReservation(nil)
+
     if weaponLocked then
         gFunc.Enable("Main")
         gFunc.Enable("Sub")
@@ -7495,6 +7528,7 @@ profile.OnZone = function()
     lastEngagedState = player and player.Status == "Engaged" or false
     ApplyMacroDeck(player, true)
     UpdateEnspellBind(true)
+    ShowNINToolCounts(player)
 
     local env = gData.GetEnvironment()
     if env then
