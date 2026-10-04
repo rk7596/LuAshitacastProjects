@@ -121,7 +121,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 119,Joyeuse,True,Main,70.0,PLD RDM BLU COR,,inventory-confirmed; metadata pending
 120,Kirin's Pole,True,Main,75.0,WHM BLM RDM,,inventory-confirmed; metadata pending
 121,Koenig Shield,True,,,,,present in Universal.lua; metadata pending
-122,Koga Chainmail,True,Body,74.0,NIN,DEF 46 Accuracy+12 Attack+16 Ranged Accuracy+8 Ranged Attack+8,verified standard FFXI stats
+122,Koga Chainmail,True,Body,74.0,NIN,DEF 46 Accuracy+12 Attack+16 Ranged Accuracy+10 Ranged Attack+10,verified CatsEyeXI reference
 123,Koga Hakama,True,Legs,71.0,NIN,DEF 31 HP+40; enhances Dual Wield; nighttime Evasion+10,verified standard FFXI stats
 124,Koga Hatsuburi,True,Head,73.0,NIN,DEF 22 HP+20; enhances ninjutsu damage; nighttime Parrying Skill+10,verified standard FFXI stats
 125,Koga Kyahan,True,Feet,72.0,NIN,DEF 15 VIT+7 Ninjutsu Skill+10; nighttime DEX+7,verified standard FFXI stats
