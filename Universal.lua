@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-03.1757
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.0132
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -6412,7 +6412,7 @@ local function HandleZoneTransition(player)
 
     -- OnZone is not a LuAshitacast profile callback. Defer this one-shot
     -- snapshot until the new zone has settled and gData.GetPlayer() exists.
-    ashita.tasks.once(1, function()
+    ashita.tasks.once(10, function()
         if GetCurrentZoneId() ~= zoneId then return end
         local currentPlayer = gData.GetPlayer()
         if not currentPlayer then return end
