@@ -6412,8 +6412,8 @@ local function HandleZoneTransition(player)
 
     -- OnZone is not a LuAshitacast profile callback. Defer this one-shot
     -- snapshot until the new zone has settled and gData.GetPlayer() exists.
-    ashita.tasks.once(1, function(expectedZoneId)
-        if GetCurrentZoneId() ~= expectedZoneId then return end
+    ashita.tasks.once(1, function()
+        if GetCurrentZoneId() ~= zoneId then return end
         local currentPlayer = gData.GetPlayer()
         if not currentPlayer then return end
 
@@ -6429,7 +6429,7 @@ local function HandleZoneTransition(player)
                     .. tostring(env.DayElement)
             )
         end
-    end, zoneId)
+    end)
 end
 
 profile.HandleDefault = function()
