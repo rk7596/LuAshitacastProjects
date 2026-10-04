@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.0143
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.1436
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -468,6 +468,24 @@ end
 local function GetMovementSet(player)
     if not player then
         return {}
+    end
+
+    -- NIN main has a special nighttime movement piece:
+    -- Ninja Kyahan grants +25% movement speed from 18:00 through 05:59.
+    -- During the daytime, retain the universal Track Pants +1 movement set.
+    if player.MainJob == "NIN" then
+        local env = gData.GetEnvironment()
+        local vanaTime = env and env.Time or nil
+
+        if vanaTime and (vanaTime >= 18.00 or vanaTime < 6.00) then
+            return {
+                Feet = "Ninja Kyahan",
+            }
+        end
+
+        return {
+            Legs = "Track Pants +1",
+        }
     end
 
     if CONFIG.BloodCuissesJobs[player.MainJob]
@@ -2245,10 +2263,14 @@ RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
 -- ============================================================================
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 51
--- NIN51 uses the owned CatsEyeXI Shade foundation while leveling toward 75.
+-- Current job level: 60
+-- NIN60 uses the owned CatsEyeXI Shade foundation while leveling toward 75.
+-- Engaged upgrades now use Royal Guard's Collar, Ninja Chainmail,
+-- Ulthalam's Ring, Royal Army Mantle, and Ninja Hakama.
 -- Idle/Resting use Ryl.Kgt. Belt; Engaged/TP use Swift Belt.
 -- Ryl.Kgt. Belt is also the explicit WS waist choice.
+-- Ninjutsu skill and elemental-damage sets are intentionally minimal until
+-- additional pieces are obtained.
 -- Legs and Feet remain explicit so movement overlays never leave them empty.
 
 local NIN = JOBS.NIN
@@ -2266,9 +2288,17 @@ NIN.Sets.Resting = {
 }
 
 NIN.Sets.Engaged = {
-    Head="Empress Hairpin", Neck="Spike Necklace", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Shade Harness", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Sattva Ring",
-    Back="Frugal Cape", Waist="Swift Belt", Legs="Shade Tights", Feet="Sarutobi Kyahan",
+    Head="Empress Hairpin", Neck="Ryl.Grd. Collar", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Ninja Chainmail", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
+    Back="Ryl. Army Mantle", Waist="Swift Belt", Legs="Ninja Hakama", Feet="Sarutobi Kyahan",
+}
+
+NIN.Sets.NinjutsuSkill = {
+    Head="Ninja Hatsuburi",
+}
+
+NIN.Sets.NinjutsuElemental = {
+    Head="Ninja Hatsuburi", Ear1="Moldavite Earring",
 }
 
 NIN.Sets.WS_Default = {
@@ -6794,6 +6824,20 @@ profile.HandleMidcast = function()
             gFunc.EquipSet(BLU.Sets.Chatoyant)
         end
 
+        EquipHachirinObi(action)
+        return
+    end
+
+    -- NIN main has dedicated ninjutsu sets. Debuff/status ninjutsu
+    -- prioritize Ninjutsu Skill / MAcc; elemental ninjutsu prioritizes
+    -- Magic Attack Bonus over skill / accuracy with the current inventory.
+    if player.MainJob == "NIN" and action.Skill == "Ninjutsu" then
+        local isElemental = action.Name:match("^(Katon|Hyoton|Huton|Doton|Raiton|Suiton):")
+        if isElemental then
+            gFunc.EquipSet(NIN.Sets.NinjutsuElemental)
+        else
+            gFunc.EquipSet(NIN.Sets.NinjutsuSkill)
+        end
         EquipHachirinObi(action)
         return
     end
