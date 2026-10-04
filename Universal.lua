@@ -6351,15 +6351,15 @@ local function PrepareWarpRing()
     warpRingState = "armed"
     warpRingExpireAt = os.time() + 16
 
-    gFunc.Message("[Universal.lua] Warp Ring equipped in Ring2; target selection will appear in about 6 seconds.")
+    gFunc.Message("[Universal.lua] Warp Ring equipped in Ring2; target selection will appear in about 8 seconds.")
 
     -- Ashita task delays are seconds, not frames. This avoids FPS-dependent
     -- behavior when the client is running above the normal frame rate.
-    ashita.tasks.once(6, function()
+    ashita.tasks.once(8, function()
         if warpRingState ~= "armed" then return end
 
         warpRingState = "active"
-        warpRingExpireAt = os.time() + 10
+        warpRingExpireAt = os.time() + 15
         gFunc.Message("[Universal.lua] Warp Ring is ready; press Enter to confirm the selected target.")
         AshitaCore:GetChatManager():QueueCommand(-1, '/item "Warp Ring" <stpc>')
     end)
