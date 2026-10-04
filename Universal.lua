@@ -2277,7 +2277,7 @@ local NIN = JOBS.NIN
 
 NIN.Sets.Idle = {
     Head="Empress Hairpin", Neck="Ryl.Grd. Collar", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Ninja Chainmail", Hands="Ninja Tekko", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
+    Body="Ninja Chainmail", Hands="Ninja Tekko", Ring1="Rajas Ring", Ring2="Sattva Ring",
     Back="Ryl. Army Mantle", Waist="Ryl.Kgt. Belt", Legs="Ninja Hakama", Feet="Bounding Boots",
 }
 
