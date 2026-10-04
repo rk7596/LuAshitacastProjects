@@ -44,10 +44,9 @@ local sets = {}
 local smnStaffMode = "Gridarvor"
 
 -- Universal Warp Ring reservation state. The profile never blocks on /wait.
-local warpRingState = "idle"
-local warpRingReadyAt = 0
+local warpRingState = "idle" -- idle / armed / active
 local warpRingExpireAt = 0
-local warpRingReadyAnnounced = false
+local lastObservedZoneId = nil
 
 -- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN51 + Warp Ring safety + NIN tool reporting + DRK WS integrity repair
 
@@ -6314,9 +6313,7 @@ end
 
 local function ResetWarpRingState()
     warpRingState = "idle"
-    warpRingReadyAt = 0
     warpRingExpireAt = 0
-    warpRingReadyAnnounced = false
 end
 
 local function ReleaseWarpRingReservation(message)
@@ -6330,14 +6327,15 @@ end
 local function UpdateWarpRingState()
     if warpRingState == "idle" then return end
     local now = os.time()
-    if not warpRingReadyAnnounced and now >= warpRingReadyAt then
-        warpRingReadyAnnounced = true
-        gFunc.Message("[Universal.lua] Warp Ring is ready; press Enter to confirm the selected target.")
-    end
-    if now >= warpRingExpireAt then
+    local action = gData.GetAction()
+    local warpActionPending = action
+        and action.ActionType == "Item"
+        and action.Name == "Warp Ring"
+
+    if now >= warpRingExpireAt and not warpActionPending then
         gFunc.Enable("Ring2")
         ResetWarpRingState()
-        gFunc.Message("[Universal.lua] Warp Ring window expired; Ring2 re-enabled.")
+        gFunc.Message("[Universal.lua] Warp Ring reservation expired; Ring2 re-enabled.")
     end
 end
 
@@ -6346,16 +6344,25 @@ local function PrepareWarpRing()
         gFunc.Message("[Universal.lua] Warp Ring is already armed; use CTRL+ALT+SHIFT+W to cancel.")
         return
     end
-    gFunc.Disable("Ring2")
-    gFunc.Equip("Ring2", "Warp Ring")
-    local now = os.time()
-    warpRingState = "armed"
-    warpRingReadyAt = now + 5
-    warpRingExpireAt = now + 10
-    warpRingReadyAnnounced = false
-    gFunc.Message("[Universal.lua] Warp Ring armed in Ring2; confirm the target before the 10-second window expires.")
 
-    AshitaCore:GetChatManager():QueueCommand(-1, '/item "Warp Ring" <stpc>')
+    gFunc.Disable("Ring2")
+    AshitaCore:GetChatManager():QueueCommand(-1, '/equip ring2 "Warp Ring"')
+
+    warpRingState = "armed"
+    warpRingExpireAt = os.time() + 16
+
+    gFunc.Message("[Universal.lua] Warp Ring equipped in Ring2; target selection will appear in about 6 seconds.")
+
+    -- Ashita task delays are seconds, not frames. This avoids FPS-dependent
+    -- behavior when the client is running above the normal frame rate.
+    ashita.tasks.once(6, function()
+        if warpRingState ~= "armed" then return end
+
+        warpRingState = "active"
+        warpRingExpireAt = os.time() + 10
+        gFunc.Message("[Universal.lua] Warp Ring is ready; press Enter to confirm the selected target.")
+        AshitaCore:GetChatManager():QueueCommand(-1, '/item "Warp Ring" <stpc>')
+    end)
 end
 
 local function CancelWarpRing()
@@ -6363,6 +6370,7 @@ local function CancelWarpRing()
         gFunc.Message("[Universal.lua] No pending Warp Ring operation.")
         return
     end
+
     gFunc.Enable("Ring2")
     ResetWarpRingState()
     gFunc.Message("[Universal.lua] Warp Ring cancelled; Ring2 re-enabled.")
@@ -6383,6 +6391,47 @@ local function ShowNINToolCounts(player)
         AshitaCore:GetChatManager():QueueCommand(-1, "/find Shinobi-tabi")
     end
 end
+
+local function GetCurrentZoneId()
+    local party = AshitaCore:GetMemoryManager():GetParty()
+    if not party then return 0 end
+    return party:GetMemberZone(0) or 0
+end
+
+local function HandleZoneTransition(player)
+    local zoneId = GetCurrentZoneId()
+    if zoneId <= 0 then return end
+
+    if lastObservedZoneId == nil then
+        lastObservedZoneId = zoneId
+        return
+    end
+
+    if zoneId == lastObservedZoneId then return end
+    lastObservedZoneId = zoneId
+
+    -- OnZone is not a LuAshitacast profile callback. Defer this one-shot
+    -- snapshot until the new zone has settled and gData.GetPlayer() exists.
+    ashita.tasks.once(1, function(expectedZoneId)
+        if GetCurrentZoneId() ~= expectedZoneId then return end
+        local currentPlayer = gData.GetPlayer()
+        if not currentPlayer then return end
+
+        ShowNINToolCounts(currentPlayer)
+
+        local env = gData.GetEnvironment()
+        if env then
+            AshitaCore:GetChatManager():QueueCommand(
+                1,
+                "/echo [Universal.lua] Weather: "
+                    .. tostring(env.Weather)
+                    .. " | Day: "
+                    .. tostring(env.DayElement)
+            )
+        end
+    end, zoneId)
+end
+
 profile.HandleDefault = function()
     UpdateWarpRingState()
 
@@ -6390,6 +6439,8 @@ profile.HandleDefault = function()
     if not player then
         return
     end
+
+    HandleZoneTransition(player)
 
     -- Keep the direct Ctrl-BACKSLASH Enspell bind synchronized with live
     -- day/weather changes.  The signature check prevents repeated rebinds
@@ -7498,6 +7549,7 @@ profile.OnLoad = function()
 
     local player = gData.GetPlayer()
     lastEngagedState = player and player.Status == "Engaged" or false
+    lastObservedZoneId = GetCurrentZoneId()
     ApplyMacroDeck(player, true)
     UpdateEnspellBind(true)
     AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!W down /lac fwd warpring")
@@ -7524,27 +7576,7 @@ profile.OnUnload = function()
     macroDeck.Alt = {}
     macroDeck.CtrlAlt = {}
     lastEngagedState = nil
-end
-
-profile.OnZone = function()
-    ReleaseWarpRingReservation(nil)
-
-    local player = gData.GetPlayer()
-    lastEngagedState = player and player.Status == "Engaged" or false
-    ApplyMacroDeck(player, true)
-    UpdateEnspellBind(true)
-    ShowNINToolCounts(player)
-
-    local env = gData.GetEnvironment()
-    if env then
-        AshitaCore:GetChatManager():QueueCommand(
-            1,
-            "/echo [Universal.lua] Weather: "
-                .. tostring(env.Weather)
-                .. " | Day: "
-                .. tostring(env.DayElement)
-        )
-    end
+    lastObservedZoneId = nil
 end
 
 -- ============================================================================
