@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.1437
+-- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.1440
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2276,9 +2276,9 @@ RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
 local NIN = JOBS.NIN
 
 NIN.Sets.Idle = {
-    Head="Empress Hairpin", Neck="Wing Pendant", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Shade Harness", Hands="Shade Mittens", Ring1="Rajas Ring", Ring2="Sattva Ring",
-    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Bounding Boots",
+    Head="Empress Hairpin", Neck="Ryl.Grd. Collar", Ear1="Wing Earring", Ear2="Wing Earring",
+    Body="Ninja Chainmail", Hands="Ninja Tekko", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
+    Back="Ryl. Army Mantle", Waist="Ryl.Kgt. Belt", Legs="Ninja Hakama", Feet="Bounding Boots",
 }
 
 NIN.Sets.Resting = {
