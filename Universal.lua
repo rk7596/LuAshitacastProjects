@@ -3447,7 +3447,9 @@ RDM.Sets["WS-Magical-INT-MND"] = {
 RDM.Sets.WS_Default = RDM.Sets["WS-Physical-STR-DEX"]
 
 RDM.Weapons = {
-    Main   = "Octave Club",
+    -- Default single-wield: Joyeuse + Genbu's Shield.
+    -- Alt-F12 can disable automatic weapon selection for manual alternatives.
+    Main   = "Joyeuse",
     Sub    = "Genbu's Shield",
     DWMain = "Egeking",
     DWSub  = "Octave Club",
