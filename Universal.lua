@@ -1172,7 +1172,10 @@ WAR.Sets.WS_STR = {
 WAR.Sets.WS_STR_ByLevel = {
     [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
     [58] = { Legs = "Fighter's Cuisses" },
-    [60] = { Head = "Patroclus's Helm" },
+    [60] = {
+        Head = "Patroclus's Helm",
+        Body = "Fighter's Lorica",
+    },
     [65] = { Neck = "Chivalrous Chain" },
     [72] = {
         Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
@@ -1192,7 +1195,7 @@ WAR.Sets.WS_STR_VIT = {
     Neck  = "Spike Necklace",
     Ear1  = "Drone Earring",
     Ear2  = "Drone Earring",
-    Body  = "Fighter's Lorica",
+    Body  = "Eisenbrust",
     Hands = "Eisenhentzes",
     Ring1 = "Rajas Ring",
     Ring2 = "Bastokan Ring",
@@ -1213,7 +1216,9 @@ WAR.Sets.WS_STR_VIT_ByLevel = {
     [74] = { Neck = "Ancient Torque" },
     [75] = {
         Head = "Walahra Turban", Ring2 = "Mars's Ring",
-        Body = "Warrior's Lorica", Hands = "Warrior's Mufflers",
+        Hands = "Warrior's Mufflers",
+        -- Keep Fighter's Lorica here: VIT/HP remain relevant to STR/VIT WS,
+        -- whereas Warrior's Lorica is better reserved for Aggressor/Attack use.
     },
 }
 
@@ -8107,6 +8112,7 @@ ApplyMacroDeck = function(player, force)
     macroDeck.CtrlAlt = {}
 
     ClearOwnedMacroBinds()
+    ApplyWARMacros(player)
     ApplyWHMMacros(player)
     ApplyTHFMacros(player)
     ApplyRDMMacros(player)
