@@ -1116,10 +1116,12 @@ WHM.Sets.Cure = {
 WHM.Sets.Curaga = WHM.Sets.Cure
 WHM.Sets.Cura = WHM.Sets.Cure
 
-WHM.Sets.FastCast = {
-}
+WHM.Sets.FastCast = WHM.Sets.FastCastHaste
+
+WHM.Sets.EnhancingMagicDuration = WHM.Sets.FastCastHaste
 
 WHM.Sets.HealingSkill = {
+    Hands = "Healer's Mitts",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1135,6 +1137,7 @@ WHM.Sets.EnfeeblingSkill = {
 }
 
 WHM.Sets.DivineSkill = {
+    Legs = "Healer's Pantaln.",
 }
 
 WHM.Sets.DivineDamage = {
@@ -1204,6 +1207,42 @@ WHM.Sets.WS_Club_Magical_STR_MND = {
 }
 
 -- ----------------------------------------------------------------------------
+-- WHM: WEAPON SKILLS
+-- ----------------------------------------------------------------------------
+-- Existing WHM WS sets are retained; this map connects them to the shared
+-- HandleWeaponskill() engine without creating redundant gear sets.
+WHM.Sets.WS_STR = WHM.Sets.WS_Club_Physical
+WHM.Sets.WS_MND = WHM.Sets.WS_Club_MND
+WHM.Sets.WS_STRMND = WHM.Sets.WS_Club_Physical
+WHM.Sets.WS_MNDSTR = WHM.Sets.WS_BlackHalo
+WHM.Sets.WS_INTMND = WHM.Sets.WS_Club_Magical_STR_MND
+WHM.Sets.WS_MAGIC_MND = WHM.Sets.WS_Club_Magical_STR_MND
+WHM.Sets.WS_MAGIC_INT = WHM.Sets.WS_Club_Magical_STR_MND
+WHM.Sets.WS_Default = WHM.Sets.WS_STRMND
+
+WHM.WS = {
+    ["Shining Strike"] = "WS_MAGIC_MND",
+    ["Heavy Swing"] = "WS_STR",
+    ["Seraph Strike"] = "WS_MAGIC_MND",
+    ["Rock Crusher"] = "WS_MAGIC_INT",
+    ["Brainshaker"] = "WS_MND",
+    ["Earth Crusher"] = "WS_MAGIC_INT",
+    ["Starlight"] = "WS_MAGIC_MND",
+    ["Starburst"] = "WS_MAGIC_INT",
+    ["Moonlight"] = "WS_MAGIC_MND",
+    ["Skullbreaker"] = "WS_STR",
+    ["Sunburst"] = "WS_MAGIC_INT",
+    ["True Strike"] = "WS_STR",
+    ["Shell Crusher"] = "WS_STR",
+    ["Judgment"] = "WS_STRMND",
+    ["Full Swing"] = "WS_STR",
+    ["Hexa Strike"] = "WS_STRMND",
+    ["Black Halo"] = "WS_MNDSTR",
+    ["Spirit Taker"] = "WS_INTMND",
+    ["Retribution"] = "WS_MNDSTR",
+}
+
+-- ----------------------------------------------------------------------------
 -- WHM: MAGIC ACTION MAP
 -- ----------------------------------------------------------------------------
 -- Current runtime mappings cover the WHM75 spell set.
@@ -1228,6 +1267,7 @@ WHM.MA = {
     ["Raise II"] = "Precast",
     ["Raise III"] = "Precast",
     ["Reraise"] = "Precast",
+    ["Arise"] = "Precast",
     ["Reraise II"] = "Precast",
     ["Erase"] = "Precast",
     ["Sacrifice"] = "Precast",
@@ -1279,6 +1319,7 @@ WHM.MA = {
     ["Barparalyzera"] = "EnhancingSkill",
     ["Barsilencera"] = "EnhancingSkill",
     ["Barsleepra"] = "EnhancingSkill",
+    ["Baramnesra"] = "EnhancingSkill",
 
     -- Enfeebling Magic.
     ["Dia"] = "Precast",
@@ -1300,6 +1341,7 @@ WHM.MA = {
     ["Banishga III"] = "DivineDamage",
     ["Holy"] = "DivineDamage",
     ["Flash"] = "DivineSkill",
+    ["Enlight"] = "DivineSkill",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1308,12 +1350,12 @@ WHM.MA = {
 -- Current WHM75 weapon.  Future weapon milestones are selected by the shared
 -- WeaponsByLevel resolver, not by polluting the current runtime weapon line.
 
-WHM.Weapons = { Main = "Arcana Breaker", Sub = "Hoplon" }
-WHM.WeaponsByLevel = {
-    [55] = { Main="Arcana Breaker", Sub="Hoplon" },
-    [63] = { Main="Octave Club", Sub="Hoplon" },
-    [71] = { Main="Brass Jadagna", Sub="Hoplon", DWMain="Brass Jadagna", DWSub="Octave Club" },
-    [74] = { Main="Brass Jadagna", Shield="Genbu's Shield", DWMain="Brass Jadagna", DWSub="Octave Club" },
+WHM.Weapons = {
+    Main   = "Kraken Club",
+    Sub    = "Genbu's Shield",
+    Shield = "Genbu's Shield",
+    DWMain = "Brass Jadagna",
+    DWSub  = "Kraken Club",
 }
 
 -- Cure/Curaga/Cura weapon specialization: Asklepios becomes available at 62 and
@@ -1326,8 +1368,12 @@ local WHMCureSpells = {
     ["Cure II"] = true,
     ["Cure III"] = true,
     ["Cure IV"] = true,
+    ["Cure V"] = true,
     ["Curaga"] = true,
     ["Curaga II"] = true,
+    ["Curaga III"] = true,
+    ["Cura"] = true,
+    ["Cura II"] = true,
 }
 
 -- ----------------------------------------------------------------------------
@@ -6826,7 +6872,7 @@ local function EquipWHMSpellWeapons(player, action)
     end
 
     if WHMCureSpells[action.Name] then
-        gFunc.Equip("Main", "Chatoyant Staff")
+        gFunc.Equip("Main", "Asklepios")
         gFunc.Equip("Sub", "Wizzan Grip")
         return
     end
@@ -7608,7 +7654,7 @@ local function ApplyWHMMacros(player)
     BindSpell('^7', 'Blink', '<stpc>')
     BindSpell('^8', 'Stoneskin', '<stpc>')
     BindSpell('^9', 'Aquaveil', '<stpc>')
-    BindSpell('^0', 'Raise III', '<stpc>')
+    BindSpell('^0', 'Arise', '<stpc>')
     BindSpell('^-', 'Sacrifice', '<stpc>')
     BindSpell('^=', 'Esuna', '<stpc>')
     BindSpell('^Backspace', 'Auspice', '<me>')
@@ -7628,7 +7674,9 @@ local function ApplyWHMMacros(player)
     end
 
     BindSpell('!1', 'Silence', '<stnpc>')
-    BindSpell('!2', 'Blind', '<stnpc>')
+    if player.SubJob ~= 'RDM' and player.SubJob ~= 'BLM' then
+        BindSpell('!2', 'Blind', '<stnpc>')
+    end
     BindSpell('!3', 'Paralyze', '<stnpc>')
     BindSpell('!4', 'Slow', '<stnpc>')
     BindSpell('!5', 'Flash', '<stnpc>')
@@ -7653,8 +7701,8 @@ local function ApplyWHMMacros(player)
     BindWS('^!8', 'Brainshaker')
     BindWS('^!9', 'Judgment')
     BindWS('^!0', 'True Strike')
-    BindWS('^!-', 'Randgrith')
-    BindWS('^!=', 'Mystic Boon')
+    BindWS('^!-', 'Retribution')
+    BindWS('^!=', 'Earth Crusher')
 end
 
 local function ApplyTHFMacros(player)
