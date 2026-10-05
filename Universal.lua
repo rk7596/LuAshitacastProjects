@@ -5517,16 +5517,10 @@ local BLU_RangedPhysical = ranged_blue_magic
 -- invent equipment for jobs that have not yet gone through the inventory +
 -- modifier research process.
 
--- Examples of action mappings that are safe to keep because the target sets
--- are empty until researched:
-JOBS.WAR.JA = {
-    ["Berserk"] = "JA_Offensive",
-    ["Aggressor"] = "JA_Offensive",
-    ["Warcry"] = "JA_Offensive",
-    ["Mighty Strikes"] = "JA_Offensive",
-    ["Provoke"] = "JA_Enmity",
-    ["Defender"] = "JA_Defensive",
-}
+-- Warrior's dedicated JA map lives in the WAR section above.  Keep the
+-- shared scaffold pointing at that map rather than replacing its specialized
+-- activation sets with generic empty buckets.
+JOBS.WAR.JA = WAR.JA
 
 -- DRK.JA is fully defined in the dedicated DRK section above.
 
