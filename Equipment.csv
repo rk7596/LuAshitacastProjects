@@ -15,7 +15,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 13,Argute Loafers,True,,,,,present in Universal.lua; metadata pending
 14,Argute M.board,True,,,,,present in Universal.lua; metadata pending
 15,Argute Pants,True,,,,,present in Universal.lua; metadata pending
-16,Asklepios,True,Main,75.0,WHM,,inventory-confirmed; metadata pending
+16,Asklepios,True,Main,62.0,WHM,DMG 21 Delay 288 Cure potency +5%; Converts 30 HP to MP,verified
 17,Assassin's Armlets,True,Hands,73.0,THF,,inventory-confirmed; metadata pending
 18,Assassin's Cape,True,,,,,present in Universal.lua; metadata pending
 19,Augment. Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
@@ -272,3 +272,12 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 269,Shade Leggings,True,Feet,25.0,WAR MNK RDM THF PLD DRK BST BRD SAM NIN DRG BLU COR DNC RUN,DEX+2 MND+2; CatsEyeXI quest reward from Empty Handed,verified
 270,Windurstian Ring,True,Ring,1.0,ALL,MP+3 AGI+1 INT+1,verified
 271,Wing Pendant,True,Neck,7.0,ALL,AGI+1,verified
+
+272,Kraken Club,True,Main,63.0,WAR MNK WHM BLM RDM THF PLD DRK BST BRD RNG SAM NIN DRG SMN,DMG 11 Delay 264 Occasionally attacks 2 to 8 times,verified
+273,Brass Jadagna,True,Main,71.0,WAR WHM PLD GEO,DMG 45 Delay 340 HP+29 MP-29 VIT+5,verified
+274,Healer's Cap,True,Head,54.0,WHM,MP+13 MND+4 Enmity-1 Element: Dark+15,verified
+275,Healer's Mitts,True,Hands,60.0,WHM,Healing Magic skill +15,verified
+276,Healer's Pantaln.,True,Legs,56.0,WHM,Divine Magic skill +15,verified
+277,Healer's Duckbills,True,Feet,52.0,WHM,MP+10 AGI+3 Spell interruption rate down 20%,verified
+278,Cleric's Bliaut,True,Body,74.0,WHM,MP+24 Enmity-2 Refresh+1 Enhances Regen potency,verified
+279,Noble's Tunic,True,Body,68.0,WHM,MP+17 Refresh+1 Cure potency +10%,verified
