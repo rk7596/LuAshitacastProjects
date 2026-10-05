@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal LuAshitacast Profile - Version: 2026-10-04.1440
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-05.0209
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -48,7 +48,7 @@ local warpRingState = "idle" -- idle / armed / active
 local warpRingExpireAt = 0
 local lastObservedZoneId = nil
 
--- Finley character-specific build: 2026-10-03 / WHM75 + DRK75 + NIN51 + Warp Ring safety + NIN tool reporting + DRK WS integrity repair
+-- Finley character-specific build: 2026-10-05 / WHM75 + DRK75 + NIN75 + Warp Ring safety + NIN tool reporting + DRK WS integrity repair
 
 -- ============================================================================
 -- GENERAL CONFIGURATION
@@ -143,7 +143,7 @@ local CONFIG = {
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
     WAR = 40, WHM = 75, RDM = 75, PLD = 75, BST = 42, RNG = 43,
-    NIN = 60, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
+    NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
@@ -2263,48 +2263,286 @@ RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
 -- ============================================================================
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 60
--- NIN60 uses the owned CatsEyeXI Shade foundation while leveling toward 75.
--- Engaged upgrades now use Royal Guard's Collar, Ninja Chainmail,
--- Ulthalam's Ring, Royal Army Mantle, and Ninja Hakama.
--- Idle/Resting use Ryl.Kgt. Belt; Engaged/TP use Swift Belt.
--- Ryl.Kgt. Belt is also the explicit WS waist choice.
--- Ninjutsu skill and elemental-damage sets are intentionally minimal until
--- additional pieces are obtained.
--- Legs and Feet remain explicit so movement overlays never leave them empty.
+-- Current job level: 75
+-- NIN75 is now graduated to the level-75 equipment set. Idle/Resting and
+-- Engaged remain deliberately separate optimization problems.
+--
+-- Inventory audit:
+--   * Koga Hatsuburi / Chainmail / Tekko / Hakama / Kyahan are owned base AF.
+--   * Shura Togi is owned with Haste +2%, Critical Hit Rate +2%, and
+--     Ninja Tool Expertise +3.
+--   * Walahra Turban, Brutal Earring, Suppanomimi, Mars's Ring,
+--     Cerberus Mantle, Ninurta's Sash, and Dusk Ledelsens +1 are owned.
+--   * Grand T.K. Collar is NOT present in Equipment.csv, so it is intentionally
+--     not equipped until ownership and authoritative CatsEyeXI data are
+--     represented in the project inventory source.
+--
+-- Weapon audit:
+--   Equipment.csv currently contains no owned NIN Main/Sub weapons, and this
+--   section therefore does not invent a weapon pair. The shared weapon manager
+--   remains unchanged; NIN automatic weapon selection is effectively inert
+--   until authoritative owned NIN weapons are recorded.
+--
+-- WS architecture:
+--   WS_STRDEX is the common physical STR/DEX baseline used by Blade: Jin,
+--   Blade: Ten, and the other STR/DEX physical WS. Blade: Ku receives a
+--   separate accuracy-focused variant because its accuracy varies with TP.
+--   Magical/hybrid WS are grouped by their actual primary WSC combination.
+-- ============================================================================
 
 local NIN = JOBS.NIN
 
 NIN.Sets.Idle = {
-    Head="Empress Hairpin", Neck="Ryl.Grd. Collar", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Ninja Chainmail", Hands="Ninja Tekko", Ring1="Rajas Ring", Ring2="Sattva Ring",
-    Back="Ryl. Army Mantle", Waist="Ryl.Kgt. Belt", Legs="Ninja Hakama", Feet="Bounding Boots",
+    Head  = "Empress Hairpin",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Koga Chainmail",
+    Hands = "Koga Tekko",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Koga Hakama",
+    Feet  = "Koga Kyahan",
 }
 
 NIN.Sets.Resting = {
-    Head="Empress Hairpin", Neck="Wing Pendant", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Shade Harness", Hands="Shade Mittens", Ring1="Rajas Ring", Ring2="Sattva Ring",
-    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Bounding Boots",
+    -- No dedicated NIN Refresh/Resting gear is currently represented in
+    -- Equipment.csv, so Resting intentionally follows the defensive Idle
+    -- profile instead of pretending offensive TP gear is resting gear.
+    Head  = "Empress Hairpin",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Koga Chainmail",
+    Hands = "Koga Tekko",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Koga Hakama",
+    Feet  = "Koga Kyahan",
 }
 
 NIN.Sets.Engaged = {
-    Head="Empress Hairpin", Neck="Ryl.Grd. Collar", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Ninja Chainmail", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-    Back="Ryl. Army Mantle", Waist="Swift Belt", Legs="Ninja Hakama", Feet="Sarutobi Kyahan",
+    Head  = "Walahra Turban",
+    Neck  = "Spike Necklace",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Suppanomimi",
+    Body  = "Shura Togi",
+    Hands = "Koga Tekko",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Koga Hakama",
+    Feet  = "Dusk Ledelsens +1",
 }
 
 NIN.Sets.NinjutsuSkill = {
-    Head="Ninja Hatsuburi",
+    Head  = "Koga Hatsuburi",
+    Feet  = "Koga Kyahan",
 }
 
 NIN.Sets.NinjutsuElemental = {
-    Head="Ninja Hatsuburi", Ear1="Moldavite Earring",
+    Head  = "Koga Hatsuburi",
+    Ear1  = "Moldavite Earring",
+    Feet  = "Koga Kyahan",
 }
 
-NIN.Sets.WS_Default = {
-    Head="Empress Hairpin", Neck="Spike Necklace", Ear1="Wing Earring", Ear2="Wing Earring",
-    Body="Shade Harness", Hands="Ochimusha Kote", Ring1="Rajas Ring", Ring2="Sattva Ring",
-    Back="Frugal Cape", Waist="Ryl.Kgt. Belt", Legs="Shade Tights", Feet="Sarutobi Kyahan",
+-- ---------------------------------------------------------------------------
+-- NIN: WEAPONSKILL SETS
+-- ---------------------------------------------------------------------------
+-- Jin and Ten both use the STR/DEX physical baseline. Jin's owned Shura Togi
+-- adds Critical Hit Rate +2%, while Ten benefits from its Attack +20 on a
+-- high-fTP one-hit WS.
+--
+-- Ku is deliberately separated because its accuracy varies with TP and it is
+-- a five-hit WS. Koga Chainmail's Accuracy +12 is therefore more useful here
+-- than the generic Shura body.
+NIN.Sets.WS_STRDEX = {
+    Head  = "Empress Hairpin",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Hollow Earring",
+    Ear2  = "Brutal Earring",
+    Body  = "Shura Togi",
+    Hands = "Ochimusha Kote",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_STRDEX_Accuracy = {
+    Head  = "Empress Hairpin",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Hollow Earring",
+    Ear2  = "Brutal Earring",
+    Body  = "Koga Chainmail",
+    Hands = "Ochimusha Kote",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_STR = {
+    Head  = "Shade Tiara",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Hollow Earring",
+    Ear2  = "Brutal Earring",
+    Body  = "Shura Togi",
+    Hands = "Ochimusha Kote",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_DEX = {
+    Head  = "Empress Hairpin",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Hollow Earring",
+    Ear2  = "Brutal Earring",
+    Body  = "Shura Togi",
+    Hands = "Ochimusha Kote",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_STRINT = {
+    Head  = "Shade Tiara",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shura Togi",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_DEXINT = {
+    Head  = "Empress Hairpin",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shura Togi",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_STRMND = {
+    Head  = "Shade Tiara",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_MND = {
+    Head  = "Shade Tiara",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_CHR = {
+    Head  = "Shade Tiara",
+    Neck  = "Fotia Gorget",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Brutal Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Balrahn's Ring",
+    Back  = "Cerberus Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Bounding Boots",
+}
+
+NIN.Sets.WS_HP = {
+    Head  = "Koga Hatsuburi",
+    Neck  = "Spike Necklace",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Koga Chainmail",
+    Hands = "Koga Tekko",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Koga Hakama",
+    Feet  = "Koga Kyahan",
+}
+
+NIN.Sets.WS_Default = NIN.Sets.WS_STRDEX
+
+NIN.WS = {
+    -- Katana WS available through Blade: Ku at NIN75.
+    ["Blade: Rin"] = "WS_STRDEX",
+    ["Blade: Retsu"] = "WS_STRDEX",
+    ["Blade: Teki"] = "WS_STRINT",
+    ["Blade: To"] = "WS_STRINT",
+    ["Blade: Chi"] = "WS_STRINT",
+    ["Blade: Ei"] = "WS_STRINT",
+    ["Blade: Jin"] = "WS_STRDEX",
+    ["Blade: Ten"] = "WS_STRDEX",
+    ["Blade: Ku"] = "WS_STRDEX_Accuracy",
+    -- Dagger WS. Evisceration is the NIN level-75 skill-cap endpoint.
+    ["Wasp Sting"] = "WS_DEX",
+    ["Gust Slash"] = "WS_DEXINT",
+    ["Shadowstitch"] = "WS_CHR",
+    ["Viper Bite"] = "WS_DEX",
+    ["Cyclone"] = "WS_DEXINT",
+    ["Energy Steal"] = "WS_MND",
+    ["Energy Drain"] = "WS_MND",
+    ["Evisceration"] = "WS_DEX",
+    -- Sword WS available to NIN with the appropriate skill/subjob.
+    ["Fast Blade"] = "WS_STRDEX",
+    ["Burning Blade"] = "WS_STRINT",
+    ["Red Lotus Blade"] = "WS_STRINT",
+    ["Flat Blade"] = "WS_STR",
+    ["Shining Blade"] = "WS_STRMND",
+    ["Seraph Blade"] = "WS_STRMND",
+    ["Circle Blade"] = "WS_STR",
+    ["Spirits Within"] = "WS_HP",
+    ["Vorpal Blade"] = "WS_STR",
 }
 
 NIN.Macro = {
@@ -2319,6 +2557,8 @@ NIN.Macro = {
         ['^4']='Berserk', ['^5']='Sange', ['^6']='Mijin Gakure',
     },
 }
+
+-- END NIN
 
 -- END NIN
 
@@ -5100,6 +5340,17 @@ local SkillchainWeaponskills = {
     ["Shark Bite"] = true,
     ["Evisceration"] = true,
     ["Mandalic Stab"] = true,
+
+    -- Ninja katana WS with skillchain properties.
+    ["Blade: Rin"] = true,
+    ["Blade: Retsu"] = true,
+    ["Blade: Teki"] = true,
+    ["Blade: To"] = true,
+    ["Blade: Chi"] = true,
+    ["Blade: Ei"] = true,
+    ["Blade: Jin"] = true,
+    ["Blade: Ten"] = true,
+    ["Blade: Ku"] = true,
 
     -- Samurai Great Katana WS with skillchain properties.  These are listed
     -- explicitly because HandleWeaponskill uses this table to apply Fotia
