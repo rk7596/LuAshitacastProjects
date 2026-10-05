@@ -7707,6 +7707,19 @@ local function ApplyRDMMacros(player)
     for key, ws in pairs(RDMMacroWS) do BindWS(key, ws) end
 end
 
+local function ApplyWARMacros(player)
+    if not player or player.MainJob ~= 'WAR' then return end
+
+    for key, ja in pairs(WAR.Macro.Alt or {}) do
+        local target = (ja == 'Provoke' or ja == 'Tomahawk') and '<stnpc>' or '<me>'
+        BindJA(key, ja, target)
+    end
+
+    for key, ws in pairs(WAR.Macro.WS or {}) do
+        BindWS(key, ws)
+    end
+end
+
 local function ApplyNINDNCMacros(player)
     if not player then return end
     local mainIsNIN = player.MainJob == 'NIN'
