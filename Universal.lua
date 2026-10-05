@@ -973,48 +973,314 @@ end
 -- WAR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 40
--- This section is the authoritative home for WAR-specific configuration.
--- Runtime equipment/action mappings must respect the current job level.
--- Future level-75 macro preparation may be documented here without becoming
--- executable runtime gear.
+--
+-- User-authorized future ownership:
+--   All base Warrior Artifact and Relic armor pieces are expected to be
+--   obtained by Lv75.  They may therefore appear in level-gated progression
+--   sets and job-ability activation sets below even before they enter the
+--   physical inventory.
+--
+-- CatsEyeXI Warrior changes:
+--   Shield Mastery is acquired at Lv40 and Blood Rage at Lv75.  Otherwise,
+--   standard Warrior ability / weaponskill behavior is used unless a
+--   CatsEyeXI-specific override is explicitly documented elsewhere.
+--
+-- Engaged priority:
+--   Haste > Double/Triple Attack > Accuracy > Attack > Store TP > DEX > STR
+--   > Critical Hit Rate > Critical Hit Damage.
+--
+-- Important distinction:
+--   AF/Relic pieces are NOT forced into TP merely because they are job gear.
+--   They are inserted where their actual modifier helps the state being built.
+-- ============================================================================
 
 local WAR = JOBS.WAR
 
 -- ----------------------------------------------------------------------------
 -- WAR: IDLE / RESTING / ENGAGED
 -- ----------------------------------------------------------------------------
-
+-- Lv40 starting package supplied by the user.  The CEXI Eisen augment rewards
+-- make these unusually useful leveling pieces for accuracy before later gear.
 WAR.Sets.Idle = {
-        Head="Warrior's Mask", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Static Earring",
-        Body="Warrior's Lorica", Hands="Eisenhentzes", Ring1="Rajas Ring", Ring2="Sattva Ring",
-        Back="Ryl. Army Mantle", Waist="Swift Belt", Legs="Eisendiechlings", Feet="Warrior's Calligae",
-    }
+    Head  = "Precision Bandana",
+    Neck  = "Spike Necklace",
+    Ear1  = "Drone Earring",
+    Ear2  = "Drone Earring",
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Bastokan Ring",
+    Back  = "High Brth. Mantle",
+    Legs  = "Eisendiechlings",
+    Feet  = "Bounding Boots",
+}
 
-WAR.Sets.Resting = {
-        Head="Warrior's Mask", Neck="Fortitude Torque", Body="Warrior's Lorica", Hands="Eisenhentzes",
-        Ring1="Rajas Ring", Ring2="Sattva Ring", Legs="Eisendiechlings", Feet="Warrior's Calligae",
-    }
+WAR.Sets.Resting = WAR.Sets.Idle
 
 WAR.Sets.Engaged = {
-        Head="Walahra Turban", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Static Earring",
-        Body="Warrior's Lorica", Hands="Eisenhentzes", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="Ryl. Army Mantle", Waist="Swift Belt", Legs="Eisendiechlings", Feet="Warrior's Calligae",
-    }
+    Head  = "Precision Bandana",
+    Neck  = "Spike Necklace",
+    Ear1  = "Drone Earring",
+    Ear2  = "Drone Earring",
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Bastokan Ring",
+    Back  = "High Brth. Mantle",
+    Legs  = "Eisendiechlings",
+    Feet  = "Bounding Boots",
+}
+
+-- Level-gated upgrades are cumulative overlays.
+WAR.Sets.EngagedByLevel = {
+    [50] = {
+        Ring2 = "Ulthalam's Ring",
+        Waist = "Swift Belt",
+    },
+    [52] = {
+        Feet = "Fighter's Calligae",
+    },
+    [58] = {
+        Legs = "Fighter's Cuisses",
+    },
+    [60] = {
+        Head = "Patroclus's Helm",
+    },
+    [65] = {
+        Neck = "Chivalrous Chain",
+    },
+    [72] = {
+        Ear1  = "Ethereal Earring",
+        Ear2  = "Hollow Earring",
+        Body  = "Amir Korazin",
+        Hands = "Amir Kolluks",
+        Legs  = "Amir Dirs",
+        Feet  = "Amir Boots",
+    },
+    [73] = {
+        Back = "Stormlord Shawl",
+    },
+    [74] = {
+        Neck = "Ancient Torque",
+    },
+    [75] = {
+        Head  = "Walahra Turban",
+        Ring2 = "Mars's Ring",
+    },
+}
+
+-- Idle follows the same acquisition ladder for now; this keeps the leveling
+-- profile consistent without inventing a separate, unresearched idle package.
+WAR.Sets.IdleByLevel = WAR.Sets.EngagedByLevel
 
 -- ----------------------------------------------------------------------------
--- WAR: WEAPONS
+-- WAR: DEFENSIVE MODES
 -- ----------------------------------------------------------------------------
+WAR.Sets.PDT = {
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Legs  = "Eisendiechlings",
+}
 
-WAR.Weapons = { Main="Sturdy Axe" }
+WAR.Sets.MDT = {
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Legs  = "Eisendiechlings",
+}
 
 -- ----------------------------------------------------------------------------
--- WAR: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
+-- WAR: JOB-ABILITY SETS
 -- ----------------------------------------------------------------------------
--- Dedicated mechanics and ownership audit remains to be completed here.
--- Keep all WAR-specific additions inside this section.
+-- Base Relic armor supplies the relevant activation pieces:
+--   Warrior's Mask     -> enhances Warcry
+--   Warrior's Lorica   -> enhances Aggressor
+--   Warrior's Calligae -> enhances Berserk
+WAR.Sets.JA_Berserk = {}
+WAR.Sets.JA_BerserkByLevel = {
+    [71] = { Feet = "Warrior's Calligae" },
+}
 
+WAR.Sets.JA_Warcry = {}
+WAR.Sets.JA_WarcryByLevel = {
+    [73] = { Head = "Warrior's Mask" },
+}
 
--- ============================================================================
+WAR.Sets.JA_Aggressor = {}
+WAR.Sets.JA_AggressorByLevel = {
+    [75] = { Body = "Warrior's Lorica" },
+}
+
+WAR.Sets.JA_Defender = {
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Legs  = "Eisendiechlings",
+}
+WAR.Sets.JA_DefenderByLevel = {
+    [52] = { Feet = "Fighter's Calligae" },
+    [54] = { Hands = "Fighter's Mufflers" },
+    [58] = { Legs = "Fighter's Cuisses" },
+    [60] = { Body = "Fighter's Lorica" },
+}
+
+WAR.Sets.JA_Provoke = {
+    Ring1 = "Sattva Ring",
+}
+
+-- No base Relic-specific modifier exists for the remaining Lv75 Warrior JAs
+-- (the later +2/Reforged upgrades are outside this project's level-75 era),
+-- so use the offensive state rather than pretending the later effect exists.
+WAR.Sets.JA_Offensive = WAR.Sets.Engaged
+WAR.Sets.JA_MightyStrikes = WAR.Sets.Engaged
+WAR.Sets.JA_Retaliation = WAR.Sets.Engaged
+WAR.Sets.JA_Restraint = WAR.Sets.Engaged
+WAR.Sets.JA_BloodRage = WAR.Sets.Engaged
+WAR.Sets.JA_WarriorsCharge = WAR.Sets.Engaged
+WAR.Sets.JA_Tomahawk = WAR.Sets.Engaged
+
+WAR.JA = {
+    ["Berserk"]        = "JA_Berserk",
+    ["Defender"]       = "JA_Defender",
+    ["Warcry"]         = "JA_Warcry",
+    ["Aggressor"]      = "JA_Aggressor",
+    ["Provoke"]        = "JA_Provoke",
+    ["Mighty Strikes"] = "JA_MightyStrikes",
+    ["Retaliation"]    = "JA_Retaliation",
+    ["Restraint"]      = "JA_Restraint",
+    ["Blood Rage"]     = "JA_BloodRage",
+    ["Warrior's Charge"] = "JA_WarriorsCharge",
+    ["Tomahawk"]       = "JA_Tomahawk",
+}
+
+-- ----------------------------------------------------------------------------
+-- WAR: WEAPON SKILLS
+-- ----------------------------------------------------------------------------
+-- Current Lv40 territory includes Raging Axe, Smash Axe, and Iron Tempest.
+-- Higher-skill WS are kept in the map for the leveling path through Lv75.
+WAR.Sets.WS_STR = {
+    Head  = "Precision Bandana",
+    Neck  = "Spike Necklace",
+    Ear1  = "Drone Earring",
+    Ear2  = "Drone Earring",
+    Body  = "Eisenbrust",
+    Hands = "Eisenhentzes",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Bastokan Ring",
+    Back  = "High Brth. Mantle",
+    Legs  = "Eisendiechlings",
+    Feet  = "Bounding Boots",
+}
+WAR.Sets.WS_STR_ByLevel = {
+    [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
+    [58] = { Legs = "Fighter's Cuisses" },
+    [60] = { Head = "Patroclus's Helm" },
+    [65] = { Neck = "Chivalrous Chain" },
+    [72] = {
+        Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
+        Body = "Amir Korazin", Hands = "Amir Kolluks",
+        Legs = "Amir Dirs", Feet = "Amir Boots",
+    },
+    [73] = { Back = "Stormlord Shawl" },
+    [74] = { Neck = "Ancient Torque" },
+    [75] = {
+        Head = "Walahra Turban", Ring2 = "Mars's Ring",
+        Hands = "Warrior's Mufflers", Body = "Warrior's Lorica",
+    },
+}
+
+WAR.Sets.WS_STR_VIT = {
+    Head  = "Precision Bandana",
+    Neck  = "Spike Necklace",
+    Ear1  = "Drone Earring",
+    Ear2  = "Drone Earring",
+    Body  = "Fighter's Lorica",
+    Hands = "Eisenhentzes",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Bastokan Ring",
+    Back  = "High Brth. Mantle",
+    Legs  = "Eisendiechlings",
+    Feet  = "Bounding Boots",
+}
+WAR.Sets.WS_STR_VIT_ByLevel = {
+    [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
+    [58] = { Legs = "Fighter's Cuisses" },
+    [60] = { Head = "Patroclus's Helm" },
+    [65] = { Neck = "Chivalrous Chain" },
+    [72] = {
+        Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
+        Hands = "Amir Kolluks", Legs = "Amir Dirs", Feet = "Amir Boots",
+    },
+    [73] = { Back = "Stormlord Shawl" },
+    [74] = { Neck = "Ancient Torque" },
+    [75] = {
+        Head = "Walahra Turban", Ring2 = "Mars's Ring",
+        Body = "Warrior's Lorica", Hands = "Warrior's Mufflers",
+    },
+}
+
+WAR.Sets.WS_STR_DEX = WAR.Sets.WS_STR
+WAR.Sets.WS_STR_DEX_ByLevel = WAR.Sets.WS_STR_ByLevel
+WAR.Sets.WS_Default = WAR.Sets.WS_STR
+
+WAR.WS = {
+    ["Raging Axe"]     = "WS_STR",
+    ["Smash Axe"]      = "WS_STR",
+    ["Spinning Axe"]   = "WS_STR",
+    ["Rampage"]        = "WS_STR",
+    ["Calamity"]       = "WS_STR_VIT",
+    ["Mistral Axe"]    = "WS_STR",
+    ["Decimation"]     = "WS_STR",
+    ["Shield Break"]   = "WS_STR_VIT",
+    ["Iron Tempest"]   = "WS_STR",
+    ["Sturmwind"]      = "WS_STR",
+    ["Armor Break"]    = "WS_STR_VIT",
+    ["Weapon Break"]   = "WS_STR_VIT",
+    ["Raging Rush"]    = "WS_STR",
+    ["Full Break"]     = "WS_STR_VIT",
+    ["Steel Cyclone"]  = "WS_STR_VIT",
+    ["Fell Cleave"]    = "WS_STR",
+    ["Fast Blade"]     = "WS_STR",
+    ["Burning Blade"]  = "WS_STR",
+    ["Red Lotus Blade"] = "WS_STR",
+    ["Flat Blade"]     = "WS_STR",
+    ["Vorpal Blade"]   = "WS_STR",
+    ["Savage Blade"]   = "WS_STR_VIT",
+}
+
+-- ----------------------------------------------------------------------------
+-- WAR: MACRO DECK
+-- ----------------------------------------------------------------------------
+WAR.Macro = {
+    Alt = {
+        ["!`"] = "Provoke",
+        ["!1"] = "Berserk",
+        ["!2"] = "Defender",
+        ["!3"] = "Warcry",
+        ["!4"] = "Aggressor",
+        ["!5"] = "Restraint",
+        ["!6"] = "Retaliation",
+        ["!7"] = "Mighty Strikes",
+        ["!8"] = "Blood Rage",
+        ["!9"] = "Warrior's Charge",
+        ["!0"] = "Tomahawk",
+    },
+    WS = {
+        ["^!`"] = "Raging Axe",
+        ["^!1"] = "Smash Axe",
+        ["^!2"] = "Iron Tempest",
+        ["^!3"] = "Sturmwind",
+        ["^!4"] = "Rampage",
+        ["^!5"] = "Raging Rush",
+        ["^!6"] = "Calamity",
+        ["^!7"] = "Full Break",
+        ["^!8"] = "Steel Cyclone",
+        ["^!9"] = "Vorpal Blade",
+        ["^!0"] = "Savage Blade",
+        ["^-"] = "Decimation",
+        ["^="] = "Fell Cleave",
+    },
+}
+
+-- END WAR
 -- WHM: WHITE MAGE
 -- ============================================================================
 -- Current job level: 75
