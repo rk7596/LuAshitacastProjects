@@ -1351,11 +1351,11 @@ WHM.MA = {
 -- WeaponsByLevel resolver, not by polluting the current runtime weapon line.
 
 WHM.Weapons = {
-    Main   = "Kraken Club",
+    Main   = "Octave Club",
     Sub    = "Genbu's Shield",
     Shield = "Genbu's Shield",
     DWMain = "Brass Jadagna",
-    DWSub  = "Kraken Club",
+    DWSub  = "Octave Club",
 }
 
 -- Cure/Curaga/Cura weapon specialization: Asklepios becomes available at 62 and
