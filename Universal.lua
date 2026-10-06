@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.1326
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.0355
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -972,7 +972,7 @@ end
 -- ============================================================================
 -- WAR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 64
+-- Current job level: 72
 --
 -- User-authorized future ownership:
 --   All base Warrior Artifact and Relic armor pieces are expected to be
@@ -999,63 +999,43 @@ local WAR = JOBS.WAR
 -- ----------------------------------------------------------------------------
 -- WAR: IDLE / RESTING / ENGAGED
 -- ----------------------------------------------------------------------------
--- Lv40 starting package supplied by the user.  The CEXI Eisen augment rewards
--- make these unusually useful leveling pieces for accuracy before later gear.
+-- WAR72 base state: all currently confirmed/acquired upgrades through Lv72
+-- are merged directly into the base set.  Fighter's Artifact pieces remain
+-- deferred until they are actually acquired.
 WAR.Sets.Idle = {
     Head  = "Precision Bandana",
     Neck  = "Chivalrous Chain",
-    Ear1  = "Drone Earring",
-    Ear2  = "Drone Earring",
-    Body  = "Eisenbrust",
-    Hands = "Eisenhentzes",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
     Ring2 = "Ulthalam's Ring",
     Back  = "Ryl. Army Mantle",
-    Legs  = "Eisendiechlings",
-    Feet  = "Bounding Boots",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
 }
 
 WAR.Sets.Resting = WAR.Sets.Idle
 
 WAR.Sets.Engaged = {
-    Head  = "Precision Bandana",
-    Neck  = "Spike Necklace",
-    Ear1  = "Drone Earring",
-    Ear2  = "Drone Earring",
-    Body  = "Eisenbrust",
-    Hands = "Eisenhentzes",
+    Head  = "Patroclus's Helm",
+    Neck  = "Chivalrous Chain",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
-    Ring2 = "Bastokan Ring",
-    Back  = "High Brth. Mantle",
-    Legs  = "Eisendiechlings",
-    Feet  = "Bounding Boots",
+    Ring2 = "Ulthalam's Ring",
+    Back  = "Ryl. Army Mantle",
+    Waist = "Swift Belt",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
 }
 
--- Level-gated upgrades are cumulative overlays.
--- Active progression contains only gear currently confirmed/acquired.
--- Fighter's Artifact pieces remain future roadmap items until the user actually
--- obtains them; otherwise LuAshitacast cannot resolve those names from inventory.
+-- WAR is Lv72, so only future Lv73-75 changes remain as overlays.
 WAR.Sets.EngagedByLevel = {
-    [50] = {
-        Ring2 = "Ulthalam's Ring",
-        Waist = "Swift Belt",
-    },
-    [55] = {
-        Neck = "Ryl.Grd. Collar",
-        Back  = "Ryl. Army Mantle",
-    },
-    [60] = {
-        Head = "Patroclus's Helm",
-        Neck = "Chivalrous Chain",
-    },
-    [72] = {
-        Ear1  = "Ethereal Earring",
-        Ear2  = "Hollow Earring",
-        Body  = "Amir Korazin",
-        Hands = "Amir Kolluks",
-        Legs  = "Amir Dirs",
-        Feet  = "Amir Boots",
-    },
     [73] = {
         Back = "Stormlord Shawl",
     },
@@ -1068,12 +1048,7 @@ WAR.Sets.EngagedByLevel = {
     },
 }
 
--- Idle uses only the explicitly useful all-jobs upgrade we established for it.
-WAR.Sets.IdleByLevel = {
-    [50] = {
-        Waist = "Ryl.Kgt. Belt",
-    },
-}
+WAR.Sets.IdleByLevel = {}
 
 -- ----------------------------------------------------------------------------
 -- WAR: DEFENSIVE MODES
@@ -1156,30 +1131,20 @@ WAR.JA = {
 -- Current Lv40 territory includes Raging Axe, Smash Axe, and Iron Tempest.
 -- Higher-skill WS are kept in the map for the leveling path through Lv75.
 WAR.Sets.WS_STR = {
-    Head  = "Precision Bandana",
-    Neck  = "Spike Necklace",
-    Ear1  = "Drone Earring",
-    Ear2  = "Drone Earring",
-    Body  = "Eisenbrust",
-    Hands = "Eisenhentzes",
+    Head  = "Patroclus's Helm",
+    Neck  = "Chivalrous Chain",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
-    Ring2 = "Bastokan Ring",
-    Back  = "High Brth. Mantle",
-    Legs  = "Eisendiechlings",
-    Feet  = "Bounding Boots",
+    Ring2 = "Ulthalam's Ring",
+    Back  = "Ryl. Army Mantle",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
 }
 WAR.Sets.WS_STR_ByLevel = {
-    [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
-    [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
-    [60] = {
-        Head = "Patroclus's Helm",
-        Neck = "Chivalrous Chain",
-    },
-    [72] = {
-        Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
-        Body = "Amir Korazin", Hands = "Amir Kolluks",
-        Legs = "Amir Dirs", Feet = "Amir Boots",
-    },
     [73] = { Back = "Stormlord Shawl" },
     [74] = { Neck = "Ancient Torque" },
     [75] = {
@@ -1189,33 +1154,27 @@ WAR.Sets.WS_STR_ByLevel = {
 }
 
 WAR.Sets.WS_STR_VIT = {
-    Head  = "Precision Bandana",
-    Neck  = "Spike Necklace",
-    Ear1  = "Drone Earring",
-    Ear2  = "Drone Earring",
-    Body  = "Eisenbrust",
-    Hands = "Eisenhentzes",
+    Head  = "Patroclus's Helm",
+    Neck  = "Chivalrous Chain",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
-    Ring2 = "Bastokan Ring",
-    Back  = "High Brth. Mantle",
-    Legs  = "Eisendiechlings",
-    Feet  = "Bounding Boots",
+    Ring2 = "Ulthalam's Ring",
+    Back  = "Ryl. Army Mantle",
+    Waist = "Ryl.Kgt. Belt",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
 }
 WAR.Sets.WS_STR_VIT_ByLevel = {
-    [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
-    [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
-    [60] = { Head = "Patroclus's Helm", Neck = "Chivalrous Chain" },
-    [72] = {
-        Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
-        Hands = "Amir Kolluks", Legs = "Amir Dirs", Feet = "Amir Boots",
-    },
     [73] = { Back = "Stormlord Shawl" },
     [74] = { Neck = "Ancient Torque" },
     [75] = {
         Head = "Walahra Turban", Ring2 = "Mars's Ring",
         Hands = "Warrior's Mufflers",
-        -- Keep Fighter's Lorica here: VIT/HP remain relevant to STR/VIT WS,
-        -- whereas Warrior's Lorica is better reserved for Aggressor/Attack use.
+        -- Fighter's Lorica remains a future consideration if/when the AF is
+        -- acquired and proves superior for the relevant VIT-based WS.
     },
 }
 
