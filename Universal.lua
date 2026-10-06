@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.0050
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.0059
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -1032,31 +1032,21 @@ WAR.Sets.Engaged = {
 }
 
 -- Level-gated upgrades are cumulative overlays.
+-- Active progression contains only gear currently confirmed/acquired.
+-- Fighter's Artifact pieces remain future roadmap items until the user actually
+-- obtains them; otherwise LuAshitacast cannot resolve those names from inventory.
 WAR.Sets.EngagedByLevel = {
     [50] = {
         Ring2 = "Ulthalam's Ring",
         Waist = "Swift Belt",
     },
-    [52] = {
-        Feet = "Fighter's Calligae",
-    },
-    [54] = {
-        Hands = "Fighter's Mufflers",
-    },
     [55] = {
         Neck = "Ryl.Grd. Collar",
         Back  = "Ryl. Army Mantle",
     },
-    [56] = {
-        Head = "Fighter's Mask",
-    },
-    [58] = {
-        Legs = "Fighter's Cuisses",
-    },
     [60] = {
-        Body = "Fighter's Lorica",
-        Neck = "Chivalrous Chain",
         Head = "Patroclus's Helm",
+        Neck = "Chivalrous Chain",
     },
     [72] = {
         Ear1  = "Ethereal Earring",
@@ -1127,12 +1117,8 @@ WAR.Sets.JA_Defender = {
     Hands = "Eisenhentzes",
     Legs  = "Eisendiechlings",
 }
+-- Fighter's Defender pieces remain future roadmap items until acquired.
 WAR.Sets.JA_DefenderByLevel = {
-    [52] = { Feet = "Fighter's Calligae" },
-    [54] = { Hands = "Fighter's Mufflers" },
-    [56] = { Head = "Fighter's Mask" },
-    [58] = { Legs = "Fighter's Cuisses" },
-    [60] = { Body = "Fighter's Lorica" },
 }
 
 WAR.Sets.JA_Provoke = {
@@ -1184,13 +1170,9 @@ WAR.Sets.WS_STR = {
 }
 WAR.Sets.WS_STR_ByLevel = {
     [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
-    [54] = { Hands = "Fighter's Mufflers" },
     [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
-    [56] = { Head = "Fighter's Mask" },
-    [58] = { Legs = "Fighter's Cuisses" },
     [60] = {
         Head = "Patroclus's Helm",
-        Body = "Fighter's Lorica",
         Neck = "Chivalrous Chain",
     },
     [72] = {
@@ -1221,11 +1203,8 @@ WAR.Sets.WS_STR_VIT = {
 }
 WAR.Sets.WS_STR_VIT_ByLevel = {
     [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
-    [54] = { Hands = "Fighter's Mufflers" },
     [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
-    [56] = { Head = "Fighter's Mask" },
-    [58] = { Legs = "Fighter's Cuisses" },
-    [60] = { Head = "Patroclus's Helm", Body = "Fighter's Lorica", Neck = "Chivalrous Chain" },
+    [60] = { Head = "Patroclus's Helm", Neck = "Chivalrous Chain" },
     [72] = {
         Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
         Hands = "Amir Kolluks", Legs = "Amir Dirs", Feet = "Amir Boots",
