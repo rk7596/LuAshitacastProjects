@@ -1003,14 +1003,14 @@ local WAR = JOBS.WAR
 -- make these unusually useful leveling pieces for accuracy before later gear.
 WAR.Sets.Idle = {
     Head  = "Precision Bandana",
-    Neck  = "Spike Necklace",
+    Neck  = "Chivalrous Chain",
     Ear1  = "Drone Earring",
     Ear2  = "Drone Earring",
     Body  = "Eisenbrust",
     Hands = "Eisenhentzes",
     Ring1 = "Rajas Ring",
     Ring2 = "Bastokan Ring",
-    Back  = "High Brth. Mantle",
+    Back  = "Ryl. Army Mantle",
     Legs  = "Eisendiechlings",
     Feet  = "Bounding Boots",
 }
