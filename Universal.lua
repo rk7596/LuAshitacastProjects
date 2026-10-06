@@ -1105,61 +1105,193 @@ WAR.JA = {
 -- WAR: WEAPON SKILLS
 -- ----------------------------------------------------------------------------
 WAR.Sets.WS_STR = {
-    Head  = "Walahra Turban",
+    Head  = "Shade Tiara",
     Neck  = "Ancient Torque",
-    Ear1  = "Ethereal Earring",
-    Ear2  = "Hollow Earring",
-    Body  = "Warrior's Lorica",
-    Hands = "Warrior's Mufflers",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
     Back  = "Aesir Mantle",
-    Waist = "Ryl.Kgt. Belt",
-    Legs  = "Warrior's Cuisses",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
     Feet  = "Amir Boots",
 }
 
-WAR.Sets.WS_STR_VIT = {
-    Head  = "Walahra Turban",
+WAR.Sets.WS_STRDEX = {
+    Head  = "Empress Hairpin",
     Neck  = "Ancient Torque",
-    Ear1  = "Ethereal Earring",
-    Ear2  = "Hollow Earring",
-    Body  = "Warrior's Lorica",
-    Hands = "Warrior's Mufflers",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
     Back  = "Aesir Mantle",
-    Waist = "Ryl.Kgt. Belt",
-    Legs  = "Warrior's Cuisses",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
     Feet  = "Amir Boots",
 }
 
-WAR.Sets.WS_STR_DEX = WAR.Sets.WS_STR
+WAR.Sets.WS_STRVIT = {
+    Head  = "Genbu's Kabuto",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+WAR.Sets.WS_STRMND = {
+    Head  = "Genbu's Kabuto",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+WAR.Sets.WS_STRINT = {
+    Head  = "Genbu's Kabuto",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+WAR.Sets.WS_STRDEXINT = {
+    Head  = "Empress Hairpin",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+WAR.Sets.WS_STRAGI = {
+    Head  = "Empress Hairpin",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+WAR.Sets.WS_HP = {
+    Head  = "Genbu's Kabuto",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Abyssal Earring",
+    Body  = "Amir Korazin",
+    Hands = "Amir Kolluks",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Amir Dirs",
+    Feet  = "Amir Boots",
+}
+
+-- Starlight and Moonlight are utility WS rather than damage WS.
+WAR.Sets.WS_Utility = {}
+
 WAR.Sets.WS_Default = WAR.Sets.WS_STR
 
 WAR.WS = {
-    ["Raging Axe"]      = "WS_STR",
-    ["Smash Axe"]       = "WS_STR",
-    ["Spinning Axe"]    = "WS_STR",
-    ["Rampage"]         = "WS_STR",
-    ["Calamity"]        = "WS_STR_VIT",
-    ["Mistral Axe"]     = "WS_STR",
-    ["Decimation"]      = "WS_STR",
-    ["Shield Break"]    = "WS_STR_VIT",
-    ["Iron Tempest"]    = "WS_STR",
-    ["Sturmwind"]       = "WS_STR",
-    ["Armor Break"]     = "WS_STR_VIT",
-    ["Weapon Break"]    = "WS_STR_VIT",
-    ["Raging Rush"]     = "WS_STR",
-    ["Full Break"]      = "WS_STR_VIT",
-    ["Steel Cyclone"]   = "WS_STR_VIT",
-    ["Fell Cleave"]     = "WS_STR",
-    ["Fast Blade"]      = "WS_STR",
-    ["Burning Blade"]   = "WS_STR",
-    ["Red Lotus Blade"] = "WS_STR",
+    -- Great Axe
+    ["Shield Break"]  = "WS_STRVIT",
+    ["Iron Tempest"]  = "WS_STR",
+    ["Sturmwind"]     = "WS_STR",
+    ["Armor Break"]   = "WS_STRVIT",
+    ["Keen Edge"]     = "WS_STR",
+    ["Weapon Break"]  = "WS_STRVIT",
+    ["Raging Rush"]   = "WS_STR",
+    ["Full Break"]    = "WS_STRVIT",
+    ["Steel Cyclone"] = "WS_STRVIT",
+
+    -- Axe
+    ["Raging Axe"]    = "WS_STR",
+    ["Smash Axe"]     = "WS_STR",
+    ["Gale Axe"]      = "WS_STR",
+    ["Avalanche Axe"] = "WS_STR",
+    ["Spinning Axe"]  = "WS_STR",
+    ["Rampage"]       = "WS_STR",
+    ["Calamity"]      = "WS_STRVIT",
+    ["Mistral Axe"]   = "WS_STR",
+    ["Decimation"]    = "WS_STR",
+
+    -- Polearm
+    ["Double Thrust"]  = "WS_STRDEX",
+    ["Thunder Thrust"] = "WS_STRDEXINT",
+    ["Raiden Thrust"]  = "WS_STRDEXINT",
+    ["Leg Sweep"]      = "WS_STR",
+    ["Penta Thrust"]   = "WS_STRDEX",
+    ["Vorpal Thrust"]  = "WS_STRAGI",
+    ["Impulse Drive"]  = "WS_STR",
+
+    -- Scythe
+    ["Slice"]            = "WS_STR",
+    ["Dark Harvest"]     = "WS_STRINT",
+    ["Shadow of Death"]  = "WS_STRINT",
+    ["Nightmare Scythe"] = "WS_STRMND",
+    ["Spinning Scythe"]  = "WS_STR",
+    ["Vorpal Scythe"]    = "WS_STR",
+    ["Spiral Hell"]      = "WS_STRINT",
+
+    -- Sword
+    ["Fast Blade"]      = "WS_STRDEX",
+    ["Burning Blade"]   = "WS_STRINT",
+    ["Red Lotus Blade"] = "WS_STRINT",
     ["Flat Blade"]      = "WS_STR",
+    ["Shining Blade"]   = "WS_STRMND",
+    ["Seraph Blade"]    = "WS_STRMND",
+    ["Circle Blade"]    = "WS_STR",
+    ["Spirits Within"]  = "WS_HP",
     ["Vorpal Blade"]    = "WS_STR",
-    ["Savage Blade"]    = "WS_STR_VIT",
+    ["Savage Blade"]    = "WS_STRMND",
+
+    -- Club
+    ["Shining Strike"] = "WS_STRMND",
+    ["Seraph Strike"]  = "WS_STRMND",
+    ["Brainshaker"]    = "WS_STR",
+    ["Starlight"]      = "WS_Utility",
+    ["Moonlight"]      = "WS_Utility",
+    ["Skullbreaker"]   = "WS_STR",
+    ["True Strike"]    = "WS_STR",
+    ["Judgment"]       = "WS_STRMND",
+    ["Black Halo"]     = "WS_STRMND",
 }
 
 -- ----------------------------------------------------------------------------
@@ -5606,6 +5738,38 @@ local SkillchainWeaponskills = {
     ["Skewer"] = true,
     ["Wheeling Thrust"] = true,
     ["Impulse Drive"] = true,
+    -- WAR skillchain WS coverage from the WAR75 modifier audit.
+    ["Shield Break"] = true,
+    ["Iron Tempest"] = true,
+    ["Sturmwind"] = true,
+    ["Armor Break"] = true,
+    ["Keen Edge"] = true,
+    ["Weapon Break"] = true,
+    ["Full Break"] = true,
+    ["Raging Axe"] = true,
+    ["Smash Axe"] = true,
+    ["Gale Axe"] = true,
+    ["Avalanche Axe"] = true,
+    ["Spinning Axe"] = true,
+    ["Calamity"] = true,
+    ["Mistral Axe"] = true,
+    ["Decimation"] = true,
+    ["Raiden Thrust"] = true,
+    ["Slice"] = true,
+    ["Dark Harvest"] = true,
+    ["Shadow of Death"] = true,
+    ["Nightmare Scythe"] = true,
+    ["Spinning Scythe"] = true,
+    ["Vorpal Scythe"] = true,
+    ["Spiral Hell"] = true,
+    ["Shining Strike"] = true,
+    ["Seraph Strike"] = true,
+    ["Brainshaker"] = true,
+    ["Skullbreaker"] = true,
+    ["True Strike"] = true,
+    ["Judgment"] = true,
+    ["Black Halo"] = true,
+
 }
 
 
