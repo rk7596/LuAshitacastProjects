@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.0355
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.1142
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -972,15 +972,16 @@ end
 -- ============================================================================
 -- WAR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 72
+-- Current job level: 75
 --
--- User-authorized future ownership:
---   All base Warrior Artifact and Relic armor pieces are expected to be
---   obtained by Lv75.  They may therefore appear in level-gated progression
---   sets and job-ability activation sets below even before they enter the
---   physical inventory.
+-- WAR is now at the level-75 endpoint.  All previously tiered equipment
+-- progression has been collapsed into the fixed base sets below.
 --
--- CatsEyeXI Warrior changes:
+-- User-authorized ownership:
+--   All base Warrior Artifact and Relic armor pieces are considered obtained
+--   for the completed Lv75 profile.
+--
+-- CatsEyeXI Warrior notes:
 --   Shield Mastery is acquired at Lv40 and Blood Rage at Lv75.  Otherwise,
 --   standard Warrior ability / weaponskill behavior is used unless a
 --   CatsEyeXI-specific override is explicitly documented elsewhere.
@@ -989,9 +990,8 @@ end
 --   Haste > Double/Triple Attack > Accuracy > Attack > Store TP > DEX > STR
 --   > Critical Hit Rate > Critical Hit Damage.
 --
--- Important distinction:
---   AF/Relic pieces are NOT forced into TP merely because they are job gear.
---   They are inserted where their actual modifier helps the state being built.
+-- AF/Relic pieces are not inserted into TP gear merely because they are job
+-- armor; they are used where their stats or JA-specific effects are useful.
 -- ============================================================================
 
 local WAR = JOBS.WAR
@@ -999,19 +999,16 @@ local WAR = JOBS.WAR
 -- ----------------------------------------------------------------------------
 -- WAR: IDLE / RESTING / ENGAGED
 -- ----------------------------------------------------------------------------
--- WAR72 base state: all currently confirmed/acquired upgrades through Lv72
--- are merged directly into the base set.  Fighter's Artifact pieces remain
--- deferred until they are actually acquired.
 WAR.Sets.Idle = {
     Head  = "Precision Bandana",
-    Neck  = "Chivalrous Chain",
+    Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Hollow Earring",
     Body  = "Amir Korazin",
     Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
-    Ring2 = "Ulthalam's Ring",
-    Back  = "Ryl. Army Mantle",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
     Waist = "Ryl.Kgt. Belt",
     Legs  = "Amir Dirs",
     Feet  = "Amir Boots",
@@ -1020,35 +1017,19 @@ WAR.Sets.Idle = {
 WAR.Sets.Resting = WAR.Sets.Idle
 
 WAR.Sets.Engaged = {
-    Head  = "Patroclus's Helm",
-    Neck  = "Chivalrous Chain",
+    Head  = "Walahra Turban",
+    Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Hollow Earring",
     Body  = "Amir Korazin",
     Hands = "Amir Kolluks",
     Ring1 = "Rajas Ring",
-    Ring2 = "Ulthalam's Ring",
-    Back  = "Ryl. Army Mantle",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
     Waist = "Swift Belt",
     Legs  = "Amir Dirs",
     Feet  = "Amir Boots",
 }
-
--- WAR is Lv72, so only future Lv73-75 changes remain as overlays.
-WAR.Sets.EngagedByLevel = {
-    [73] = {
-        Back = "Stormlord Shawl",
-    },
-    [74] = {
-        Neck = "Ancient Torque",
-    },
-    [75] = {
-        Head  = "Walahra Turban",
-        Ring2 = "Mars's Ring",
-    },
-}
-
-WAR.Sets.IdleByLevel = {}
 
 -- ----------------------------------------------------------------------------
 -- WAR: DEFENSIVE MODES
@@ -1068,41 +1049,36 @@ WAR.Sets.MDT = {
 -- ----------------------------------------------------------------------------
 -- WAR: JOB-ABILITY SETS
 -- ----------------------------------------------------------------------------
--- Base Relic armor supplies the relevant activation pieces:
+-- Warrior Relic pieces have direct JA effects:
+--   Warrior's Calligae -> enhances Berserk
 --   Warrior's Mask     -> enhances Warcry
 --   Warrior's Lorica   -> enhances Aggressor
---   Warrior's Calligae -> enhances Berserk
-WAR.Sets.JA_Berserk = {}
-WAR.Sets.JA_BerserkByLevel = {
-    [71] = { Feet = "Warrior's Calligae" },
+WAR.Sets.JA_Berserk = {
+    Feet = "Warrior's Calligae",
 }
 
-WAR.Sets.JA_Warcry = {}
-WAR.Sets.JA_WarcryByLevel = {
-    [73] = { Head = "Warrior's Mask" },
+WAR.Sets.JA_Warcry = {
+    Head = "Warrior's Mask",
 }
 
-WAR.Sets.JA_Aggressor = {}
-WAR.Sets.JA_AggressorByLevel = {
-    [75] = { Body = "Warrior's Lorica" },
+WAR.Sets.JA_Aggressor = {
+    Body = "Warrior's Lorica",
 }
 
+-- No direct base-AF modifier is being claimed for Defender here; use a
+-- dedicated defensive/enmity package instead of inventing one.
 WAR.Sets.JA_Defender = {
-    Body  = "Eisenbrust",
-    Hands = "Eisenhentzes",
-    Legs  = "Eisendiechlings",
-}
--- Fighter's Defender pieces remain future roadmap items until acquired.
-WAR.Sets.JA_DefenderByLevel = {
+    Body  = "Fighter's Lorica",
+    Hands = "Fighter's Mufflers",
+    Ring1 = "Sattva Ring",
+    Legs  = "Fighter's Cuisses",
+    Feet  = "Fighter's Calligae",
 }
 
 WAR.Sets.JA_Provoke = {
     Ring1 = "Sattva Ring",
 }
 
--- No base Relic-specific modifier exists for the remaining Lv75 Warrior JAs
--- (the later +2/Reforged upgrades are outside this project's level-75 era),
--- so use the offensive state rather than pretending the later effect exists.
 WAR.Sets.JA_Offensive = WAR.Sets.Engaged
 WAR.Sets.JA_MightyStrikes = WAR.Sets.Engaged
 WAR.Sets.JA_Retaliation = WAR.Sets.Engaged
@@ -1128,83 +1104,62 @@ WAR.JA = {
 -- ----------------------------------------------------------------------------
 -- WAR: WEAPON SKILLS
 -- ----------------------------------------------------------------------------
--- Current Lv40 territory includes Raging Axe, Smash Axe, and Iron Tempest.
--- Higher-skill WS are kept in the map for the leveling path through Lv75.
 WAR.Sets.WS_STR = {
-    Head  = "Patroclus's Helm",
-    Neck  = "Chivalrous Chain",
+    Head  = "Walahra Turban",
+    Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Hollow Earring",
-    Body  = "Amir Korazin",
-    Hands = "Amir Kolluks",
+    Body  = "Warrior's Lorica",
+    Hands = "Warrior's Mufflers",
     Ring1 = "Rajas Ring",
-    Ring2 = "Ulthalam's Ring",
-    Back  = "Ryl. Army Mantle",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
     Waist = "Ryl.Kgt. Belt",
-    Legs  = "Amir Dirs",
+    Legs  = "Warrior's Cuisses",
     Feet  = "Amir Boots",
-}
-WAR.Sets.WS_STR_ByLevel = {
-    [73] = { Back = "Stormlord Shawl" },
-    [74] = { Neck = "Ancient Torque" },
-    [75] = {
-        Head = "Walahra Turban", Ring2 = "Mars's Ring",
-        Hands = "Warrior's Mufflers", Body = "Warrior's Lorica",
-    },
 }
 
 WAR.Sets.WS_STR_VIT = {
-    Head  = "Patroclus's Helm",
-    Neck  = "Chivalrous Chain",
+    Head  = "Walahra Turban",
+    Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Hollow Earring",
-    Body  = "Amir Korazin",
-    Hands = "Amir Kolluks",
+    Body  = "Warrior's Lorica",
+    Hands = "Warrior's Mufflers",
     Ring1 = "Rajas Ring",
-    Ring2 = "Ulthalam's Ring",
-    Back  = "Ryl. Army Mantle",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
     Waist = "Ryl.Kgt. Belt",
-    Legs  = "Amir Dirs",
+    Legs  = "Warrior's Cuisses",
     Feet  = "Amir Boots",
-}
-WAR.Sets.WS_STR_VIT_ByLevel = {
-    [73] = { Back = "Stormlord Shawl" },
-    [74] = { Neck = "Ancient Torque" },
-    [75] = {
-        Head = "Walahra Turban", Ring2 = "Mars's Ring",
-        Hands = "Warrior's Mufflers",
-        -- Fighter's Lorica remains a future consideration if/when the AF is
-        -- acquired and proves superior for the relevant VIT-based WS.
-    },
 }
 
 WAR.Sets.WS_STR_DEX = WAR.Sets.WS_STR
-WAR.Sets.WS_STR_DEX_ByLevel = WAR.Sets.WS_STR_ByLevel
 WAR.Sets.WS_Default = WAR.Sets.WS_STR
 
 WAR.WS = {
-    ["Raging Axe"]     = "WS_STR",
-    ["Smash Axe"]      = "WS_STR",
-    ["Spinning Axe"]   = "WS_STR",
-    ["Rampage"]        = "WS_STR",
-    ["Calamity"]       = "WS_STR_VIT",
-    ["Mistral Axe"]    = "WS_STR",
-    ["Decimation"]     = "WS_STR",
-    ["Shield Break"]   = "WS_STR_VIT",
-    ["Iron Tempest"]   = "WS_STR",
-    ["Sturmwind"]      = "WS_STR",
-    ["Armor Break"]    = "WS_STR_VIT",
-    ["Weapon Break"]   = "WS_STR_VIT",
-    ["Raging Rush"]    = "WS_STR",
-    ["Full Break"]     = "WS_STR_VIT",
-    ["Steel Cyclone"]  = "WS_STR_VIT",
-    ["Fell Cleave"]    = "WS_STR",
-    ["Fast Blade"]     = "WS_STR",
-    ["Burning Blade"]  = "WS_STR",
+    ["Raging Axe"]      = "WS_STR",
+    ["Smash Axe"]       = "WS_STR",
+    ["Spinning Axe"]    = "WS_STR",
+    ["Rampage"]         = "WS_STR",
+    ["Calamity"]        = "WS_STR_VIT",
+    ["Mistral Axe"]     = "WS_STR",
+    ["Decimation"]      = "WS_STR",
+    ["Shield Break"]    = "WS_STR_VIT",
+    ["Iron Tempest"]    = "WS_STR",
+    ["Sturmwind"]       = "WS_STR",
+    ["Armor Break"]     = "WS_STR_VIT",
+    ["Weapon Break"]    = "WS_STR_VIT",
+    ["Raging Rush"]     = "WS_STR",
+    ["Full Break"]      = "WS_STR_VIT",
+    ["Steel Cyclone"]   = "WS_STR_VIT",
+    ["Fell Cleave"]     = "WS_STR",
+    ["Fast Blade"]      = "WS_STR",
+    ["Burning Blade"]   = "WS_STR",
     ["Red Lotus Blade"] = "WS_STR",
-    ["Flat Blade"]     = "WS_STR",
-    ["Vorpal Blade"]   = "WS_STR",
-    ["Savage Blade"]   = "WS_STR_VIT",
+    ["Flat Blade"]      = "WS_STR",
+    ["Vorpal Blade"]    = "WS_STR",
+    ["Savage Blade"]    = "WS_STR_VIT",
 }
 
 -- ----------------------------------------------------------------------------
@@ -1242,6 +1197,7 @@ WAR.Macro = {
 }
 
 -- END WAR
+
 -- WHM: WHITE MAGE
 -- ============================================================================
 -- Current job level: 75
