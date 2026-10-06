@@ -1040,14 +1040,23 @@ WAR.Sets.EngagedByLevel = {
     [52] = {
         Feet = "Fighter's Calligae",
     },
+    [54] = {
+        Hands = "Fighter's Mufflers",
+    },
+    [55] = {
+        Neck = "Ryl.Grd. Collar",
+        Back  = "Ryl. Army Mantle",
+    },
+    [56] = {
+        Head = "Fighter's Mask",
+    },
     [58] = {
         Legs = "Fighter's Cuisses",
     },
     [60] = {
-        Head = "Patroclus's Helm",
-    },
-    [65] = {
+        Body = "Fighter's Lorica",
         Neck = "Chivalrous Chain",
+        Head = "Patroclus's Helm",
     },
     [72] = {
         Ear1  = "Ethereal Earring",
@@ -1069,9 +1078,12 @@ WAR.Sets.EngagedByLevel = {
     },
 }
 
--- Idle follows the same acquisition ladder for now; this keeps the leveling
--- profile consistent without inventing a separate, unresearched idle package.
-WAR.Sets.IdleByLevel = WAR.Sets.EngagedByLevel
+-- Idle uses only the explicitly useful all-jobs upgrade we established for it.
+WAR.Sets.IdleByLevel = {
+    [50] = {
+        Waist = "Ryl.Kgt. Belt",
+    },
+}
 
 -- ----------------------------------------------------------------------------
 -- WAR: DEFENSIVE MODES
