@@ -6831,6 +6831,7 @@ local weaponLocked = false
 local defenseSet = nil
 local engagedWeaponLogicEnabled = true
 local lastEngagedState = nil
+local lastMovementState = nil
 local ApplyMacroDeck
 local ShowMacroDeck
 
@@ -7100,6 +7101,7 @@ profile.HandleDefault = function()
     end
 
     local moving = player.IsMoving == true and not IsMounted()
+    local wasMoving = lastMovementState == true
     local stateSet = moving and {} or GetStateSet(job, player)
 
     -- MOVEMENT IS A STATE OVERRIDE, NOT AN OVERLAY.
@@ -7126,6 +7128,22 @@ profile.HandleDefault = function()
     stateSet = ApplyFencerRingOverlay(stateSet, player)
 
     gFunc.EquipSet(stateSet)
+
+    -- Track Pants +1 prevents footgear from being equipped while worn.  The
+    -- ordinary state set is already reapplied above, but a direct Legs -> Feet
+    -- transition is needed to reliably restore the pair immediately after
+    -- leaving movement.  Do this only on the transition, never every poll.
+    if wasMoving and not moving then
+        local restoredSet = GetStateSet(job, player)
+        if restoredSet.Legs then
+            gFunc.Equip("Legs", restoredSet.Legs)
+        end
+        if restoredSet.Feet then
+            gFunc.Equip("Feet", restoredSet.Feet)
+        end
+    end
+
+    lastMovementState = moving
 
     if player.Status == "Engaged" then
         local action = gData.GetAction()
@@ -8183,6 +8201,7 @@ profile.OnLoad = function()
 
     local player = gData.GetPlayer()
     lastEngagedState = player and player.Status == "Engaged" or false
+    lastMovementState = player and player.IsMoving == true and not IsMounted() or false
     lastObservedZoneId = GetCurrentZoneId()
     ApplyMacroDeck(player, true)
     UpdateEnspellBind(true)
@@ -8210,6 +8229,7 @@ profile.OnUnload = function()
     macroDeck.Alt = {}
     macroDeck.CtrlAlt = {}
     lastEngagedState = nil
+    lastMovementState = nil
     lastObservedZoneId = nil
 end
 
