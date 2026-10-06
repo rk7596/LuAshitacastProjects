@@ -1130,6 +1130,7 @@ WAR.Sets.JA_Defender = {
 WAR.Sets.JA_DefenderByLevel = {
     [52] = { Feet = "Fighter's Calligae" },
     [54] = { Hands = "Fighter's Mufflers" },
+    [56] = { Head = "Fighter's Mask" },
     [58] = { Legs = "Fighter's Cuisses" },
     [60] = { Body = "Fighter's Lorica" },
 }
@@ -1183,12 +1184,15 @@ WAR.Sets.WS_STR = {
 }
 WAR.Sets.WS_STR_ByLevel = {
     [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
+    [54] = { Hands = "Fighter's Mufflers" },
+    [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
+    [56] = { Head = "Fighter's Mask" },
     [58] = { Legs = "Fighter's Cuisses" },
     [60] = {
         Head = "Patroclus's Helm",
         Body = "Fighter's Lorica",
+        Neck = "Chivalrous Chain",
     },
-    [65] = { Neck = "Chivalrous Chain" },
     [72] = {
         Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
         Body = "Amir Korazin", Hands = "Amir Kolluks",
@@ -1217,9 +1221,11 @@ WAR.Sets.WS_STR_VIT = {
 }
 WAR.Sets.WS_STR_VIT_ByLevel = {
     [50] = { Ring2 = "Ulthalam's Ring", Waist = "Ryl.Kgt. Belt" },
+    [54] = { Hands = "Fighter's Mufflers" },
+    [55] = { Neck = "Ryl.Grd. Collar", Back = "Ryl. Army Mantle" },
+    [56] = { Head = "Fighter's Mask" },
     [58] = { Legs = "Fighter's Cuisses" },
-    [60] = { Head = "Patroclus's Helm" },
-    [65] = { Neck = "Chivalrous Chain" },
+    [60] = { Head = "Patroclus's Helm", Body = "Fighter's Lorica", Neck = "Chivalrous Chain" },
     [72] = {
         Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring",
         Hands = "Amir Kolluks", Legs = "Amir Dirs", Feet = "Amir Boots",
