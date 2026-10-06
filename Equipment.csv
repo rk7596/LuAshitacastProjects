@@ -3,7 +3,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 1,Abyss Flanchard,True,Legs,73.0,DRK,MP+18 MND+5 MDB+5 Dark Magic Skill+5,verified
 2,Abyss Gauntlets,True,Hands,72.0,DRK,MP+20 DEX+5 INT+8 Dark Magic Skill+5,verified
 3,Abyss Sollerets,True,Feet,71.0,DRK,MP+12 Enfeebling Magic Skill+5; enhances Last Resort,verified
-4,Abyssal Earring,True,Ear,72.0,DRK,,inventory-confirmed; metadata pending
+4,Abyssal Earring,True,Ear,72.0,ALL,,inventory-confirmed; verified: all jobs
 5,Aesir Mantle,True,Back,75.0,ALL,,inventory-confirmed; metadata pending
 6,Aesir Torque,True,Neck,75.0,ALL,,inventory-confirmed; metadata pending
 7,Ajjub Bow,True,,,,,present in Universal.lua; metadata pending
