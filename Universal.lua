@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2319
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2334
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2654,29 +2654,29 @@ BST.Sets.WS_STRDEX = {
 BST.Sets.WS_DEX = BST.Sets.WS_STRDEX
 BST.Sets.WS_STRVIT = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
-    Body = "Beast Jackcoat", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BST.Sets.WS_STRMND = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BST.Sets.WS_STRINT = {
-    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BST.Sets.WS_DEXINT = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BST.Sets.WS_MND = BST.Sets.WS_STRMND
 BST.Sets.WS_CHR = BST.Sets.WS_STR
 BST.Sets.WS_HP = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Bomb Queen Ring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Sattva Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BST.Sets.WS_Utility = {}
@@ -2692,28 +2692,69 @@ local BST_WS_PhysicalByLevel = {
 BST.Sets.WS_STRByLevel = BST_WS_PhysicalByLevel
 BST.Sets.WS_STRDEXByLevel = BST_WS_PhysicalByLevel
 BST.Sets.WS_DEXByLevel = BST_WS_PhysicalByLevel
-BST.Sets.WS_STRVITByLevel = BST_WS_PhysicalByLevel
-BST.Sets.WS_CHRByLevel = BST_WS_PhysicalByLevel
+
+BST.Sets.WS_STRVITByLevel = {
+    [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [58] = { Body = "Beast Jackcoat" },
+    [60] = { Legs = "Beast Trousers" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BST.Sets.WS_CHRByLevel = {
+    [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [71] = { Head = "Monster Helm" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
 
 BST.Sets.WS_STRMNDByLevel = {
     [50] = { Waist = "Swift Belt" },
     [70] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [73] = { Legs = "Monster Trousers" },
-    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_MNDByLevel = BST.Sets.WS_STRMNDByLevel
-BST.Sets.WS_STRINTByLevel = BST.Sets.WS_STRMNDByLevel
-BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRMNDByLevel
+
+BST.Sets.WS_STRINTByLevel = {
+    [47] = { Ear1 = "Moldavite Earring" },
+    [50] = { Waist = "Swift Belt" },
+    [70] = { Neck = "Ancient Torque" },
+    [72] = { Ear2 = "Wing Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRINTByLevel
 
 BST.Sets.WS_HPByLevel = {
     [50] = { Waist = "Swift Belt" },
+    [57] = { Ring2 = "Bomb Queen Ring" },
     [70] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [73] = { Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
+BST.Sets.WS_CHRDEX_MAGIC = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_CHRDEX_MAGICByLevel = {
+    [47] = { Ear1 = "Moldavite Earring" },
+    [50] = { Waist = "Swift Belt" },
+    [58] = { Body = "Beast Jackcoat" },
+    [60] = { Legs = "Beast Trousers" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [71] = { Head = "Monster Helm" },
+    [72] = { Ear2 = "Wing Earring" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
 BST.WS = {
     ["Raging Axe"] = "WS_STR", ["Smash Axe"] = "WS_STR", ["Gale Axe"] = "WS_STRINT",
     ["Avalanche Axe"] = "WS_STR", ["Spinning Axe"] = "WS_STR", ["Rampage"] = "WS_STR",
@@ -2722,6 +2763,7 @@ BST.WS = {
     ["Spinning Scythe"] = "WS_STR", ["Vorpal Scythe"] = "WS_STR",
     ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEXINT", ["Shadowstitch"] = "WS_CHR",
     ["Energy Steal"] = "WS_MND", ["Evisceration"] = "WS_DEX",
+    ["Primal Rend"] = "WS_CHRDEX_MAGIC",
     ["Shining Strike"] = "WS_STRMND", ["Brainshaker"] = "WS_STR", ["Starlight"] = "WS_Utility",
     ["Skullbreaker"] = "WS_STR", ["True Strike"] = "WS_STR",
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT", ["Flat Blade"] = "WS_STR",
