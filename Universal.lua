@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.1209
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2312
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2489,139 +2489,239 @@ DRK.Macro = {
 -- BST: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 42
--- This section is the authoritative home for BST-specific configuration.
--- Runtime equipment/action mappings must respect the current job level.
--- Future level-75 macro preparation may be documented here without becoming
--- executable runtime gear.
+--
+-- BST progression is tiered from the current Lv42 state through the Lv75
+-- endpoint.  The user authorizes acquisition of all BST Artifact and Relic
+-- armor by the levels at which they become available.  Beastmaster AF+1 is
+-- NOT assumed here; augmentation is a separate ownership decision.
+--
+-- CatsEyeXI BST: Fencer I at 60, Fencer II at 75, Stout Servant at 75.
+--
+-- Engaged priority:
+--   Haste > Double/Triple Attack > Accuracy > Attack > Store TP > DEX > STR
+--   > Critical Hit Rate > Critical Hit Damage.
+--
+-- Weapon-skill coverage is limited to WS BST can actually use through the
+-- Lv75 skill caps / job restrictions.  BST Scythe is C- (220 at 75), so
+-- Spiral Hell (240) is intentionally not mapped.
+-- ============================================================================
 
 local BST = JOBS.BST
 
 -- ----------------------------------------------------------------------------
--- BST: IDLE / RESTING / ENGAGED
+-- BST: IDLE / RESTING
 -- ----------------------------------------------------------------------------
-
 BST.Sets.Idle = {
-        Head="Monster Helm", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Static Earring",
-        Body="Monster Jackcoat", Hands="Monster Gloves", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="High Brth. Mantle", Waist="Monster Belt", Legs="Monster Trousers", Feet="Monster Gaiters",
-    }
+    Head  = "Shade Tiara",
+    Neck  = "Spike Necklace",
+    Ear1  = "Wing Earring",
+    Ear2  = "Static Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
+}
 
-BST.Sets.Resting = {
-        Head="Monster Helm", Neck="Fortitude Torque", Body="Monster Jackcoat", Hands="Monster Gloves",
-        Ring1="Rajas Ring", Ring2="Ulthalam's Ring", Waist="Monster Belt", Legs="Monster Trousers", Feet="Monster Gaiters",
-    }
+BST.Sets.IdleByLevel = {
+    [50] = { Waist = "Swift Belt" },
+    [52] = { Feet = "Beast Gaiters" },
+    [54] = { Hands = "Beast Gloves" },
+    [56] = { Head = "Beast Helm" },
+    [58] = { Body = "Beast Jackcoat" },
+    [60] = { Legs = "Beast Trousers" },
+    [70] = { Neck = "Ancient Torque", Waist = "Monster Belt", Ring2 = "Ulthalam's Ring" },
+    [71] = { Head = "Monster Helm" },
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring", Body = "Monster Jackcoat" },
+    [73] = { Legs = "Monster Trousers" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle" },
+}
 
+BST.Sets.Resting = BST.Sets.Idle
+BST.Sets.RestingByLevel = BST.Sets.IdleByLevel
+
+-- ----------------------------------------------------------------------------
+-- BST: ENGAGED / MASTER TP
+-- ----------------------------------------------------------------------------
+-- The armor profile remains valid for either single-wield Fencer or future
+-- Dual Wield.  The weapon selector only uses DWMain/DWSub when those are
+-- populated with an actual BST axe pair.
 BST.Sets.Engaged = {
-        Head="Walahra Turban", Neck="Fortitude Torque", Ear1="Suppanomimi", Ear2="Brutal Earring",
-        Body="Monster Jackcoat", Hands="Monster Gloves", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="High Brth. Mantle", Waist="Monster Belt", Legs="Monster Trousers", Feet="Monster Gaiters",
-    }
+    Head  = "Precision Bandana",
+    Neck  = "Spike Necklace",
+    Ear1  = "Wing Earring",
+    Ear2  = "Static Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
+}
+
+BST.Sets.EngagedByLevel = {
+    [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
 
 -- ----------------------------------------------------------------------------
--- BST: WEAPONS
+-- BST: MANUAL DEFENSE MODES
 -- ----------------------------------------------------------------------------
-
-BST.Weapons = { Main="Sturdy Axe" }
-
--- ----------------------------------------------------------------------------
--- BST: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
--- ----------------------------------------------------------------------------
--- Dedicated mechanics and ownership audit remains to be completed here.
--- Keep all BST-specific additions inside this section.
-
-
--- ============================================================================
--- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
--- ============================================================================
--- Current job level: 40
--- This section is the authoritative home for BRD-specific configuration.
--- Runtime equipment/action mappings must respect the current job level.
--- Future level-75 macro preparation may be documented here without becoming
--- executable runtime gear.
-
-local BRD = JOBS.BRD
+BST.Sets.PDT = {
+    Body  = "Monster Jackcoat",
+    Hands = "Monster Gloves",
+    Ring1 = "Sattva Ring",
+    Legs  = "Monster Trousers",
+    Feet  = "Monster Gaiters",
+}
+BST.Sets.MDT = {
+    Body  = "Monster Jackcoat",
+    Hands = "Monster Gloves",
+    Ring1 = "Sattva Ring",
+    Legs  = "Monster Trousers",
+    Feet  = "Monster Gaiters",
+}
 
 -- ----------------------------------------------------------------------------
--- BRD: IDLE / RESTING / ENGAGED
+-- BST: JOB-ABILITY SETS
 -- ----------------------------------------------------------------------------
+BST.Sets.JA_Default = {}
+BST.Sets.JA_Offensive = BST.Sets.Engaged
+BST.Sets.JA_Defensive = { Ring1 = "Sattva Ring" }
+BST.Sets.JA_Enmity = { Ring1 = "Sattva Ring" }
+BST.Sets.Charm = { Head = "Monster Helm", Body = "Monster Jackcoat", Hands = "Monster Gloves", Legs = "Monster Trousers", Feet = "Monster Gaiters" }
+BST.Sets.Reward = { Body = "Monster Jackcoat", Feet = "Monster Gaiters" }
+BST.Sets.CallBeast = { Hands = "Monster Gloves" }
+BST.Sets.Snarl = { Ring1 = "Sattva Ring" }
+BST.Sets.Familiar = {}
+BST.Sets.FeralHowl = {}
+BST.Sets.KillerInstinct = {}
 
-BRD.Sets.Idle = {
-        Head="Bard's Roundlet", Neck="Star Necklace", Ear1="Loquac. Earring", Ear2="Brutal Earring",
-        Body="Errant Hpl.", Hands="Bard's Cuffs", Ring1="Tamas Ring", Ring2="Balrahn's Ring",
-        Back="Grapevine Cape", Waist="Salire Belt", Legs="Bard's Cannions", Feet="Bard's Slippers",
-    }
-
-BRD.Sets.Resting = {
-        Head="Bard's Roundlet", Neck="Star Necklace", Body="Errant Hpl.", Hands="Bard's Cuffs",
-        Ring1="Tamas Ring", Ring2="Balrahn's Ring", Waist="Salire Belt", Legs="Bard's Cannions", Feet="Bard's Slippers",
-    }
-
-BRD.Sets.Engaged = {
-        Head="Walahra Turban", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Loquac. Earring",
-        Body="Errant Hpl.", Hands="Bard's Cuffs", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="Grapevine Cape", Waist="Swift Belt", Legs="Bard's Cannions", Feet="Bard's Slippers",
-    }
-
--- ----------------------------------------------------------------------------
--- BRD: WEAPONS
--- ----------------------------------------------------------------------------
-
-BRD.Weapons = { Main="Joyeuse" }
-
--- ----------------------------------------------------------------------------
--- BRD: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
--- ----------------------------------------------------------------------------
--- Dedicated mechanics and ownership audit remains to be completed here.
--- Keep all BRD-specific additions inside this section.
-
-
--- ============================================================================
--- RNG: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
--- ============================================================================
--- Current job level: 43
--- This section is the authoritative home for RNG-specific configuration.
--- Runtime equipment/action mappings must respect the current job level.
--- Future level-75 macro preparation may be documented here without becoming
--- executable runtime gear.
-
-local RNG = JOBS.RNG
+BST.JA = {
+    ["Charm"] = "Charm",
+    ["Reward"] = "Reward",
+    ["Call Beast"] = "CallBeast",
+    ["Bestial Loyalty"] = "CallBeast",
+    ["Snarl"] = "Snarl",
+    ["Familiar"] = "Familiar",
+    ["Feral Howl"] = "FeralHowl",
+    ["Killer Instinct"] = "KillerInstinct",
+}
 
 -- ----------------------------------------------------------------------------
--- RNG: IDLE / RESTING / ENGAGED
+-- BST: WEAPONSKILL SETS
 -- ----------------------------------------------------------------------------
+-- Grouped by the actual WSC/damage model.  WS never uses Walahra Turban.
+BST.Sets.WS_STR = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_STRDEX = {
+    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_DEX = BST.Sets.WS_STRDEX
+BST.Sets.WS_STRVIT = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Beast Jackcoat", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_STRMND = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_STRINT = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Wing Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_DEXINT = {
+    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Wing Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_MND = BST.Sets.WS_STRMND
+BST.Sets.WS_CHR = BST.Sets.WS_STR
+BST.Sets.WS_HP = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Bomb Queen Ring",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.WS_Utility = {}
+BST.Sets.WS_Default = BST.Sets.WS_STR
 
-RNG.Sets.Idle = {
-        Head="Scout's Beret", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Static Earring",
-        -- Body intentionally omitted: no safely verified inventory-owned Scout body was listed.
-        Hands="Scout's Bracers", Ring1="Rajas Ring", Ring2="Ulthalam's Ring",
-        Back="Ryl. Army Mantle", Waist="Swift Belt", Legs="Scout's Braccae", Feet="Dusk Ledelsens +1",
-    }
+-- Lv50/70/72/73/75 common WS upgrades; specialized modifier sets above
+-- retain their modifier-specific head/ear/ring choices where necessary.
+BST.Sets.WS_STRByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_STRDEXByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_DEXByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_STRVITByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_CHRByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_HPByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_STRMNDByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_MNDByLevel = BST.Sets.EngagedByLevel
+BST.Sets.WS_STRINTByLevel = {
+    [50] = { Waist = "Swift Belt", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring" },
+    [70] = { Neck = "Ancient Torque", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring" },
+    [72] = { Ear1 = "Moldavite Earring", Ear2 = "Wing Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRINTByLevel
 
-RNG.Sets.Resting = {
-        Head="Scout's Beret", Neck="Fortitude Torque", Hands="Scout's Bracers",
-        Ring1="Rajas Ring", Ring2="Ulthalam's Ring", Legs="Scout's Braccae", Feet="Dusk Ledelsens +1",
-    }
-
-RNG.Sets.Engaged = {
-        Head="Walahra Turban", Neck="Fortitude Torque", Ear1="Brutal Earring", Ear2="Static Earring",
-        Hands="Scout's Bracers", Ring1="Rajas Ring", Ring2="Bellona's Ring", Back="Ryl. Army Mantle",
-        Waist="Swift Belt", Legs="Scout's Braccae", Feet="Dusk Ledelsens +1",
-    }
+BST.WS = {
+    ["Raging Axe"] = "WS_STR", ["Smash Axe"] = "WS_STR", ["Gale Axe"] = "WS_STRINT",
+    ["Avalanche Axe"] = "WS_STR", ["Spinning Axe"] = "WS_STR", ["Rampage"] = "WS_STR",
+    ["Calamity"] = "WS_STRVIT", ["Mistral Axe"] = "WS_STR", ["Decimation"] = "WS_STR",
+    ["Slice"] = "WS_STR", ["Dark Harvest"] = "WS_STRINT", ["Nightmare Scythe"] = "WS_STRMND",
+    ["Spinning Scythe"] = "WS_STR", ["Vorpal Scythe"] = "WS_STR",
+    ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEXINT", ["Shadowstitch"] = "WS_CHR",
+    ["Energy Steal"] = "WS_MND", ["Evisceration"] = "WS_DEX",
+    ["Shining Strike"] = "WS_STRMND", ["Brainshaker"] = "WS_STR", ["Starlight"] = "WS_Utility",
+    ["Skullbreaker"] = "WS_STR", ["True Strike"] = "WS_STR",
+    ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT", ["Flat Blade"] = "WS_STR",
+    ["Shining Blade"] = "WS_STRMND", ["Circle Blade"] = "WS_STR", ["Spirits Within"] = "WS_HP",
+}
 
 -- ----------------------------------------------------------------------------
--- RNG: WEAPONS
+-- BST: MAGIC / PET / WEAPONS / MACROS
 -- ----------------------------------------------------------------------------
+BST.MA = {}
+BST.PET = {}
 
-RNG.Weapons = { Main="Failnaught", Range="Ajjub Bow", Ammo="Demon Arrow" }
+-- Only Sturdy Axe is explicitly present in the current Finley inventory.
+-- Barbaroi Axe is the Lv40 BST Artifact weapon, but is not assumed merely
+-- from the user's armor-acquisition rule; future axe upgrades can be added
+-- here when acquired.
+BST.Weapons = {
+    Main = "Sturdy Axe",
+}
 
--- ----------------------------------------------------------------------------
--- RNG: JOB ABILITIES / MAGIC / WEAPON SKILLS / MACROS
--- ----------------------------------------------------------------------------
--- Dedicated mechanics and ownership audit remains to be completed here.
--- Keep all RNG-specific additions inside this section.
+BST.Macro = {
+    Alt = {
+        ["!`"] = "Charm", ["!1"] = "Reward", ["!2"] = "Call Beast",
+        ["!3"] = "Bestial Loyalty", ["!4"] = "Familiar", ["!5"] = "Snarl",
+        ["!6"] = "Feral Howl", ["!7"] = "Killer Instinct",
+    },
+    WS = {
+        ["^!`"] = "Raging Axe", ["^!1"] = "Smash Axe", ["^!2"] = "Spinning Axe",
+        ["^!3"] = "Rampage", ["^!4"] = "Calamity", ["^!5"] = "Mistral Axe",
+        ["^!6"] = "Decimation", ["^!7"] = "Evisceration", ["^!8"] = "Vorpal Scythe",
+        ["^!9"] = "Spirits Within", ["^!0"] = "True Strike",
+    },
+}
 
-
--- ============================================================================
+-- END BST
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 75
