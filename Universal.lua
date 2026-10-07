@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2348
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2355
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2681,7 +2681,6 @@ local BST_WS_PhysicalByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [73] = { Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_STRByLevel = BST_WS_PhysicalByLevel
