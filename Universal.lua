@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2355
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2359
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2614,8 +2614,7 @@ BST.Sets.RewardByLevel = {
 }
 
 -- No Call Beast-specific gear is claimed until a directly modifying BST piece
--- is verified.  Do not substitute Monster Gloves here; Relic ownership was
--- not authorized by the current BST audit.
+-- is verified.
 BST.Sets.CallBeast = {}
 BST.Sets.Snarl = { Ring1 = "Sattva Ring" }
 BST.Sets.Familiar = {}
@@ -2725,7 +2724,6 @@ BST.Sets.WS_HPByLevel = {
     [57] = { Ring2 = "Bomb Queen Ring" },
     [70] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [73] = { Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
