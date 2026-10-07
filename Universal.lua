@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2312
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2319
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2575,20 +2575,17 @@ BST.Sets.EngagedByLevel = {
 -- BST: MANUAL DEFENSE MODES
 -- ----------------------------------------------------------------------------
 BST.Sets.PDT = {
-    Body  = "Monster Jackcoat",
-    Hands = "Monster Gloves",
-    Ring1 = "Sattva Ring",
-    Legs  = "Monster Trousers",
-    Feet  = "Monster Gaiters",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
 }
-BST.Sets.MDT = {
-    Body  = "Monster Jackcoat",
-    Hands = "Monster Gloves",
-    Ring1 = "Sattva Ring",
-    Legs  = "Monster Trousers",
-    Feet  = "Monster Gaiters",
+BST.Sets.PDTByLevel = {
+    [72] = { Body = "Monster Jackcoat" },
+    [73] = { Legs = "Monster Trousers" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves" },
 }
-
+BST.Sets.MDT = BST.Sets.PDT
+BST.Sets.MDTByLevel = BST.Sets.PDTByLevel
 -- ----------------------------------------------------------------------------
 -- BST: JOB-ABILITY SETS
 -- ----------------------------------------------------------------------------
@@ -2596,9 +2593,35 @@ BST.Sets.JA_Default = {}
 BST.Sets.JA_Offensive = BST.Sets.Engaged
 BST.Sets.JA_Defensive = { Ring1 = "Sattva Ring" }
 BST.Sets.JA_Enmity = { Ring1 = "Sattva Ring" }
-BST.Sets.Charm = { Head = "Monster Helm", Body = "Monster Jackcoat", Hands = "Monster Gloves", Legs = "Monster Trousers", Feet = "Monster Gaiters" }
-BST.Sets.Reward = { Body = "Monster Jackcoat", Feet = "Monster Gaiters" }
-BST.Sets.CallBeast = { Hands = "Monster Gloves" }
+BST.Sets.Charm = {
+    Head = "Shade Tiara", Body = "Shade Harness", Hands = "Shade Mittens",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BST.Sets.CharmByLevel = {
+    [52] = { Feet = "Beast Gaiters" },
+    [54] = { Hands = "Beast Gloves" },
+    [56] = { Head = "Beast Helm" },
+    [58] = { Body = "Beast Jackcoat" },
+    [60] = { Legs = "Beast Trousers" },
+    [70] = { Waist = "Monster Belt" },
+    [71] = { Head = "Monster Helm" },
+    [72] = { Body = "Monster Jackcoat" },
+    [73] = { Legs = "Monster Trousers" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves" },
+}
+BST.Sets.Reward = {}
+BST.Sets.RewardByLevel = {
+    [52] = { Feet = "Beast Gaiters" },
+    [58] = { Body = "Beast Jackcoat" },
+    [72] = { Body = "Monster Jackcoat" },
+    [74] = { Feet = "Monster Gaiters" },
+}
+BST.Sets.CallBeast = {}
+BST.Sets.CallBeastByLevel = {
+    [54] = { Hands = "Beast Gloves" },
+    [75] = { Hands = "Monster Gloves" },
+}
 BST.Sets.Snarl = { Ring1 = "Sattva Ring" }
 BST.Sets.Familiar = {}
 BST.Sets.FeralHowl = {}
@@ -2614,7 +2637,6 @@ BST.JA = {
     ["Feral Howl"] = "FeralHowl",
     ["Killer Instinct"] = "KillerInstinct",
 }
-
 -- ----------------------------------------------------------------------------
 -- BST: WEAPONSKILL SETS
 -- ----------------------------------------------------------------------------
@@ -2660,24 +2682,37 @@ BST.Sets.WS_HP = {
 BST.Sets.WS_Utility = {}
 BST.Sets.WS_Default = BST.Sets.WS_STR
 
--- Lv50/70/72/73/75 common WS upgrades; specialized modifier sets above
--- retain their modifier-specific head/ear/ring choices where necessary.
-BST.Sets.WS_STRByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_STRDEXByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_DEXByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_STRVITByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_CHRByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_HPByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_STRMNDByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_MNDByLevel = BST.Sets.EngagedByLevel
-BST.Sets.WS_STRINTByLevel = {
-    [50] = { Waist = "Swift Belt", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring" },
-    [70] = { Neck = "Ancient Torque", Ring1 = "Tamas Ring", Ring2 = "Balrahn's Ring" },
-    [72] = { Ear1 = "Moldavite Earring", Ear2 = "Wing Earring", Feet = "Dusk Ledelsens +1" },
+local BST_WS_PhysicalByLevel = {
+    [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [73] = { Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
-BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRINTByLevel
+BST.Sets.WS_STRByLevel = BST_WS_PhysicalByLevel
+BST.Sets.WS_STRDEXByLevel = BST_WS_PhysicalByLevel
+BST.Sets.WS_DEXByLevel = BST_WS_PhysicalByLevel
+BST.Sets.WS_STRVITByLevel = BST_WS_PhysicalByLevel
+BST.Sets.WS_CHRByLevel = BST_WS_PhysicalByLevel
+
+BST.Sets.WS_STRMNDByLevel = {
+    [50] = { Waist = "Swift Belt" },
+    [70] = { Neck = "Ancient Torque" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BST.Sets.WS_MNDByLevel = BST.Sets.WS_STRMNDByLevel
+BST.Sets.WS_STRINTByLevel = BST.Sets.WS_STRMNDByLevel
+BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRMNDByLevel
+
+BST.Sets.WS_HPByLevel = {
+    [50] = { Waist = "Swift Belt" },
+    [70] = { Neck = "Ancient Torque" },
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
 
 BST.WS = {
     ["Raging Axe"] = "WS_STR", ["Smash Axe"] = "WS_STR", ["Gale Axe"] = "WS_STRINT",
@@ -2692,7 +2727,6 @@ BST.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT", ["Flat Blade"] = "WS_STR",
     ["Shining Blade"] = "WS_STRMND", ["Circle Blade"] = "WS_STR", ["Spirits Within"] = "WS_HP",
 }
-
 -- ----------------------------------------------------------------------------
 -- BST: MAGIC / PET / WEAPONS / MACROS
 -- ----------------------------------------------------------------------------
