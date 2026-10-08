@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-06.2359
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1846
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -142,7 +142,7 @@ local CONFIG = {
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 42, RNG = 43,
+    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 60, RNG = 43,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -2488,12 +2488,12 @@ DRK.Macro = {
 -- ============================================================================
 -- BST: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 42
+-- Current job level: 60
 --
--- BST progression is tiered from the current Lv42 state through the Lv75
--- endpoint.  The user authorizes acquisition of all BST Artifact and Relic
--- armor by the levels at which they become available.  Beastmaster AF+1 is
--- NOT assumed here; augmentation is a separate ownership decision.
+-- All five base Beast (Artifact) armor pieces are owned. Beast AF+1 is not
+-- assumed. Monster (Relic) armor is owned except Monster Jackcoat, which must
+-- never be equipped. Hecatomb Harness is owned and BST-usable for WS; its
+-- native Slow penalty excludes it from normal TP sets.
 --
 -- CatsEyeXI BST: Fencer I at 60, Fencer II at 75, Stout Servant at 75.
 --
@@ -2531,10 +2531,12 @@ BST.Sets.IdleByLevel = {
     [54] = { Hands = "Beast Gloves" },
     [56] = { Head = "Beast Helm" },
     [58] = { Body = "Beast Jackcoat" },
-    [60] = { Legs = "Beast Trousers" },
-    [70] = { Neck = "Ancient Torque", Ring2 = "Ulthalam's Ring" },
+    [60] = { Legs = "Beast Trousers" }, -- Enhances Killer effects; useful outside TP.
+    [70] = { Neck = "Ancient Torque", Ring2 = "Ulthalam's Ring", Waist = "Monster Belt" },
+    [71] = { Head = "Monster Helm" },
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
-    [75] = { Hands = "Beast Gloves", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle" },
 }
 
 BST.Sets.Resting = BST.Sets.Idle
@@ -2557,13 +2559,15 @@ BST.Sets.Engaged = {
     Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Legs  = "Shade Tights",
-    Feet  = "Shade Leggings",
+    Feet  = "Bounding Boots", -- DEX+3 / AGI+3; beats Shade Leggings' DEX+2 for TP.
 }
 
 BST.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [54] = { Hands = "Beast Gloves" }, -- DEX+3; a real TP benefit, unlike Charm-only gear.
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Legs = "Monster Trousers" }, -- DEX+4; keep AF Killer gear out of TP.
     [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
@@ -2580,9 +2584,11 @@ BST.Sets.PDTByLevel = {
     [54] = { Hands = "Beast Gloves" },
     [56] = { Head = "Beast Helm" },
     [58] = { Body = "Beast Jackcoat" },
-    [60] = { Legs = "Beast Trousers" },
+    [60] = { Legs = "Beast Trousers" }, -- Preserves the AF Killer effect while targeted.
+    [71] = { Head = "Monster Helm" },
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
-    [75] = { Back = "Aesir Mantle" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle" },
 }
 BST.Sets.MDT = BST.Sets.PDT
 BST.Sets.MDTByLevel = BST.Sets.PDTByLevel
@@ -2605,27 +2611,52 @@ BST.Sets.CharmByLevel = {
     [56] = { Head = "Beast Helm" },
     [58] = { Body = "Beast Jackcoat" },
     [60] = { Legs = "Beast Trousers" },
+    [70] = { Waist = "Monster Belt" }, -- CHR+6 and Accuracy+7.
+    [71] = { Head = "Monster Helm" }, -- Charm+5; retain Beast Helm for Tame.
+    [74] = { Feet = "Monster Gaiters" }, -- Reward +20% HP recovered.
+    [75] = { Hands = "Monster Gloves" }, -- Charm+4; Call Beast set below too.
+}
+
+-- Tame benefits from Beast Helm's direct success-rate enhancement. Share the
+-- Charm base, but deliberately do not upgrade the head to Monster Helm.
+BST.Sets.Tame = BST.Sets.Charm
+BST.Sets.TameByLevel = {
+    [52] = { Feet = "Beast Gaiters" },
+    [54] = { Hands = "Beast Gloves" },
+    [56] = { Head = "Beast Helm" },
+    [58] = { Body = "Beast Jackcoat" },
+    [60] = { Legs = "Beast Trousers" },
+    [70] = { Waist = "Monster Belt" },
+    [74] = { Feet = "Monster Gaiters" },
+    [75] = { Hands = "Monster Gloves" },
 }
 
 BST.Sets.Reward = {}
 BST.Sets.RewardByLevel = {
-    [52] = { Feet = "Beast Gaiters" },
-    [58] = { Body = "Beast Jackcoat" },
+    [52] = { Feet = "Beast Gaiters" }, -- Reward potency: +10% HP recovered.
+    [58] = { Body = "Beast Jackcoat" }, -- Removes pet Paralyze, Poison, and Blind.
+    [74] = { Feet = "Monster Gaiters" }, -- Superior Reward potency: +20% HP recovered.
 }
 
--- No Call Beast-specific gear is claimed until a directly modifying BST piece
+-- Monster Gloves' Call Beast enhancement belongs on the activation set, not
+-- on the TP set. Bestial Loyalty remains separate until its CatsEyeXI effect
 -- is verified.
 BST.Sets.CallBeast = {}
+BST.Sets.CallBeastByLevel = {
+    [75] = { Hands = "Monster Gloves" },
+}
+BST.Sets.BestialLoyalty = {}
 BST.Sets.Snarl = { Ring1 = "Sattva Ring" }
 BST.Sets.Familiar = {}
 BST.Sets.FeralHowl = {}
-BST.Sets.KillerInstinct = {}
+BST.Sets.KillerInstinct = { Legs = "Beast Trousers" }
 
 BST.JA = {
     ["Charm"] = "Charm",
+    ["Tame"] = "Tame",
     ["Reward"] = "Reward",
     ["Call Beast"] = "CallBeast",
-    ["Bestial Loyalty"] = "CallBeast",
+    ["Bestial Loyalty"] = "BestialLoyalty",
     ["Snarl"] = "Snarl",
     ["Familiar"] = "Familiar",
     ["Feral Howl"] = "FeralHowl",
@@ -2638,40 +2669,40 @@ BST.JA = {
 BST.Sets.WS_STR = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_STRDEX = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_DEX = BST.Sets.WS_STRDEX
 BST.Sets.WS_STRVIT = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Rajas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_STRMND = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_STRINT = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_DEXINT = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Moldavite Earring", Ear2 = "Wing Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_MND = BST.Sets.WS_STRMND
 BST.Sets.WS_CHR = BST.Sets.WS_STR
 BST.Sets.WS_HP = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_Utility = {}
 BST.Sets.WS_Default = BST.Sets.WS_STR
@@ -2679,7 +2710,8 @@ BST.Sets.WS_Default = BST.Sets.WS_STR
 local BST_WS_PhysicalByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_STRByLevel = BST_WS_PhysicalByLevel
@@ -2689,23 +2721,25 @@ BST.Sets.WS_DEXByLevel = BST_WS_PhysicalByLevel
 BST.Sets.WS_STRVITByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [58] = { Body = "Beast Jackcoat" },
-    [60] = { Legs = "Beast Trousers" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
 BST.Sets.WS_CHRByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
 BST.Sets.WS_STRMNDByLevel = {
     [50] = { Waist = "Swift Belt" },
     [70] = { Neck = "Ancient Torque" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_MNDByLevel = BST.Sets.WS_STRMNDByLevel
@@ -2714,7 +2748,8 @@ BST.Sets.WS_STRINTByLevel = {
     [47] = { Ear1 = "Moldavite Earring" },
     [50] = { Waist = "Swift Belt" },
     [70] = { Neck = "Ancient Torque" },
-    [72] = { Ear2 = "Wing Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear2 = "Wing Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRINTByLevel
@@ -2723,19 +2758,20 @@ BST.Sets.WS_HPByLevel = {
     [50] = { Waist = "Swift Belt" },
     [57] = { Ring2 = "Bomb Queen Ring" },
     [70] = { Neck = "Ancient Torque" },
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
 BST.Sets.WS_CHRDEX_MAGIC = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Static Earring", Ear2 = "Wing Earring",
     Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Tamas Ring", Ring2 = "Sattva Ring",
-    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_CHRDEX_MAGICByLevel = {
     [47] = { Ear1 = "Moldavite Earring" },
     [50] = { Waist = "Swift Belt" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [73] = { Legs = "Monster Trousers" },
     [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
@@ -2771,7 +2807,7 @@ BST.Macro = {
     Alt = {
         ["!`"] = "Charm", ["!1"] = "Reward", ["!2"] = "Call Beast",
         ["!3"] = "Bestial Loyalty", ["!4"] = "Familiar", ["!5"] = "Snarl",
-        ["!6"] = "Feral Howl", ["!7"] = "Killer Instinct",
+        ["!6"] = "Feral Howl", ["!7"] = "Killer Instinct", ["!8"] = "Tame",
     },
     WS = {
         ["^!`"] = "Raging Axe", ["^!1"] = "Smash Axe", ["^!2"] = "Spinning Axe",
