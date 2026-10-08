@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1846
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1850
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -80,6 +80,9 @@ local CONFIG = {
     -- Plain F12 displays the effective Universal macro deck. Alt-F12 remains
     -- reserved for the global engaged-weapon selection toggle.
     MacroDisplayKey = "F12",
+
+    -- Shift-F12 lists the current main job's named equipment sets.
+    SetListKey = "+F12",
 
     ManualSetSeconds = 5,
 
@@ -7720,6 +7723,202 @@ profile.HandleItem = function()
     -- Intentionally no automatic item usage.
 end
 
+-- ============================================================================
+-- READ-ONLY SET INSPECTION
+-- ============================================================================
+-- Shift+F12 lists named sets for the current main job. /lac fwd show <name>
+-- prints the level-adjusted set and configured weapon choices without equipping
+-- or locking anything. ByLevel tables are overlays, not standalone sets.
+
+local function HasConfiguredSlots(set)
+    if type(set) ~= "table" then
+        return false
+    end
+    for _, value in pairs(set) do
+        if IsDefined(value) then
+            return true
+        end
+    end
+    return false
+end
+
+local function HasLevelOverlay(job, setName)
+    local overlay = job and job.Sets and job.Sets[setName .. "ByLevel"]
+    if type(overlay) ~= "table" then
+        return false
+    end
+    for _, levelSet in pairs(overlay) do
+        if HasConfiguredSlots(levelSet) then
+            return true
+        end
+    end
+    return false
+end
+
+local function GetDisplayableSetNames(job)
+    local names = {}
+    if not job or type(job.Sets) ~= "table" then
+        return names
+    end
+
+    for name, set in pairs(job.Sets) do
+        if type(name) == "string"
+            and not name:match("ByLevel$")
+            and (HasConfiguredSlots(set) or HasLevelOverlay(job, name)) then
+            names[#names + 1] = name
+        end
+    end
+
+    table.sort(names, function(a, b)
+        return string.lower(a) < string.lower(b)
+    end)
+    return names
+end
+
+local function FindNamedSet(job, requestedName)
+    if not job or not requestedName or requestedName == "" then
+        return nil, nil
+    end
+
+    local folded = string.lower(requestedName)
+    for name, set in pairs(job.Sets or {}) do
+        if type(name) == "string"
+            and not name:match("ByLevel$")
+            and string.lower(name) == folded
+            and (HasConfiguredSlots(set) or HasLevelOverlay(job, name)) then
+            return name, set
+        end
+    end
+    return nil, nil
+end
+
+local function DisplaySlot(value)
+    if not IsDefined(value) then
+        return "-"
+    end
+    return tostring(value)
+end
+
+local function GetDisplayedWeaponSlots(job, player)
+    if not job or not player then
+        return nil, nil, nil, nil
+    end
+
+    -- Mirror EquipJobWeapons()'s intentional job-specific priorities so this
+    -- read-only display describes the profile's selected weapon configuration.
+    if player.MainJob == "SMN" then
+        local pet = gData.GetPet()
+        local avatarActive = pet ~= nil and pet.Name ~= nil and pet.Name ~= ""
+        local useGridarvor = player.Status == "Engaged"
+            or avatarActive or smnStaffMode == "Gridarvor"
+        return useGridarvor and "Gridarvor" or "Chatoyant Staff", "Ossa Grip", nil, nil
+    end
+
+    if player.MainJob == "PLD" then
+        local realParty = HasRealPlayerInParty()
+        local pldCanDW = player.SubJob == "NIN"
+            or player.SubJob == "THF"
+            or player.SubJob == "DNC"
+        local sub = (not realParty and pldCanDW)
+            and job.Weapons.DWSub
+            or job.Weapons.Shield
+        return job.Weapons.Main, sub, job.Weapons.Range, job.Weapons.Ammo
+    end
+
+    if player.MainJob == "THF" then
+        return job.Weapons.DWMain, job.Weapons.DWSub,
+            job.Weapons.Range, job.Weapons.Ammo
+    end
+
+    local weapons = GetWeaponConfig(job, player) or {}
+    if CanDualWield(player)
+        and IsDefined(weapons.DWMain)
+        and IsDefined(weapons.DWSub) then
+        return weapons.DWMain, weapons.DWSub, weapons.Range, weapons.Ammo
+    end
+
+    return weapons.Main,
+        IsDefined(weapons.Shield) and weapons.Shield or weapons.Sub,
+        weapons.Range, weapons.Ammo
+end
+
+local function ShowJobSetNames()
+    local player = gData.GetPlayer()
+    local job = GetJob(player)
+    if not player or not job then
+        gFunc.Message("[Sets] Unable to determine current main job.")
+        return
+    end
+
+    local names = GetDisplayableSetNames(job)
+    gFunc.Message(
+        "[Sets] " .. tostring(player.MainJob) .. tostring(player.MainJobLevel or 0)
+            .. "/" .. tostring(player.SubJob or "None")
+            .. tostring(player.SubJobLevel or 0) .. " - " .. #names .. " named sets"
+    )
+
+    -- Keep each chat message reasonably short and easy to scan.
+    local line = ""
+    for _, name in ipairs(names) do
+        local candidate = (line == "") and name or (line .. " | " .. name)
+        if #candidate > 150 and line ~= "" then
+            gFunc.Message(line)
+            line = name
+        else
+            line = candidate
+        end
+    end
+    if line ~= "" then
+        gFunc.Message(line)
+    end
+
+    gFunc.Message("Type '/lac fwd show SetName' to list equipment in the set.")
+end
+
+local function ShowNamedSet(requestedName)
+    local player = gData.GetPlayer()
+    local job = GetJob(player)
+    local setName, _ = FindNamedSet(job, requestedName)
+    if not player or not job then
+        gFunc.Message("[Sets] Unable to determine current main job.")
+        return
+    end
+    if not setName then
+        gFunc.Message("[Sets] Set not found for " .. tostring(player.MainJob)
+            .. ": " .. tostring(requestedName or "(missing name)"))
+        gFunc.Message("Use Shift+F12 to list named sets for the current job.")
+        return
+    end
+
+    local set = GetSet(job, setName)
+    local main, sub, range, ammo = GetDisplayedWeaponSlots(job, player)
+    local autoWeapons = engagedWeaponLogicEnabled and "ON" or "OFF"
+
+    gFunc.Message("[Universal] Automatic Engaged weapon selection: "
+        .. autoWeapons .. " (Alt+F12 toggles)")
+    gFunc.Message("Main: " .. DisplaySlot(main)
+        .. " | Sub: " .. DisplaySlot(sub)
+        .. " | Range: " .. DisplaySlot(range)
+        .. " | Ammo: " .. DisplaySlot(ammo))
+    gFunc.Message("Armor & accessories for " .. setName .. " (level-adjusted):")
+    gFunc.Message("Head: " .. DisplaySlot(set.Head)
+        .. " | Neck: " .. DisplaySlot(set.Neck)
+        .. " | Ear1: " .. DisplaySlot(set.Ear1)
+        .. " | Ear2: " .. DisplaySlot(set.Ear2))
+    gFunc.Message("Body: " .. DisplaySlot(set.Body)
+        .. " | Hands: " .. DisplaySlot(set.Hands)
+        .. " | Ring1: " .. DisplaySlot(set.Ring1)
+        .. " | Ring2: " .. DisplaySlot(set.Ring2))
+    gFunc.Message("Back: " .. DisplaySlot(set.Back)
+        .. " | Waist: " .. DisplaySlot(set.Waist)
+        .. " | Legs: " .. DisplaySlot(set.Legs)
+        .. " | Feet: " .. DisplaySlot(set.Feet))
+
+    if not HasConfiguredSlots(set) then
+        gFunc.Message("[Sets] This set has no configured items at your current level.")
+    end
+end
+
 profile.HandleCommand = function(args)
     if not args or not args[1] then
         return
@@ -7731,6 +7930,20 @@ profile.HandleCommand = function(args)
     -- This resolves the common set name against the CURRENT MAIN JOB, so the
     -- behavior is global rather than duplicated inside each job section.
     -- It is a temporary equip/lock for testing; it does not change the state.
+    if command == "sets" then
+        ShowJobSetNames()
+        return
+    end
+
+    if command == "show" then
+        local requested = {}
+        for i = 2, #args do
+            requested[#requested + 1] = tostring(args[i])
+        end
+        ShowNamedSet(table.concat(requested, " "))
+        return
+    end
+
     if command == "set" then
         local player = gData.GetPlayer()
         local job = GetJob(player)
@@ -8453,6 +8666,11 @@ profile.OnLoad = function()
         "/bind " .. CONFIG.MacroDisplayKey .. " down /lac fwd macros"
     )
 
+    AshitaCore:GetChatManager():QueueCommand(
+        -1,
+        "/bind " .. CONFIG.SetListKey .. " down /lac fwd sets"
+    )
+
     local player = gData.GetPlayer()
     lastEngagedState = player and player.Status == "Engaged" or false
     lastMovementState = player and player.IsMoving == true and not IsMounted() or false
@@ -8476,6 +8694,7 @@ profile.OnUnload = function()
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MDTKey)
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.EngagedWeaponToggleKey .. " down")
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MacroDisplayKey .. " down")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.SetListKey .. " down")
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!W down")
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!+W down")
     ClearOwnedMacroBinds()
@@ -8511,6 +8730,11 @@ end
 --   1. Add the set to JOBS.SMN.Sets / JOBS.BST.Sets / JOBS.DRG.Sets /
 --      JOBS.PUP.Sets.
 --   2. Add JOBS.<JOB>.PET["Action Name"] = "SetName".
+--
+-- SET INSPECTION:
+--   Shift-F12 lists named, nonempty sets for the current main job.
+--   /lac fwd show SetName prints effective level-adjusted equipment without
+--   changing equipment or applying a temporary lock.
 --
 -- ENGAGED WEAPON TOGGLE:
 --   Alt-F12 toggles automatic Engaged-state weapon selection globally.
