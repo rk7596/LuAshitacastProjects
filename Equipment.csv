@@ -150,7 +150,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 148,Monster Gaiters,True,,,,,present in Universal.lua; metadata pending
 149,Monster Gloves,True,,,,,present in Universal.lua; metadata pending
 150,Monster Helm,True,,,,,present in Universal.lua; metadata pending
-151,Monster Jackcoat,True,,,,,present in Universal.lua; metadata pending
+285,Monster Jackcoat,False,Body,74,BST,Charm+,NOT OWNED; user reports Monster Relic set except body
 152,Monster Trousers,True,,,,,present in Universal.lua; metadata pending
 153,Murgleis,True,Main,75.0,RDM,,inventory-confirmed; metadata pending
 154,Myochin Haidate,True,,,,,present in Universal.lua; metadata pending
@@ -280,3 +280,8 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 277,Healer's Duckbills,True,Feet,52.0,WHM,MP+10 AGI+3 Spell interruption rate down 20%,verified
 278,Cleric's Bliaut,True,Body,74.0,WHM,MP+24 Enmity-2 Refresh+1 Enhances Regen potency,verified
 279,Noble's Tunic,True,Body,68.0,WHM,MP+17 Refresh+1 Cure potency +10%,verified
+280,Beast Gaiters,True,Feet,52,BST,Charm+; Reward potency +10% HP recovered,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+281,Beast Gloves,True,Hands,54,BST,DEX+3; Charm+,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+282,Beast Helm,True,Head,56,BST,Charm+; enhances Tame,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+283,Beast Jackcoat,True,Body,58,BST,Charm+; enhances Reward; removes pet Paralyze/Poison/Blind,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+284,Beast Trousers,True,Legs,60,BST,Enhances Killer effects,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
