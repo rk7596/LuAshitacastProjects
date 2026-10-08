@@ -112,7 +112,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 110,Grapevine Cape,True,Back,71.0,RDM,,inventory-confirmed; metadata pending
 111,Gridarvor,True,Main,75.0,SMN,,inventory-confirmed; metadata pending
 112,Hecate's Crown,True,Head,75.0,BLM RDM SCH,MP+23 Magic Accuracy-2 Magic Attack+4,verified
-113,Hecatomb Harness,True,Body,73.0,WAR MNK PLD DRK SAM,WS-only candidate; native Slow makes it unsuitable for normal TP,verified
+113,Hecatomb Harness,True,Body,73.0,WAR MNK PLD DRK SAM BST,WS-only candidate; native Slow makes it unsuitable for normal TP,verified; user confirms BST WS use
 114,Hierarch Belt,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
 115,High Brth. Mantle,True,,,,,present in Universal.lua; metadata pending
 116,Hollow Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
