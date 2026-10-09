@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1850
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1951
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -273,36 +273,58 @@ local function GetLevelSetOverlay(job, name)
         return nil
     end
 
-    local byLevel = job.Sets[name .. "ByLevel"]
-    if type(byLevel) ~= "table" then
-        return nil
-    end
-
     local player = gData.GetPlayer()
     local level = player and (player.MainJobLevel or 0) or 0
     if level <= 0 then
         return nil
     end
 
-    local thresholds = {}
-    for minimumLevel, candidate in pairs(byLevel) do
-        local n = tonumber(minimumLevel)
-        if n and type(candidate) == "table" and n <= level then
-            table.insert(thresholds, n)
+    local result = {}
+
+    -- Universal Engaged progression defaults for level 55-74 characters.
+    -- At Lv75 the normal job-specific endgame sets take over unchanged.
+    -- Ryl.Grd. Collar is not an all-job item in standard/CatsEyeXI references;
+    -- only use it for jobs listed in its equipment restriction.
+    if name == "Engaged" and level >= 55 and level < 75 then
+        result.Back = "Ryl. Army Mantle"
+
+        if level < 60 then
+            local rylGuardCollarJobs = {
+                WAR = true, PLD = true, DRK = true,
+                BST = true, SAM = true, NIN = true,
+            }
+            if player and rylGuardCollarJobs[player.MainJob] then
+                result.Neck = "Ryl.Grd. Collar"
+            end
+        else
+            -- Chivalrous Chain is All Jobs; job-specific higher-level overlays
+            -- below can still supersede it (e.g. Ancient Torque at Lv70).
+            result.Neck = "Chivalrous Chain"
         end
     end
 
-    if #thresholds == 0 then
-        return nil
+    local byLevel = job.Sets[name .. "ByLevel"]
+    local thresholds = {}
+    if type(byLevel) == "table" then
+        for minimumLevel, candidate in pairs(byLevel) do
+            local n = tonumber(minimumLevel)
+            if n and type(candidate) == "table" and n <= level then
+                table.insert(thresholds, n)
+            end
+        end
     end
 
     table.sort(thresholds)
 
-    local result = {}
+    -- Explicit job-by-level equipment is merged after the shared defaults and
+    -- therefore wins when a job has a more appropriate item for that slot.
     for _, minimumLevel in ipairs(thresholds) do
         result = MergeSets(result, byLevel[minimumLevel])
     end
 
+    if next(result) == nil then
+        return nil
+    end
     return result
 end
 
