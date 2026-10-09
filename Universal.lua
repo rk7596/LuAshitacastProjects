@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1952
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1954
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -7897,6 +7897,25 @@ local function ShowJobSetNames()
     gFunc.Message("Type '/lac fwd show SetName' to list equipment in the set.")
 end
 
+-- Inline FFXI chat color tags. Keep the surrounding message at LuAshitacast's
+-- normal message color (106); only the requested labels/punctuation change.
+-- Color table 1: 92 = LightCyan; 89 = MediumPurple.
+local function SetDisplayColorSpan(color, text)
+    return string.char(0x1E, color) .. text .. string.char(0x1E, 106)
+end
+
+local function SetDisplaySlotLabel(name)
+    return SetDisplayColorSpan(92, name) .. SetDisplayColorSpan(89, ":")
+end
+
+local function SetDisplaySeparator()
+    return SetDisplayColorSpan(89, " | ")
+end
+
+local function SetDisplayColon()
+    return SetDisplayColorSpan(89, ":")
+end
+
 local function ShowNamedSet(requestedName)
     local player = gData.GetPlayer()
     local job = GetJob(player)
@@ -7916,25 +7935,26 @@ local function ShowNamedSet(requestedName)
     local main, sub, range, ammo = GetDisplayedWeaponSlots(job, player)
     local autoWeapons = engagedWeaponLogicEnabled and "ON" or "OFF"
 
-    gFunc.Message("[Universal] Automatic Engaged weapon selection: "
-        .. autoWeapons .. " (Alt+F12 toggles)")
-    gFunc.Message("Main: " .. DisplaySlot(main)
-        .. " | Sub: " .. DisplaySlot(sub)
-        .. " | Range: " .. DisplaySlot(range)
-        .. " | Ammo: " .. DisplaySlot(ammo))
-    gFunc.Message("Armor & accessories for " .. setName .. " (level-adjusted):")
-    gFunc.Message("Head: " .. DisplaySlot(set.Head)
-        .. " | Neck: " .. DisplaySlot(set.Neck)
-        .. " | Ear1: " .. DisplaySlot(set.Ear1)
-        .. " | Ear2: " .. DisplaySlot(set.Ear2))
-    gFunc.Message("Body: " .. DisplaySlot(set.Body)
-        .. " | Hands: " .. DisplaySlot(set.Hands)
-        .. " | Ring1: " .. DisplaySlot(set.Ring1)
-        .. " | Ring2: " .. DisplaySlot(set.Ring2))
-    gFunc.Message("Back: " .. DisplaySlot(set.Back)
-        .. " | Waist: " .. DisplaySlot(set.Waist)
-        .. " | Legs: " .. DisplaySlot(set.Legs)
-        .. " | Feet: " .. DisplaySlot(set.Feet))
+    gFunc.Message("[Universal] Automatic Engaged weapon selection"
+        .. SetDisplayColon() .. " " .. autoWeapons .. " (Alt+F12 toggles)")
+    gFunc.Message(SetDisplaySlotLabel("Main") .. " " .. DisplaySlot(main)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Sub") .. " " .. DisplaySlot(sub)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Range") .. " " .. DisplaySlot(range)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Ammo") .. " " .. DisplaySlot(ammo))
+    gFunc.Message("Armor & accessories for " .. setName .. " (level-adjusted)"
+        .. SetDisplayColon())
+    gFunc.Message(SetDisplaySlotLabel("Head") .. " " .. DisplaySlot(set.Head)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Neck") .. " " .. DisplaySlot(set.Neck)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Ear1") .. " " .. DisplaySlot(set.Ear1)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Ear2") .. " " .. DisplaySlot(set.Ear2))
+    gFunc.Message(SetDisplaySlotLabel("Body") .. " " .. DisplaySlot(set.Body)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Hands") .. " " .. DisplaySlot(set.Hands)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Ring1") .. " " .. DisplaySlot(set.Ring1)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Ring2") .. " " .. DisplaySlot(set.Ring2))
+    gFunc.Message(SetDisplaySlotLabel("Back") .. " " .. DisplaySlot(set.Back)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Waist") .. " " .. DisplaySlot(set.Waist)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Legs") .. " " .. DisplaySlot(set.Legs)
+        .. SetDisplaySeparator() .. SetDisplaySlotLabel("Feet") .. " " .. DisplaySlot(set.Feet))
 
     if not HasConfiguredSlots(set) then
         gFunc.Message("[Sets] This set has no configured items at your current level.")
