@@ -146,12 +146,12 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 144,Mimesis,True,Main,75.0,BLU,,inventory-confirmed; metadata pending
 145,Mirage Shalwar,True,Legs,73.0,BLU,,inventory-confirmed; metadata pending
 146,Moldavite Earring,True,Ear,47.0,ALL,,inventory-confirmed; metadata pending
-147,Monster Belt,True,,,,,present in Universal.lua; metadata pending
-148,Monster Gaiters,True,,,,,present in Universal.lua; metadata pending
-149,Monster Gloves,True,,,,,present in Universal.lua; metadata pending
-150,Monster Helm,True,,,,,present in Universal.lua; metadata pending
-285,Monster Jackcoat,False,Body,74,BST,Charm+,NOT OWNED; user reports Monster Relic set except body
-152,Monster Trousers,True,,,,,present in Universal.lua; metadata pending
+147,Monster Belt,True,Waist,70,BST,DEF+5 CHR+6 Accuracy+7 Enmity-3,inventory record retained; standard FFXI effects recorded; CatsEyeXI metadata pending
+148,Monster Gaiters,True,Feet,74,BST,DEF+14 HP+13 VIT+4 Enhances Reward effect; Charm+3,inventory record retained; standard FFXI effects recorded; CatsEyeXI metadata pending
+149,Monster Gloves,True,Hands,75,BST,DEF+15 HP+14 AGI+4 Enhances Call Beast; Charm+4,inventory record retained; standard FFXI effects recorded; CatsEyeXI metadata pending
+150,Monster Helm,True,Head,71,BST,DEF+26 HP+19 CHR+4 Parrying Skill+3 Charm+5,inventory record retained; standard FFXI effects recorded; CatsEyeXI metadata pending
+285,Monster Jackcoat,False,Body,72,BST,DEF+49 HP+21 INT+6 Enhances Reward effect; Charm+6,NOT OWNED; user reports Monster Relic set except body
+152,Monster Trousers,True,Legs,73,BST,DEF+34 HP+17 DEX+4 HP recovered while healing+3 Charm+2,inventory record retained; standard FFXI effects recorded; CatsEyeXI metadata pending
 153,Murgleis,True,Main,75.0,RDM,,inventory-confirmed; metadata pending
 154,Myochin Haidate,True,,,,,present in Universal.lua; metadata pending
 155,Myochin Kabuto,True,,,,,present in Universal.lua; metadata pending
@@ -180,7 +180,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 178,Rogue's Vest,True,,,,,present in Universal.lua; metadata pending
 179,Runeist Bottes,True,,,,,present in Universal.lua; metadata pending
 180,Runeist Trousers,True,,,,,present in Universal.lua; metadata pending
-181,Ryl. Army Mantle,True,,,,,present in Universal.lua; metadata pending
+181,Ryl. Army Mantle,True,Back,55,ALL,DEF+6 Enmity+2,inventory record retained; standard FFXI stats recorded; not preferred for BST state sets
 182,Ryl.Kgt. Belt,True,,,,,present in Universal.lua; metadata pending
 183,Salire Belt,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
 184,Saotome Domaru,True,,,,,present in Universal.lua; metadata pending
@@ -280,8 +280,8 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 277,Healer's Duckbills,True,Feet,52.0,WHM,MP+10 AGI+3 Spell interruption rate down 20%,verified
 278,Cleric's Bliaut,True,Body,74.0,WHM,MP+24 Enmity-2 Refresh+1 Enhances Regen potency,verified
 279,Noble's Tunic,True,Body,68.0,WHM,MP+17 Refresh+1 Cure potency +10%,verified
-280,Beast Gaiters,True,Feet,52,BST,Charm+; Reward potency +10% HP recovered,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
-281,Beast Gloves,True,Hands,54,BST,DEX+3; Charm+,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
-282,Beast Helm,True,Head,56,BST,Charm+; enhances Tame,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
-283,Beast Jackcoat,True,Body,58,BST,Charm+; enhances Reward; removes pet Paralyze/Poison/Blind,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
-284,Beast Trousers,True,Legs,60,BST,Enhances Killer effects,owned; BST Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+280,Beast Gaiters,True,Feet,52,BST,DEF+10 HP+11 AGI+3 Enhances Reward effect; Charm+2,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+281,Beast Gloves,True,Hands,54,BST,DEF+12 HP+11 DEX+3 Parrying Skill+5 Charm+3,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+282,Beast Helm,True,Head,56,BST,Charm+4; improves Tame success rate,owned; base Beast Artifact armor; remaining stats pending CatsEyeXI confirmation
+283,Beast Jackcoat,True,Body,58,BST,HP+20 VIT+3 Enhances Reward effect; Charm+5,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+284,Beast Trousers,True,Legs,60,BST,HP+15 CHR+4 Enhances Killer effects; Charm+6,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
