@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-08.1954
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1405
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -140,12 +140,12 @@ local CONFIG = {
 -- ============================================================================
 -- FINLEY CURRENT JOB LEVELS
 -- ============================================================================
--- Current character levels as of 2026-10-06.  These levels are authoritative
+-- Current character levels as of 2026-10-11.  These levels are authoritative
 -- for equipment/action availability.  Macro decks are intentionally allowed to
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 60, RNG = 43,
+    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 69, RNG = 43,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -285,7 +285,7 @@ local function GetLevelSetOverlay(job, name)
     -- At Lv75 the normal job-specific endgame sets take over unchanged.
     -- Ryl.Grd. Collar is not an all-job item in standard/CatsEyeXI references;
     -- only use it for jobs listed in its equipment restriction.
-    if (name == "Engaged" or name == "Idle") and level >= 55 and level < 75 then
+    if (name == "Engaged" or name == "Idle" or name == "Resting") and level >= 55 and level < 75 then
         result.Back = "Ryl. Army Mantle"
 
         if level < 60 then
@@ -2513,7 +2513,7 @@ DRK.Macro = {
 -- ============================================================================
 -- BST: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 60
+-- Current job level: 69
 --
 -- All five base Beast (Artifact) armor pieces are owned. Beast AF+1 is not
 -- assumed. Monster (Relic) armor is owned except Monster Jackcoat, which must
@@ -2727,7 +2727,7 @@ BST.Sets.WS_MND = BST.Sets.WS_STRMND
 BST.Sets.WS_CHR = BST.Sets.WS_STR
 BST.Sets.WS_HP = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring", Ear2 = "Static Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Sattva Ring",
+    Body = "Shade Harness", Hands = "Shade Mittens", Ring1 = "Sattva Ring", Ring2 = "Rajas Ring",
     Back = "Frugal Cape", Legs = "Shade Tights", Feet = "Bounding Boots",
 }
 BST.Sets.WS_Utility = {}
@@ -2741,8 +2741,19 @@ local BST_WS_PhysicalByLevel = {
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 BST.Sets.WS_STRByLevel = BST_WS_PhysicalByLevel
-BST.Sets.WS_STRDEXByLevel = BST_WS_PhysicalByLevel
-BST.Sets.WS_DEXByLevel = BST_WS_PhysicalByLevel
+
+-- DEX-modified physical WS specifically use Beast Gloves from Lv54 onward;
+-- keep the STR-only family on the existing STR-leaning baseline.
+local BST_WS_DexPhysicalByLevel = {
+    [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
+    [54] = { Hands = "Beast Gloves" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BST.Sets.WS_STRDEXByLevel = BST_WS_DexPhysicalByLevel
+BST.Sets.WS_DEXByLevel = BST_WS_DexPhysicalByLevel
 
 BST.Sets.WS_STRVITByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
@@ -2756,6 +2767,7 @@ BST.Sets.WS_STRVITByLevel = {
 BST.Sets.WS_CHRByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [71] = { Head = "Monster Helm" }, -- CHR+4 for CHR-modified WS such as Shadowstitch.
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
     [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
@@ -2778,14 +2790,24 @@ BST.Sets.WS_STRINTByLevel = {
     [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
     [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
-BST.Sets.WS_DEXINTByLevel = BST.Sets.WS_STRINTByLevel
+BST.Sets.WS_DEXINTByLevel = {
+    [47] = { Ear1 = "Moldavite Earring" },
+    [50] = { Waist = "Swift Belt" },
+    [54] = { Hands = "Beast Gloves" },
+    [70] = { Neck = "Ancient Torque" },
+    [72] = { Ear2 = "Wing Earring" },
+    [73] = { Body = "Hecatomb Harness", Legs = "Monster Trousers" },
+    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
 
 BST.Sets.WS_HPByLevel = {
     [50] = { Waist = "Swift Belt" },
     [57] = { Ring2 = "Bomb Queen Ring" },
     [70] = { Neck = "Ancient Torque" },
+    [71] = { Head = "Monster Helm" }, -- HP+19 helps Spirits Within.
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Hollow Earring" },
-    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    [73] = { Legs = "Monster Trousers" }, -- HP+17.
+    [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
 BST.Sets.WS_CHRDEX_MAGIC = {
@@ -2796,7 +2818,9 @@ BST.Sets.WS_CHRDEX_MAGIC = {
 BST.Sets.WS_CHRDEX_MAGICByLevel = {
     [47] = { Ear1 = "Moldavite Earring" },
     [50] = { Waist = "Swift Belt" },
-    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [54] = { Hands = "Beast Gloves" }, -- DEX+3 contributes to Primal Rend WSC.
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring", Waist = "Monster Belt" },
+    [71] = { Head = "Monster Helm" }, -- CHR+4 for Primal Rend's CHR modifier.
     [73] = { Legs = "Monster Trousers" },
     [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
