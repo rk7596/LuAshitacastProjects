@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1908
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1912
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -574,14 +574,25 @@ end
 -- from the profile's point of view.
 local function GetStateSet(job, player)
     if player.Status == "Engaged" then
+        local stateSet
         if player.MainJob == "PLD" then
             if HasRealPlayerInParty() then
-                return GetSet(job, "EngagedParty")
+                stateSet = GetSet(job, "EngagedParty")
             else
-                return GetSet(job, "EngagedSolo")
+                stateSet = GetSet(job, "EngagedSolo")
             end
+        else
+            stateSet = GetSet(job, "Engaged")
         end
-        return GetSet(job, "Engaged")
+
+        -- Optional job-local overlay for slots that depend on the active DW
+        -- source (native or support job). CanDualWield() is the same shared
+        -- decision used by the weapon selector.
+        local dualWieldSet = job.Sets and job.Sets.EngagedDualWield
+        if CanDualWield(player) and type(dualWieldSet) == "table" and next(dualWieldSet) ~= nil then
+            stateSet = MergeSets(stateSet, dualWieldSet)
+        end
+        return stateSet
     elseif player.Status == "Resting" then
         return GetSet(job, "Resting")
     end
@@ -2569,7 +2580,7 @@ BST.Sets.Engaged = {
     Head  = "Walahra Turban",
     Neck  = "Ancient Torque",
     Ear1  = "Brutal Earring",
-    Ear2  = "Hollow Earring",
+    Ear2  = "Hollow Earring", -- Single-wield fallback.
     Body  = "Pln. Khazagand", -- Accuracy+10 / increased critical-hit rate; accuracy-first baseline.
     Hands = "Beast Gloves", -- DEX+3.
     Ring1 = "Rajas Ring",
@@ -2578,6 +2589,11 @@ BST.Sets.Engaged = {
     Waist = "Ninurta's Sash",
     Legs  = "Monster Trousers",
     Feet  = "Dusk Ledelsens +1",
+}
+-- Shared Engaged handler overlays Ear2 only when the main/subjob combination
+-- grants Dual Wield. With BST /DNC, /NIN, or /THF, this becomes Suppanomimi.
+BST.Sets.EngagedDualWield = {
+    Ear2 = "Suppanomimi",
 }
 
 
@@ -7787,6 +7803,7 @@ local function GetDisplayableSetNames(job)
     for name, set in pairs(job.Sets) do
         if type(name) == "string"
             and not name:match("ByLevel$")
+            and name ~= "EngagedDualWield"
             and (HasConfiguredSlots(set) or HasLevelOverlay(job, name)) then
             names[#names + 1] = name
         end
@@ -7807,6 +7824,7 @@ local function FindNamedSet(job, requestedName)
     for name, set in pairs(job.Sets or {}) do
         if type(name) == "string"
             and not name:match("ByLevel$")
+            and name ~= "EngagedDualWield"
             and string.lower(name) == folded
             and (HasConfiguredSlots(set) or HasLevelOverlay(job, name)) then
             return name, set
@@ -7933,6 +7951,12 @@ local function ShowNamedSet(requestedName)
     end
 
     local set = GetSet(job, setName)
+    if setName == "Engaged" and CanDualWield(player) then
+        local dualWieldSet = job.Sets and job.Sets.EngagedDualWield
+        if type(dualWieldSet) == "table" and next(dualWieldSet) ~= nil then
+            set = MergeSets(set, dualWieldSet)
+        end
+    end
     local main, sub, range, ammo = GetDisplayedWeaponSlots(job, player)
     local autoWeapons = engagedWeaponLogicEnabled and "ON" or "OFF"
 
