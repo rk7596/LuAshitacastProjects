@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1905
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1908
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2515,7 +2515,7 @@ DRK.Macro = {
 -- ============================================================================
 -- BST: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 69
+-- Current job level: 75
 --
 -- All five base Beast (Artifact) armor pieces are owned. Beast AF+1 is not
 -- assumed. Monster (Relic) armor is owned except Monster Jackcoat, which must
@@ -2559,9 +2559,12 @@ BST.Sets.Resting = BST.Sets.Idle
 -- ----------------------------------------------------------------------------
 -- BST: ENGAGED / MASTER TP
 -- ----------------------------------------------------------------------------
--- The armor profile remains valid for either single-wield Fencer or future
--- Dual Wield.  The weapon selector only uses DWMain/DWSub when those are
--- populated with an actual BST axe pair.
+-- Master TP is configured for single-wield/Fencer because Sturdy Axe is the
+-- only BST weapon currently confirmed owned. No offhand is invented.
+--
+-- Body choice: Pln. Khazagand supplies Accuracy+10 and added critical-hit rate.
+-- Furia Mail (STR+3, DEX+4, Attack+7, Store TP+3) is the alternative if melee
+-- accuracy is already capped; it is owned but not the accuracy-first default.
 BST.Sets.Engaged = {
     Head  = "Walahra Turban",
     Neck  = "Ancient Torque",
@@ -2776,8 +2779,7 @@ BST.Sets.WS_Utility = {}
 BST.Sets.WS_Default = BST.Sets.WS_STR
 
 
--- DEX-modified physical WS specifically use Beast Gloves from Lv54 onward;
--- keep the STR-only family on the existing STR-leaning baseline.
+-- Physical WS families use Beast Gloves where DEX contributes to WSC.
 
 
 
