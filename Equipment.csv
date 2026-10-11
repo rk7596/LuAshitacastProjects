@@ -51,7 +51,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 49,Chasuble +1,True,Body,74.0,RDM,,inventory-confirmed; metadata pending
 50,Chatoyant Staff,True,Main,75.0,ALL,,inventory-confirmed; metadata pending
 51,Chiroptera Dagger,True,,,,,present in Universal.lua; metadata pending
-52,Chivalrous Chain,True,,,,,present in Universal.lua; metadata pending
+52,Chivalrous Chain,True,Neck,60,ALL,,present in Universal.lua; item metadata pending verification
 53,Comm. Bottes,True,,,,,present in Universal.lua; metadata pending
 54,Comm. Trews,True,,,,,present in Universal.lua; metadata pending
 55,Comm. Tricorne,True,,,,,present in Universal.lua; metadata pending
@@ -285,3 +285,4 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 282,Beast Helm,True,Head,56,BST,Charm+4; improves Tame success rate,owned; base Beast Artifact armor; remaining stats pending CatsEyeXI confirmation
 283,Beast Jackcoat,True,Body,58,BST,HP+20 VIT+3 Enhances Reward effect; Charm+5,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
 284,Beast Trousers,True,Legs,60,BST,HP+15 CHR+4 Enhances Killer effects; Charm+6,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
+286,Ryl.Grd. Collar,True,Neck,55,WAR PLD DRK BST SAM NIN,,user-confirmed item; exact stats pending verification
