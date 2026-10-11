@@ -2561,7 +2561,7 @@ BST.Sets.IdleByLevel = {
     [60] = { Legs = "Beast Trousers" }, -- Enhances Killer effects; useful outside TP.
     [70] = { Neck = "Ancient Torque", Ring2 = "Ulthalam's Ring", Waist = "Monster Belt" },
     [71] = { Head = "Monster Helm" },
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring", Feet = "Dusk Ledelsens +1" },
     [74] = { Feet = "Monster Gaiters" },
     [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle" },
 }
