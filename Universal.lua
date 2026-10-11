@@ -2590,10 +2590,11 @@ BST.Sets.Engaged = {
 BST.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [54] = { Hands = "Beast Gloves" }, -- DEX+3; a real TP benefit, unlike Charm-only gear.
-    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
-    [73] = { Legs = "Monster Trousers" }, -- DEX+4; keep AF Killer gear out of TP.
-    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    [60] = { Head = "Patroclus's Helm" }, -- First bit of extra Haste before Walahra Turban.
+    [72] = { Ear1 = "Hollow Earring", Ear2 = "Suppanomimi" },
+    [73] = { Legs = "Monster Trousers" }, -- DEX+4
+    [74] = { Neck = "Ancient Torque" },
+    [75] = { Head = "Walahra Turban", Ear1 = "Brutal Earring", Ring2 = "Mars's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
 
 
