@@ -2561,7 +2561,7 @@ BST.Sets.IdleByLevel = {
     [60] = { Legs = "Beast Trousers" }, -- Enhances Killer effects; useful outside TP.
     [70] = { Neck = "Ancient Torque", Ring2 = "Ulthalam's Ring", Waist = "Monster Belt" },
     [71] = { Head = "Monster Helm" },
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring", Feet = "Dusk Ledelsens +1" },
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
     [74] = { Feet = "Monster Gaiters" },
     [75] = { Hands = "Monster Gloves", Back = "Aesir Mantle" },
 }
@@ -2594,7 +2594,7 @@ BST.Sets.EngagedByLevel = {
     [54] = { Hands = "Beast Gloves" }, -- DEX+3; a real TP benefit, unlike Charm-only gear.
     [60] = { Head = "Patroclus's Helm" }, -- First bit of extra Haste before Walahra Turban.
     [72] = { Ear1 = "Hollow Earring", Ear2 = "Suppanomimi" },
-    [73] = { Legs = "Monster Trousers" }, -- DEX+4
+    [73] = { Legs = "Monster Trousers", Feet = "Dusk Ledelsens +1" }, -- DEX+4
     [74] = { Neck = "Ancient Torque" },
     [75] = { Head = "Walahra Turban", Ear1 = "Brutal Earring", Ring2 = "Mars's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
