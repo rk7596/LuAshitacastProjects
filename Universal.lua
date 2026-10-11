@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1405
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1408
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -281,12 +281,14 @@ local function GetLevelSetOverlay(job, name)
 
     local result = {}
 
-    -- Universal Idle/Engaged progression defaults for level 55-74 characters.
+    -- Universal Idle/Engaged/Resting progression defaults for level 55-74.
     -- At Lv75 the normal job-specific endgame sets take over unchanged.
-    -- Ryl.Grd. Collar is not an all-job item in standard/CatsEyeXI references;
-    -- only use it for jobs listed in its equipment restriction.
+    -- Ryl.Grd. Collar is restricted to its eligible jobs.
+    -- BST keeps its own lower-enmity cape because Ryl. Army Mantle adds enmity.
     if (name == "Engaged" or name == "Idle" or name == "Resting") and level >= 55 and level < 75 then
-        result.Back = "Ryl. Army Mantle"
+        if player.MainJob ~= "BST" then
+            result.Back = "Ryl. Army Mantle"
+        end
 
         if level < 60 then
             local rylGuardCollarJobs = {
