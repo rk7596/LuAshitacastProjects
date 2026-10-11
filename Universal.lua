@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1408
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1412
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2824,7 +2824,8 @@ BST.Sets.WS_CHRDEX_MAGICByLevel = {
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring", Waist = "Monster Belt" },
     [71] = { Head = "Monster Helm" }, -- CHR+4 for Primal Rend's CHR modifier.
     [73] = { Legs = "Monster Trousers" },
-    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    -- Keep Monster Belt's CHR+6 at Lv75 instead of overriding it with a haste belt.
+    [75] = { Ring2 = "Balrahn's Ring", Back = "Aesir Mantle" },
 }
 
 BST.WS = {
