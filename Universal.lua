@@ -2593,8 +2593,8 @@ BST.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt", Ring2 = "Ulthalam's Ring" },
     [54] = { Hands = "Beast Gloves" }, -- DEX+3; a real TP benefit, unlike Charm-only gear.
     [60] = { Head = "Patroclus's Helm" }, -- First bit of extra Haste before Walahra Turban.
-    [72] = { Ear1 = "Hollow Earring", Ear2 = "Suppanomimi" },
-    [73] = { Legs = "Monster Trousers", Feet = "Dusk Ledelsens +1" }, -- DEX+4
+    [72] = { Ear1 = "Hollow Earring", Ear2 = "Suppanomimi", Feet = "Dusk Ledelsens +1" },
+    [73] = { Legs = "Monster Trousers" },
     [74] = { Neck = "Ancient Torque" },
     [75] = { Head = "Walahra Turban", Ear1 = "Brutal Earring", Ring2 = "Mars's Ring", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
