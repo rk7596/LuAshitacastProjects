@@ -46,7 +46,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 44,Chaos Flanchard,True,Legs,56.0,DRK,,inventory-confirmed; metadata pending
 45,Chaos Gauntlets,True,Hands,54.0,DRK,Enhances Weapon Bash; Weapon Bash +10,verified
 46,Chaos Sollerets,True,Feet,52.0,DRK,Enhances Arcane Circle,verified
-47,Charmer's Sash,True,Waist,73.0,WHM BLM RDM DRK BRD SMN BLU SCH GEO,DEF+5 MP+25 INT+5 CHR+5 Magic Atk. Bonus+3 Drain/Aspir potency+5,CatsEyeXI-specific item metadata verified
+47,Charmer's Sash,True,Waist,70.0,WHM BLM RDM DRK BRD SMN BLU SCH GEO,MP+25 INT+5 CHR+5 Magic Atk. Bonus+3 Drain/Aspir potency+5,inventory-confirmed; CatsEyeXI item metadata should be verified against live item before treating all stats as authoritative
 48,Charmer\'s Sash,True,,,,,present in Universal.lua; metadata pending
 49,Chasuble +1,True,Body,74.0,RDM,,inventory-confirmed; metadata pending
 50,Chatoyant Staff,True,Main,75.0,ALL,,inventory-confirmed; metadata pending
