@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0425
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0440
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -8527,7 +8527,7 @@ local function MacroDeckLine(category, label)
         end
     end
     -- One visible ellipsis is more compact than the old spaced pipe separator.
-    return label .. ": " .. (#parts > 0 and table.concat(parts, "…") or "(none)")
+    return label .. ": " .. (#parts > 0 and table.concat(parts, "~") or "(none)")
 end
 
 ShowMacroDeck = function()
