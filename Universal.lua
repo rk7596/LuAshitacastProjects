@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0440
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0431
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -8509,7 +8509,7 @@ local function RecordMacroFromCommand(key, command)
     end
 end
 
-local function MacroDeckLine(category, label)
+local function MacroDeckLines(category, label)
     local parts = {}
     for _, key in ipairs(CONFIG.MacroKeys) do
         if MacroDeckCategory(key) == category and macroDeck[category][key] then
@@ -8526,8 +8526,32 @@ local function MacroDeckLine(category, label)
             parts[#parts + 1] = displayKey .. "=" .. macroDeck[category][key]
         end
     end
-    -- One visible ellipsis is more compact than the old spaced pipe separator.
-    return label .. ": " .. (#parts > 0 and table.concat(parts, "~") or "(none)")
+
+    -- Keep every output comfortably below VanaCore's observed chat wrapping width.
+    -- ASCII comma avoids the tilde/ellipsis glyph conversion seen in the beta client.
+    if #parts == 0 then
+        return { label .. ": (none)" }
+    end
+
+    local maxLineLength = 96
+    local firstPrefix = label .. ": "
+    local output = {}
+    local current = firstPrefix
+
+    for _, part in ipairs(parts) do
+        local separator = current == firstPrefix and "" or ", "
+        if #current + #separator + #part > maxLineLength then
+            output[#output + 1] = current
+            current = "  " .. part
+        else
+            current = current .. separator .. part
+        end
+    end
+
+    if current ~= "" then
+        output[#output + 1] = current
+    end
+    return output
 end
 
 ShowMacroDeck = function()
@@ -8544,9 +8568,15 @@ ShowMacroDeck = function()
             .. "/" .. tostring(player.SubJob or "None")
             .. tostring(player.SubJobLevel or 0)
     )
-    gFunc.Message(MacroDeckLine("Ctrl", "CTRL"))
-    gFunc.Message(MacroDeckLine("Alt", "ALT"))
-    gFunc.Message(MacroDeckLine("CtrlAlt", "CTRL+ALT"))
+    for _, line in ipairs(MacroDeckLines("Ctrl", "CTRL")) do
+        gFunc.Message(line)
+    end
+    for _, line in ipairs(MacroDeckLines("Alt", "ALT")) do
+        gFunc.Message(line)
+    end
+    for _, line in ipairs(MacroDeckLines("CtrlAlt", "CTRL+ALT")) do
+        gFunc.Message(line)
+    end
 end
 
 local function QueueBind(key, command)
