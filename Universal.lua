@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0005
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0012
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2904,12 +2904,16 @@ BRD.Sets.EngagedByLevel = {
 BRD.Sets.EngagedDualWield = { Ear2 = "Suppanomimi" }
 
 BRD.Sets.PDT = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Ethereal Earring",
-    Ear2 = "Magnetic Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Sattva Ring", Back = "Frugal Cape", Legs = "Shade Tights",
     Feet = "Shade Leggings",
 }
+BRD.Sets.PDTByLevel = {
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+}
 BRD.Sets.MDT = BRD.Sets.PDT
+BRD.Sets.MDTByLevel = BRD.Sets.PDTByLevel
 
 BRD.Sets.Precast = {}
 BRD.Sets.PrecastByLevel = { [75] = { Ear1 = "Loquac. Earring" } }
@@ -2979,17 +2983,18 @@ BRD.Sets.WS_STRDEX = {
 }
 BRD.Sets.WS_DEX = BRD.Sets.WS_STRDEX
 BRD.Sets.WS_STRINT = BRD.Sets.WS_STR
+BRD.Sets.WS_STRMND = BRD.Sets.WS_STR
 BRD.Sets.WS_CHR = {
-    Head = "Shade Tiara", Neck = "Star Necklace", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Errant Hpl.", Hands = "Shade Mittens",
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Waist = "Charmer's Sash", Legs = "Shade Tights", Feet = "Shade Leggings",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_HP = {
-    Head = "Bard's Roundlet", Neck = "Star Necklace", Ear1 = "Ethereal Earring",
-    Ear2 = "Magnetic Earring", Body = "Errant Hpl.", Hands = "Bard's Cuffs",
-    Ring1 = "Bomb Queen Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Waist = "Charmer's Sash", Legs = "Bard's Cannions", Feet = "Bard's Slippers",
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Sattva Ring", Ring2 = "Rajas Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
 local BRD_WS_PhysicalByLevel = {
@@ -3003,13 +3008,17 @@ BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_CHRByLevel = {
+    [49] = { Neck = "Star Necklace" },
     [70] = { Waist = "Charmer's Sash" },
     [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl." },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_HPByLevel = {
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
-    [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Waist = "Charmer's Sash" },
+    [57] = { Ring1 = "Bomb Queen Ring" },
+    [70] = { Waist = "Charmer's Sash" },
+    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl.", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+    [73] = { Hands = "Bard's Cuffs" },
+    [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Legs = "Bard's Cannions", Feet = "Bard's Slippers" },
 }
 BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
@@ -3036,7 +3045,10 @@ BRD.Macro = {
         ["!4"] = "Foe Lullaby", ["!5"] = "Horde Lullaby",
         ["!6"] = "Battlefield Elegy", ["!7"] = "Finale",
         ["!8"] = "Mage's Ballad II", ["!9"] = "Victory March",
-        ["!0"] = "Valor Minuet V", ["!-"] = "Sword Madrigal", ["!="] = "Blade Madrigal",
+        ["!0"] = "Valor Minuet V",
+    },
+    Ctrl = {
+        ["^-"] = "Sword Madrigal", ["^="] = "Blade Madrigal",
     },
     WS = {
         ["^!`"] = "Fast Blade", ["^!1"] = "Burning Blade", ["^!2"] = "Flat Blade",
@@ -8781,6 +8793,9 @@ local function ApplyBRDMacros(player)
             target = "<stnpc>"
         end
         BindSpell(key, spell, target)
+    end
+    for key, spell in pairs(BRD.Macro.Ctrl) do
+        BindSpell(key, spell, "<me>")
     end
     for key, ws in pairs(BRD.Macro.WS) do
         BindWS(key, ws)
