@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0030
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0045
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2866,10 +2866,10 @@ BST.Macro = {
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 40; this job remains in active progression through 75.
--- Owned instruments are not recorded, so Range and Ammo are never assigned
--- by this section. Instruments equip in Range, not Ammo; leaving both omitted
--- preserves the manually selected instrument. Add exact instruments before
--- automating song-specific Range switches.
+-- Equipment.csv currently has no confirmed owned BRD instruments. Instruments
+-- occupy Range (not Ammo); this section assigns neither slot, preserving the
+-- manually selected instrument and keeping TP sets from overwriting Range.
+-- Add exact owned instruments before automating song-specific Range switches.
 -- ============================================================================
 
 local BRD = JOBS.BRD
@@ -2881,9 +2881,10 @@ BRD.Sets.Idle = {
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.IdleByLevel = {
-    [49] = { Neck = "Star Necklace" },
-    [70] = { Waist = "Charmer's Sash" },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
     [72] = { Head = "Bard's Roundlet" },
+    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle" },
 }
 BRD.Sets.Resting = BRD.Sets.Idle
 BRD.Sets.RestingByLevel = BRD.Sets.IdleByLevel
@@ -2926,8 +2927,8 @@ BRD.Sets.Spell_Buff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.Spell_BuffByLevel = {
-    [49] = { Neck = "Star Necklace" },
-    [70] = { Waist = "Charmer's Sash" },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
@@ -2937,21 +2938,19 @@ BRD.Sets.SongDebuff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.SongDebuffByLevel = {
-    [49] = { Neck = "Star Necklace" },
-    [70] = { Waist = "Charmer's Sash" },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
-    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl." },
+    [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
 }
 local BRDDebuffSongs = {
     "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
-    "Foe Lullaby II", "Horde Lullaby II", "Finale",
+    "Magic Finale", "Maiden's Virelai",
     "Foe Requiem", "Foe Requiem II", "Foe Requiem III", "Foe Requiem IV",
-    "Foe Requiem V", "Foe Requiem VI", "Foe Requiem VII",
+    "Foe Requiem V", "Foe Requiem VI",
     "Fire Threnody", "Ice Threnody", "Wind Threnody", "Earth Threnody",
     "Lightning Threnody", "Water Threnody", "Light Threnody", "Dark Threnody",
-    "Fire Threnody II", "Ice Threnody II", "Wind Threnody II", "Earth Threnody II",
-    "Lightning Threnody II", "Water Threnody II", "Light Threnody II", "Dark Threnody II",
 }
 BRD.MA = {}
 for _, songName in ipairs(BRDDebuffSongs) do
@@ -3020,7 +3019,8 @@ BRD.Sets.WS_HP = {
 }
 BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
 local BRD_WS_PhysicalByLevel = {
-    [49] = { Neck = "Star Necklace" }, [50] = { Waist = "Swift Belt" },
+    [50] = { Waist = "Swift Belt" },
+    [60] = { Neck = "Chivalrous Chain" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
@@ -3032,28 +3032,29 @@ BRD.Sets.WS_DEXINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRMNDByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_MNDByLevel = {
-    [49] = { Neck = "Star Necklace" },
-    [72] = { Body = "Errant Hpl." },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_CHRByLevel = {
-    [49] = { Neck = "Star Necklace" },
-    [70] = { Waist = "Charmer's Sash" },
-    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl." },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
+    [72] = { Head = "Bard's Roundlet" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_HPByLevel = {
     [57] = { Ring1 = "Bomb Queen Ring" },
     [70] = { Waist = "Charmer's Sash" },
-    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl.", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+    [72] = { Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
     [73] = { Hands = "Bard's Cuffs" },
     [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Legs = "Bard's Cannions", Feet = "Bard's Slippers" },
 }
 BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
-    ["Flat Blade"] = "WS_STR", ["Shining Blade"] = "WS_STRMND",
-    ["Circle Blade"] = "WS_STR", ["Vorpal Blade"] = "WS_STRDEX",
-    ["Spirits Within"] = "WS_HP",
+    ["Red Lotus Blade"] = "WS_STRINT", ["Seraph Blade"] = "WS_STRMND",
+    ["Flat Blade"] = "WS_STR", ["Power Slash"] = "WS_STR",
+    ["Shining Blade"] = "WS_STRMND", ["Circle Blade"] = "WS_STR",
+    ["Vorpal Blade"] = "WS_STRDEX", ["Spirits Within"] = "WS_HP",
     ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEXINT",
     ["Viper Bite"] = "WS_DEX", ["Shadowstitch"] = "WS_CHR",
     ["Cyclone"] = "WS_DEXINT", ["Energy Steal"] = "WS_MND",
@@ -3072,9 +3073,9 @@ BRD.Macro = {
     },
     Spells = {
         ["!4"] = "Foe Lullaby", ["!5"] = "Horde Lullaby",
-        ["!6"] = "Battlefield Elegy", ["!7"] = "Finale",
+        ["!6"] = "Battlefield Elegy", ["!7"] = "Magic Finale",
         ["!8"] = "Mage's Ballad II", ["!9"] = "Victory March",
-        ["!0"] = "Valor Minuet V",
+        ["!0"] = "Valor Minuet IV",
     },
     Ctrl = {
         ["^-"] = "Sword Madrigal", ["^="] = "Blade Madrigal",
