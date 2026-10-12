@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0341
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0400
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -122,7 +122,7 @@ local CONFIG = {
         '^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-','^=',
         '!`','!1','!2','!3','!4','!5','!6','!7','!8','!9','!0','!-','!=',
         '^!`','^!1','^!2','^!3','^!4','^!5','^!6','^!7','^!8','^!9','^!0','^!-','^!=',
-        '!Backspace','^Backspace',"![", "!]", "!'","!\\",
+        '!Backspace','^Backspace', "^[", "^]", "^'","![", "!]", "!'","!\\",
     },
 }
 
@@ -3126,40 +3126,50 @@ BRD.Weapons = { Main = "Chiroptera Dagger" }
 BRD.WeaponsByLevel = {
     [70] = { Main = "Joyeuse", DWMain = "Joyeuse", DWSub = "Chiroptera Dagger" },
 }
+local BRDBalladTiers = {
+    [25] = "Mage's Ballad",
+    [55] = "Mage's Ballad II",
+}
+local BRDMinuetTiers = {
+    [3] = "Valor Minuet", [23] = "Valor Minuet II",
+    [43] = "Valor Minuet III", [63] = "Valor Minuet IV",
+}
+local BRDPaeonTiers = {
+    [5] = "Army's Paeon", [15] = "Army's Paeon II",
+    [35] = "Army's Paeon III", [45] = "Army's Paeon IV",
+    [65] = "Army's Paeon V",
+}
+
 BRD.Macro = {
-    -- CTRL = self/party support. Standard songs are AoE; <me> centers the song
-    -- on the Bard. Pianissimo + Ctrl-Backspace offers single-target Ballad.
+    -- CTRL = self/party support. Four job abilities retain the familiar opening keys.
     CtrlJA = {
         ["^`"] = "Pianissimo", ["^1"] = "Soul Voice",
         ["^2"] = "Troubadour", ["^3"] = "Nightingale",
     },
-    Ctrl = {
-        ["^0"] = "Sword Madrigal",
-        ["^Backspace"] = "Mage's Ballad",
-    },
-    -- Highest learned rank of a true spell family. Advancing/Victory March and
-    -- Sword/Blade Madrigal are separate useful songs, so they get separate keys.
+    -- Song priorities follow the requested common-use order:
+    -- Ballads > Minuets > Marches > Madrigals > Paeons > Preludes.
+    -- Rank-pair families use separate keys for the two highest learned ranks.
     TieredCtrl = {
-        ["^4"] = {
-            [3] = "Valor Minuet", [23] = "Valor Minuet II",
-            [43] = "Valor Minuet III", [63] = "Valor Minuet IV",
-        },
-        ["^5"] = { [29] = "Advancing March" },
-        ["^6"] = { [60] = "Victory March" },
-        ["^7"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
-        ["^8"] = {
-            [5] = "Army's Paeon", [15] = "Army's Paeon II",
-            [35] = "Army's Paeon III", [45] = "Army's Paeon IV",
-            [65] = "Army's Paeon V",
-        },
-        ["^9"] = {
-            [1] = "Knight's Minne", [21] = "Knight's Minne II",
-            [41] = "Knight's Minne III", [61] = "Knight's Minne IV",
-        },
-        ["^-"] = { [51] = "Blade Madrigal" },
-        ["^="] = { [73] = "Chocobo Mazurka" },
+        ["^4"] = BRDBalladTiers,              -- highest Ballad rank (AoE)
+        ["^6"] = BRDMinuetTiers,              -- highest Minuet rank
+        ["^8"] = { [60] = "Victory March" }, -- stronger March
+        ["^9"] = { [29] = "Advancing March" },
+        ["^0"] = { [51] = "Blade Madrigal" },
+        ["^-"] = { [11] = "Sword Madrigal" },
+        ["^="] = BRDPaeonTiers,               -- highest Paeon rank
+        ["^]"] = { [31] = "Hunter's Prelude" },
+        ["^'"] = { [71] = "Archer's Prelude" },
     },
-    -- ALT = hostile song/spell actions; each targets an enemy.
+    TieredCtrlSecond = {
+        ["^5"] = BRDBalladTiers,
+        ["^7"] = BRDMinuetTiers,
+        ["^["] = BRDPaeonTiers,
+    },
+    -- Pianissimo single-target option: select an ally, then cast the highest Ballad.
+    TieredCtrlTargeted = {
+        ["^Backspace"] = BRDBalladTiers,
+    },
+    -- ALT = hostile songs/spells; each binding targets an enemy.
     Alt = {
         ["!3"] = "Magic Finale",
         ["!5"] = "Fire Threnody", ["!6"] = "Ice Threnody",
@@ -8554,21 +8564,28 @@ end
 -- ApplyMacroDeck() includes MainJobLevel in its signature, so the selected spell
 -- refreshes on level-up without per-poll rebinds. Reusable for families such as
 -- BLM Stone tiers and BRD song tiers.
-local function BindLevelledSpell(key, tiersByLevel, level, target)
+-- Bind the Nth-highest spell rank learned by the main job. Rank 1 selects the
+-- highest available; rank 2 selects the second-highest, or stays unbound if
+-- fewer than two ranks are learned. ApplyMacroDeck rebuilds bindings on level-up.
+local function BindLevelledSpell(key, tiersByLevel, level, target, rank)
     local jobLevel = tonumber(level) or 0
-    local selectedLevel = -1
-    local selectedSpell = nil
+    local desiredRank = math.max(1, math.floor(tonumber(rank) or 1))
+    local eligible = {}
 
     for minimumLevel, spellName in pairs(tiersByLevel or {}) do
         minimumLevel = tonumber(minimumLevel)
-        if minimumLevel and minimumLevel <= jobLevel and minimumLevel > selectedLevel then
-            selectedLevel = minimumLevel
-            selectedSpell = spellName
+        if minimumLevel and minimumLevel <= jobLevel then
+            eligible[#eligible + 1] = { Level = minimumLevel, Spell = spellName }
         end
     end
 
-    if selectedSpell then
-        BindSpell(key, selectedSpell, target)
+    table.sort(eligible, function(a, b)
+        return a.Level > b.Level
+    end)
+
+    local selected = eligible[desiredRank]
+    if selected then
+        BindSpell(key, selected.Spell, target)
     end
 end
 
@@ -8936,17 +8953,20 @@ local function ApplyBRDMacros(player)
     for key, ja in pairs(BRD.Macro.CtrlJA) do
         BindJA(key, ja, "<me>")
     end
-    for key, spell in pairs(BRD.Macro.Ctrl) do
-        BindSpell(key, spell, key == "^Backspace" and "<stpc>" or "<me>")
-    end
     for key, tiers in pairs(BRD.Macro.TieredCtrl) do
-        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>")
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>", 1)
+    end
+    for key, tiers in pairs(BRD.Macro.TieredCtrlSecond) do
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>", 2)
+    end
+    for key, tiers in pairs(BRD.Macro.TieredCtrlTargeted) do
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>", 1)
     end
     for key, spell in pairs(BRD.Macro.Alt) do
         BindSpell(key, spell, "<stnpc>")
     end
     for key, tiers in pairs(BRD.Macro.TieredAlt) do
-        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stnpc>")
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stnpc>", 1)
     end
     for key, ws in pairs(BRD.Macro.WS) do
         BindWS(key, ws)
