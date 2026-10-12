@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0150
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0152
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3051,9 +3051,20 @@ local BRD_WS_PhysicalByLevel = {
 BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
-BRD.Sets.WS_DEXINTByLevel = BRD_WS_PhysicalByLevel
-BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
-BRD.Sets.WS_STRMNDByLevel = BRD_WS_PhysicalByLevel
+
+-- Magical sword/dagger WS get Moldavite's Magic Attack Bonus +5 from Lv47.
+-- Keep it in Ear1 through Lv75; add the best available compatible second ear.
+local BRD_WS_MagicalByLevel = {
+    [47] = { Ear1 = "Moldavite Earring" },
+    [50] = { Waist = "Swift Belt" },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BRD.Sets.WS_DEXINTByLevel = BRD_WS_MagicalByLevel
+BRD.Sets.WS_STRINTByLevel = BRD_WS_MagicalByLevel
+BRD.Sets.WS_STRMNDByLevel = BRD_WS_MagicalByLevel
 BRD.Sets.WS_MNDByLevel = {
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
     [75] = { Back = "Aesir Mantle" },
