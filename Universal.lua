@@ -1,6 +1,6 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0355
--- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0341
+-- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
 -- LuAshitacast's normal per-character loader looks for JOB.lua inside the
@@ -122,7 +122,7 @@ local CONFIG = {
         '^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-','^=',
         '!`','!1','!2','!3','!4','!5','!6','!7','!8','!9','!0','!-','!=',
         '^!`','^!1','^!2','^!3','^!4','^!5','^!6','^!7','^!8','^!9','^!0','^!-','^!=',
-        '!Backspace','^Backspace',"!LEFTBRACKET", "!RIGHTBRACKET", "!'","!\\",
+        '!Backspace','^Backspace',"![", "!]", "!'","!\\",
     },
 }
 
@@ -8531,9 +8531,8 @@ end
 local function QueueBind(key, command)
     RecordMacroFromCommand(key, command)
 
-    -- Explicitly bind on key-down.  This is equivalent to Ashita's default,
-    -- but makes the intended behavior unambiguous for punctuation keys such
-    -- as Alt-[ and Alt-].  Ashita documents [ and ] as bindable key names.
+    -- Explicitly bind on key-down. VanaCore (beta) requires literal [ and ]
+    -- key names for the bracket binds; keep them as ordinary quoted Lua strings.
     AshitaCore:GetChatManager():QueueCommand(
         -1,
         "/bind " .. key .. " down " .. command
@@ -8657,19 +8656,19 @@ local function ApplyNINDNCMacros(player)
     local hasDNC = mainIsDNC or subIsDNC
     if not mainIsNIN then
         if mainIsDNC and subIsNIN then
-            BindJA('!LEFTBRACKET', 'Quickstep')
-            BindJA('!RIGHTBRACKET', 'Box Step')
+            BindJA('![', 'Quickstep')
+            BindJA('!]', 'Box Step')
             BindSpell('!-', 'Utsusemi: Ichi', '<stpc>')
             BindSpell('!=', 'Utsusemi: Ni', '<stpc>')
         elseif mainIsDNC then
             BindJA('!-', 'Quickstep')
             BindJA('!=', 'Box Step')
         elseif subIsNIN then
-            BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
-            BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
+            BindSpell('![', 'Utsusemi: Ichi', '<stpc>')
+            BindSpell('!]', 'Utsusemi: Ni', '<stpc>')
         elseif subIsDNC then
-            BindJA('!LEFTBRACKET', 'Quickstep')
-            BindJA('!RIGHTBRACKET', 'Box Step')
+            BindJA('![', 'Quickstep')
+            BindJA('!]', 'Box Step')
         end
     end
     if hasDNC then
@@ -8697,8 +8696,8 @@ local function ApplyNINMacros(player)
     for key, spell in pairs(NIN.Macro.Alt) do
         BindSpell(key, spell, '<stnpc>')
     end
-    BindSpell('!LEFTBRACKET', 'Utsusemi: Ichi', '<stpc>')
-    BindSpell('!RIGHTBRACKET', 'Utsusemi: Ni', '<stpc>')
+    BindSpell('![', 'Utsusemi: Ichi', '<stpc>')
+    BindSpell('!]', 'Utsusemi: Ni', '<stpc>')
     for key, ja in pairs(NIN.Macro.Ctrl) do
         BindJA(key, ja, '<stpc>')
     end
