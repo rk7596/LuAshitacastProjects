@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0400
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0411
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -761,13 +761,13 @@ local function UpdateEnspellBind(force)
         -- through an extra /lac command.
         AshitaCore:GetChatManager():QueueCommand(
             -1,
-            "/bind ^BACKSLASH down /recast \"" .. currentEnspell ..
+            "/bind ^BACKSLASH /recast \"" .. currentEnspell ..
             "\";/ma \"" .. currentEnspell .. "\" <stpc>"
         )
     else
         currentEnspell = ""
         lastEnspellSignature = signature
-        AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^BACKSLASH down")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^BACKSLASH")
     end
 end
 
@@ -8541,17 +8541,17 @@ end
 local function QueueBind(key, command)
     RecordMacroFromCommand(key, command)
 
-    -- Explicitly bind on key-down. VanaCore (beta) requires literal [ and ]
-    -- key names for the bracket binds; keep them as ordinary quoted Lua strings.
+    -- Use VanaCore's default key-down binding form by omitting the optional down/up
+    -- qualifier. Literal [ and ] remain ordinary quoted Lua string contents.
     AshitaCore:GetChatManager():QueueCommand(
         -1,
-        "/bind " .. key .. " down " .. command
+        "/bind " .. key .. " " .. command
     )
 end
 
 local function ClearOwnedMacroBinds()
     for _, key in ipairs(CONFIG.MacroKeys) do
-        AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. key .. " down")
+        AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. key)
     end
 end
 
@@ -9121,17 +9121,17 @@ profile.OnLoad = function()
     AshitaCore:GetChatManager():QueueCommand(
         -1,
         "/bind " .. CONFIG.EngagedWeaponToggleKey
-            .. " down /lac fwd toggleengagedweapons"
+            .. " /lac fwd toggleengagedweapons"
     )
 
     AshitaCore:GetChatManager():QueueCommand(
         -1,
-        "/bind " .. CONFIG.MacroDisplayKey .. " down /lac fwd macros"
+        "/bind " .. CONFIG.MacroDisplayKey .. " /lac fwd macros"
     )
 
     AshitaCore:GetChatManager():QueueCommand(
         -1,
-        "/bind " .. CONFIG.SetListKey .. " down /lac fwd sets"
+        "/bind " .. CONFIG.SetListKey .. " /lac fwd sets"
     )
 
     local player = gData.GetPlayer()
@@ -9140,8 +9140,8 @@ profile.OnLoad = function()
     lastObservedZoneId = GetCurrentZoneId()
     ApplyMacroDeck(player, true)
     UpdateEnspellBind(true)
-    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!W down /lac fwd warpring")
-    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!+W down /lac fwd warpringcancel")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!W /lac fwd warpring")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/bind ^!+W /lac fwd warpringcancel")
 end
 
 profile.OnUnload = function()
@@ -9155,11 +9155,11 @@ profile.OnUnload = function()
 
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.PDTKey)
     AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MDTKey)
-    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.EngagedWeaponToggleKey .. " down")
-    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MacroDisplayKey .. " down")
-    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.SetListKey .. " down")
-    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!W down")
-    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!+W down")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.EngagedWeaponToggleKey)
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.MacroDisplayKey)
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind " .. CONFIG.SetListKey)
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!W")
+    AshitaCore:GetChatManager():QueueCommand(-1, "/unbind ^!+W")
     ClearOwnedMacroBinds()
     macroDeck.Ctrl = {}
     macroDeck.Alt = {}
