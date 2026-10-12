@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0152
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0221
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2867,9 +2867,12 @@ BST.Macro = {
 -- ============================================================================
 -- Current job level: 40; this job remains in active progression through 75.
 -- Equipment.csv currently has no confirmed owned BRD instruments. Instruments
--- occupy Range (not Ammo); this section assigns neither slot, preserving the
--- manually selected instrument and keeping TP sets from overwriting Range.
--- Add exact owned instruments before automating song-specific Range switches.
+-- occupy Range (not Ammo); all state/TP sets leave Range and Ammo unspecified.
+-- Standard FFXI instrument mechanics: Wind provides greater song magic accuracy
+-- at shorter AoE range; String provides wider AoE range with less song magic accuracy.
+-- Song strength/accuracy combines Singing skill with only the equipped instrument's
+-- matching Wind or String skill. No CatsEyeXI override is verified here. Preserve
+-- manual Range choice; do not automate until exact owned instruments are logged.
 -- ============================================================================
 
 local BRD = JOBS.BRD
@@ -2880,13 +2883,18 @@ BRD.Sets.Idle = {
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
+-- Bard's Cannions' standard Courtly Measure latent is useful while sheathed;
+-- do not assume it activates with the weapon drawn (CatsEyeXI override unverified).
 BRD.Sets.IdleByLevel = {
     [70] = { Waist = "Charmer's Sash" },
     [72] = {
         Head = "Bard's Roundlet", Ear1 = "Ethereal Earring",
         Ear2 = "Magnetic Earring",
     },
-    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle" },
+    [75] = {
+        Head = "Walahra Turban", Back = "Aesir Mantle",
+        Legs = "Bard's Cannions",
+    },
 }
 
 -- Resting has dedicated MP-oriented gear rather than simply inheriting Idle.
@@ -2910,6 +2918,9 @@ BRD.Sets.RestingByLevel = {
         Ear2 = "Magnetic Earring", Hands = "Yigit Gages",
         Legs = "Errant Slops",
     },
+    -- Chatoyant Staff supplies standard hMP+10; Cannions' sheathed latent
+    -- provides INT/MND/CHR+8. CatsEyeXI-specific item overrides remain unverified.
+    [75] = { Main = "Chatoyant Staff", Legs = "Bard's Cannions" },
 }
 
 BRD.Sets.Engaged = {
@@ -2956,6 +2967,9 @@ BRD.Sets.Spell_BuffByLevel = {
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
+    -- Standard Ninurta's Sash Haste improves recast; no verified owned song-duration
+    -- piece is available to supersede it. CatsEyeXI effects should be confirmed in-game.
+    [75] = { Waist = "Ninurta's Sash" },
 }
 BRD.Sets.SongDebuff = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
@@ -2984,11 +2998,12 @@ BRD.Sets.JA_Default = {}
 BRD.Sets.JA_Offensive = BRD.Sets.Engaged
 BRD.Sets.JA_Defensive = { Ring1 = "Sattva Ring" }
 BRD.Sets.JA_Enmity = { Ring1 = "Sattva Ring" }
-BRD.Sets.CourtlyMeasure = { Legs = "Bard's Cannions" }
+-- Standard FFXI data: Courtly Measure is Bard's Cannions' latent effect while
+-- the weapon is sheathed (+8 INT/MND/CHR, -8 STR/DEX/VIT/AGI), not an activatable JA.
+-- Keep the owned Cannions in level-75 Idle/Resting sets rather than mapping a false JA.
 BRD.JA = {
     ["Pianissimo"] = "JA_Default", ["Soul Voice"] = "JA_Default",
     ["Troubadour"] = "JA_Default", ["Nightingale"] = "JA_Default",
-    ["Courtly Measure"] = "CourtlyMeasure",
 }
 
 BRD.Sets.WS_STR = {
