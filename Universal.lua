@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0145
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0146
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3068,7 +3068,7 @@ BRD.Sets.WS_HPByLevel = {
 BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
     ["Red Lotus Blade"] = "WS_STRINT", ["Seraph Blade"] = "WS_STRMND",
-    ["Flat Blade"] = "WS_STR", ["Power Slash"] = "WS_STR",
+    ["Flat Blade"] = "WS_STR",
     ["Shining Blade"] = "WS_STRMND", ["Circle Blade"] = "WS_STR",
     ["Vorpal Blade"] = "WS_STRDEX", ["Spirits Within"] = "WS_HP",
     ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEXINT",
