@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0146
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0150
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2876,13 +2876,16 @@ local BRD = JOBS.BRD
 
 BRD.Sets.Idle = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.IdleByLevel = {
     [70] = { Waist = "Charmer's Sash" },
-    [72] = { Head = "Bard's Roundlet" },
+    [72] = {
+        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring",
+        Ear2 = "Magnetic Earring",
+    },
     [75] = { Head = "Walahra Turban", Back = "Aesir Mantle" },
 }
 
@@ -2892,7 +2895,6 @@ BRD.Sets.Resting = {
     Head  = "Shade Tiara",
     Neck  = "Wing Pendant",
     Ear1  = "Wing Earring",
-    Ear2  = "Static Earring",
     Body  = "Shade Harness",
     Hands = "Shade Mittens",
     Ring1 = "Tamas Ring",
@@ -2912,7 +2914,7 @@ BRD.Sets.RestingByLevel = {
 
 BRD.Sets.Engaged = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
@@ -2927,7 +2929,7 @@ BRD.Sets.EngagedDualWield = { Ear2 = "Suppanomimi" }
 
 BRD.Sets.PDT = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Sattva Ring", Back = "Frugal Cape", Legs = "Shade Tights",
     Feet = "Shade Leggings",
 }
@@ -2935,7 +2937,9 @@ BRD.Sets.PDTByLevel = {
     [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
 }
 BRD.Sets.MDT = BRD.Sets.PDT
-BRD.Sets.MDTByLevel = BRD.Sets.PDTByLevel
+BRD.Sets.MDTByLevel = {
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Static Earring" },
+}
 
 BRD.Sets.Precast = {}
 BRD.Sets.PrecastByLevel = { [75] = { Ear1 = "Loquac. Earring" } }
@@ -2989,50 +2993,50 @@ BRD.JA = {
 
 BRD.Sets.WS_STR = {
     Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_STRDEX = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_DEX = BRD.Sets.WS_STRDEX
 BRD.Sets.WS_DEXINT = {
     Head = "Empress Hairpin", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_STRINT = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_STRMND = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Tamas Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_MND = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_CHR = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_HP = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Body = "Shade Harness", Hands = "Shade Mittens",
     Ring1 = "Sattva Ring", Ring2 = "Rajas Ring", Back = "Frugal Cape",
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
@@ -3051,11 +3055,12 @@ BRD.Sets.WS_DEXINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRMNDByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_MNDByLevel = {
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_CHRByLevel = {
     [70] = { Waist = "Charmer's Sash" },
-    [72] = { Head = "Bard's Roundlet" },
+    [72] = { Head = "Bard's Roundlet", Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_HPByLevel = {
