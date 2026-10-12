@@ -2860,6 +2860,191 @@ BST.Macro = {
 }
 
 -- END BST
+-- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
+-- ============================================================================
+-- Current job level: 40; this job remains in active progression through 75.
+-- Owned instruments are not recorded, so Range and Ammo are never assigned
+-- by this section. Instruments equip in Range, not Ammo; leaving both omitted
+-- preserves the manually selected instrument. Add exact instruments before
+-- automating song-specific Range switches.
+-- ============================================================================
+
+local BRD = JOBS.BRD
+
+BRD.Sets.Idle = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.IdleByLevel = {
+    [49] = { Neck = "Star Necklace" },
+    [70] = { Waist = "Charmer's Sash" },
+    [72] = { Head = "Bard's Roundlet" },
+}
+BRD.Sets.Resting = BRD.Sets.Idle
+BRD.Sets.RestingByLevel = BRD.Sets.IdleByLevel
+
+BRD.Sets.Engaged = {
+    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.EngagedByLevel = {
+    [50] = { Waist = "Swift Belt" },
+    [60] = { Neck = "Chivalrous Chain" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BRD.Sets.EngagedDualWield = { Ear2 = "Suppanomimi" }
+
+BRD.Sets.PDT = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Ethereal Earring",
+    Ear2 = "Magnetic Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Sattva Ring", Back = "Frugal Cape", Legs = "Shade Tights",
+    Feet = "Shade Leggings",
+}
+BRD.Sets.MDT = BRD.Sets.PDT
+
+BRD.Sets.Precast = {}
+BRD.Sets.PrecastByLevel = { [75] = { Ear1 = "Loquac. Earring" } }
+
+-- Skill pieces cover the two possible instrument families: Bard's Cuffs add
+-- Wind Instrument skill; Bard's Slippers add String Instrument skill. Only the
+-- skill matching the equipped instrument contributes to combined skill.
+BRD.Sets.Spell_Buff = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
+    Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.Spell_BuffByLevel = {
+    [49] = { Neck = "Star Necklace" },
+    [70] = { Waist = "Charmer's Sash" },
+    [71] = { Feet = "Bard's Slippers" },
+    [72] = { Head = "Bard's Roundlet" },
+    [73] = { Hands = "Bard's Cuffs" },
+}
+BRD.Sets.SongDebuff = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
+    Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.SongDebuffByLevel = {
+    [49] = { Neck = "Star Necklace" },
+    [70] = { Waist = "Charmer's Sash" },
+    [71] = { Feet = "Bard's Slippers" },
+    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl." },
+    [73] = { Hands = "Bard's Cuffs" },
+}
+local BRDDebuffSongs = {
+    "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
+    "Foe Lullaby II", "Horde Lullaby II", "Finale",
+    "Foe Requiem", "Foe Requiem II", "Foe Requiem III", "Foe Requiem IV",
+    "Foe Requiem V", "Foe Requiem VI", "Foe Requiem VII",
+    "Fire Threnody", "Ice Threnody", "Wind Threnody", "Earth Threnody",
+    "Lightning Threnody", "Water Threnody", "Light Threnody", "Dark Threnody",
+    "Fire Threnody II", "Ice Threnody II", "Wind Threnody II", "Earth Threnody II",
+    "Lightning Threnody II", "Water Threnody II", "Light Threnody II", "Dark Threnody II",
+}
+BRD.MA = {}
+for _, songName in ipairs(BRDDebuffSongs) do
+    BRD.MA[songName] = "SongDebuff"
+end
+
+BRD.Sets.JA_Default = {}
+BRD.Sets.JA_Offensive = BRD.Sets.Engaged
+BRD.Sets.JA_Defensive = { Ring1 = "Sattva Ring" }
+BRD.Sets.JA_Enmity = { Ring1 = "Sattva Ring" }
+BRD.Sets.CourtlyMeasure = { Legs = "Bard's Cannions" }
+BRD.JA = {
+    ["Pianissimo"] = "JA_Default", ["Soul Voice"] = "JA_Default",
+    ["Troubadour"] = "JA_Default", ["Nightingale"] = "JA_Default",
+    ["Courtly Measure"] = "CourtlyMeasure",
+}
+
+BRD.Sets.WS_STR = {
+    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_STRDEX = {
+    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_DEX = BRD.Sets.WS_STRDEX
+BRD.Sets.WS_STRINT = BRD.Sets.WS_STR
+BRD.Sets.WS_CHR = {
+    Head = "Shade Tiara", Neck = "Star Necklace", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Errant Hpl.", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Waist = "Charmer's Sash", Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_HP = {
+    Head = "Bard's Roundlet", Neck = "Star Necklace", Ear1 = "Ethereal Earring",
+    Ear2 = "Magnetic Earring", Body = "Errant Hpl.", Hands = "Bard's Cuffs",
+    Ring1 = "Bomb Queen Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Waist = "Charmer's Sash", Legs = "Bard's Cannions", Feet = "Bard's Slippers",
+}
+BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
+local BRD_WS_PhysicalByLevel = {
+    [49] = { Neck = "Star Necklace" }, [50] = { Waist = "Swift Belt" },
+    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
+    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+}
+BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_CHRByLevel = {
+    [70] = { Waist = "Charmer's Sash" },
+    [72] = { Head = "Bard's Roundlet", Body = "Errant Hpl." },
+    [75] = { Back = "Aesir Mantle" },
+}
+BRD.Sets.WS_HPByLevel = {
+    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+    [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Waist = "Charmer's Sash" },
+}
+BRD.WS = {
+    ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
+    ["Flat Blade"] = "WS_STR", ["Shining Blade"] = "WS_STRMND",
+    ["Circle Blade"] = "WS_STR", ["Vorpal Blade"] = "WS_STRDEX",
+    ["Savage Blade"] = "WS_STRDEX", ["Spirits Within"] = "WS_HP",
+    ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEX",
+    ["Viper Bite"] = "WS_DEX", ["Shadowstitch"] = "WS_CHR",
+    ["Cyclone"] = "WS_STRINT", ["Energy Steal"] = "WS_DEX",
+    ["Energy Drain"] = "WS_DEX", ["Dancing Edge"] = "WS_STRDEX",
+    ["Evisceration"] = "WS_DEX",
+}
+
+BRD.Weapons = { Main = "Chiroptera Dagger" }
+BRD.WeaponsByLevel = {
+    [70] = { Main = "Joyeuse", DWMain = "Joyeuse", DWSub = "Chiroptera Dagger" },
+}
+BRD.Macro = {
+    Alt = {
+        ["!`"] = "Pianissimo", ["!1"] = "Soul Voice",
+        ["!2"] = "Troubadour", ["!3"] = "Nightingale",
+    },
+    Spells = {
+        ["!4"] = "Foe Lullaby", ["!5"] = "Horde Lullaby",
+        ["!6"] = "Battlefield Elegy", ["!7"] = "Finale",
+        ["!8"] = "Mage's Ballad II", ["!9"] = "Victory March",
+        ["!0"] = "Valor Minuet V", ["!-"] = "Sword Madrigal", ["!="] = "Blade Madrigal",
+    },
+    WS = {
+        ["^!`"] = "Fast Blade", ["^!1"] = "Burning Blade", ["^!2"] = "Flat Blade",
+        ["^!3"] = "Vorpal Blade", ["^!4"] = "Savage Blade", ["^!5"] = "Wasp Sting",
+        ["^!6"] = "Viper Bite", ["^!7"] = "Cyclone", ["^!8"] = "Energy Drain",
+        ["^!9"] = "Evisceration", ["^!0"] = "Spirits Within", ["^!-"] = "Dancing Edge",
+        ["^!="] = "Shining Blade",
+    },
+}
+
+-- END BRD
 -- NIN: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 75
