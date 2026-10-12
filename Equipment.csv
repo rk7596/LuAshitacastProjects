@@ -210,7 +210,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 208,Sowilo Claymore,True,,,,,present in Universal.lua; metadata pending
 209,Spike Necklace,True,Neck,21.0,ALL,STR+3 DEX+3 MND-6,verified
 210,Star Necklace,True,,,,,present in Universal.lua; metadata pending
-211,Static Earring,True,,,,,present in Universal.lua; metadata pending
+211,Static Earring,True,Ear,72,ALL,MND+2 Magic Defense Bonus+2 Magic Burst Damage+5%,inventory-confirmed; standard FFXI effects verified; CatsEyeXI override pending
 212,Stone Gorget,True,Neck,71.0,ALL,,inventory-confirmed; metadata pending
 213,Stone-splitter,True,Main,71.0,DRG,,inventory-confirmed; metadata pending
 214,Stormlord Shawl,True,Back,70.0,ALL,,inventory-confirmed; metadata pending
