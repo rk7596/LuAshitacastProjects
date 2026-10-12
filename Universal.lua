@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0221
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0232
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2912,15 +2912,18 @@ BRD.Sets.Resting = {
     Feet  = "Shade Leggings",
 }
 BRD.Sets.RestingByLevel = {
+    -- Chatoyant Staff is standard level 51 All Jobs and adds MP recovered while
+    -- healing +10. CatsEyeXI-specific item-level overrides are not confirmed.
+    [51] = { Main = "Chatoyant Staff" },
     [70] = { Waist = "Charmer's Sash" },
     [72] = {
         Head = "Yigit Turban", Ear1 = "Ethereal Earring",
         Ear2 = "Magnetic Earring", Hands = "Yigit Gages",
         Legs = "Errant Slops",
     },
-    -- Chatoyant Staff supplies standard hMP+10; Cannions' sheathed latent
-    -- provides INT/MND/CHR+8. CatsEyeXI-specific item overrides remain unverified.
-    [75] = { Main = "Chatoyant Staff", Legs = "Bard's Cannions" },
+    -- Bard's Cannions' standard Courtly Measure latent grants INT/MND/CHR+8
+    -- while the weapon is sheathed; keep the level-75 MP-rich alternative here.
+    [75] = { Legs = "Bard's Cannions" },
 }
 
 BRD.Sets.Engaged = {
@@ -2980,7 +2983,11 @@ BRD.Sets.SongDebuffByLevel = {
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
+    -- CHR contributes to song magic accuracy, and Cannions supply +8 CHR while
+    -- the weapon is sheathed. Latent behavior on CatsEyeXI remains unconfirmed.
+    [75] = { Legs = "Bard's Cannions" },
 }
+-- Foe Requiem VII is level 76 in standard FFXI, beyond this profile's level-75 cap.
 local BRDDebuffSongs = {
     "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
     "Magic Finale", "Maiden's Virelai",
@@ -3069,20 +3076,27 @@ BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
 
 -- Magical sword/dagger WS get Moldavite's Magic Attack Bonus +5 from Lv47.
 -- Keep it in Ear1 through Lv75; add the best available compatible second ear.
+-- Damaging magical WS benefit from INT/Magic Attack Bonus, not melee Attack
+-- or Haste. Standard Charmer's Sash provides INT+5 and Magic Attack Bonus+3;
+-- its CatsEyeXI item overrides have not been confirmed.
 local BRD_WS_MagicalByLevel = {
     [47] = { Ear1 = "Moldavite Earring" },
-    [50] = { Waist = "Swift Belt" },
     [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
-    [72] = { Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    [70] = {
+        Neck = "Ancient Torque", Ring2 = "Mars's Ring",
+        Waist = "Charmer's Sash",
+    },
+    [72] = { Ear2 = "Hollow Earring" },
+    [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_DEXINTByLevel = BRD_WS_MagicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_MagicalByLevel
 BRD.Sets.WS_STRMNDByLevel = BRD_WS_MagicalByLevel
+-- Energy Steal/Drain steal MP without dealing damage and use 100% MND WSC.
+-- Static Earring and Errant Slops are owned and add MND; DA/DEX/Attack/MAB
+-- are not relevant to the amount stolen under standard FFXI mechanics.
 BRD.Sets.WS_MNDByLevel = {
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
-    [75] = { Back = "Aesir Mantle" },
+    [72] = { Ear1 = "Static Earring", Legs = "Errant Slops" },
 }
 BRD.Sets.WS_CHRByLevel = {
     [70] = { Waist = "Charmer's Sash" },
@@ -3091,7 +3105,6 @@ BRD.Sets.WS_CHRByLevel = {
 }
 BRD.Sets.WS_HPByLevel = {
     [57] = { Ring1 = "Bomb Queen Ring" },
-    [70] = { Waist = "Charmer's Sash" },
     [72] = { Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
     [73] = { Hands = "Bard's Cuffs" },
     [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Legs = "Bard's Cannions", Feet = "Bard's Slippers" },
