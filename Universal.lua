@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0342
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0355
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3127,50 +3127,45 @@ BRD.WeaponsByLevel = {
     [70] = { Main = "Joyeuse", DWMain = "Joyeuse", DWSub = "Chiroptera Dagger" },
 }
 BRD.Macro = {
-    -- CTRL is self/party support. Standard party songs are self-centered AoE;
-    -- target <me> so nearby party members receive them. Pianissimo's single-target
-    -- Ballad option is available on Ctrl-Backspace after activating the JA.
+    -- CTRL = self/party support. Standard songs are AoE; <me> centers the song
+    -- on the Bard. Pianissimo + Ctrl-Backspace offers single-target Ballad.
     CtrlJA = {
         ["^`"] = "Pianissimo", ["^1"] = "Soul Voice",
         ["^2"] = "Troubadour", ["^3"] = "Nightingale",
     },
     Ctrl = {
-        ["^0"] = "Dextrous Etude",
-        ["^-"] = "Hunter's Prelude",
-        ["^="] = "Chocobo Mazurka",
+        ["^0"] = "Sword Madrigal",
+        ["^Backspace"] = "Mage's Ballad",
     },
-    -- Standard FFXI learn levels through this profile's level-75 endpoint.
-    -- ApplyMacroDeck refreshes these commands on a main-job level change.
+    -- Highest learned rank of a true spell family. Advancing/Victory March and
+    -- Sword/Blade Madrigal are separate useful songs, so they get separate keys.
     TieredCtrl = {
         ["^4"] = {
             [3] = "Valor Minuet", [23] = "Valor Minuet II",
             [43] = "Valor Minuet III", [63] = "Valor Minuet IV",
         },
-        ["^5"] = { [29] = "Advancing March", [60] = "Victory March" },
-        ["^6"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
-        ["^7"] = {
+        ["^5"] = { [29] = "Advancing March" },
+        ["^6"] = { [60] = "Victory March" },
+        ["^7"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
+        ["^8"] = {
             [5] = "Army's Paeon", [15] = "Army's Paeon II",
             [35] = "Army's Paeon III", [45] = "Army's Paeon IV",
             [65] = "Army's Paeon V",
         },
-        ["^8"] = {
+        ["^9"] = {
             [1] = "Knight's Minne", [21] = "Knight's Minne II",
             [41] = "Knight's Minne III", [61] = "Knight's Minne IV",
         },
-        ["^9"] = { [11] = "Sword Madrigal", [51] = "Blade Madrigal" },
+        ["^-"] = { [51] = "Blade Madrigal" },
+        ["^="] = { [73] = "Chocobo Mazurka" },
     },
-    -- Single-target Ballad: activate Pianissimo, then select an ally.
-    TieredCtrlTargeted = {
-        ["^Backspace"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
-    },
-    -- ALT is reserved for hostile spells/songs; these select an enemy target.
+    -- ALT = hostile song/spell actions; each targets an enemy.
     Alt = {
         ["!3"] = "Magic Finale",
         ["!5"] = "Fire Threnody", ["!6"] = "Ice Threnody",
         ["!7"] = "Wind Threnody", ["!8"] = "Earth Threnody",
         ["!9"] = "Lightning Threnody", ["!0"] = "Water Threnody",
         ["!-"] = "Light Threnody", ["!="] = "Dark Threnody",
-        ["!Backspace"] = "Maiden's Virelai",
     },
     TieredAlt = {
         ["!`"] = { [16] = "Foe Lullaby" },
@@ -3181,8 +3176,9 @@ BRD.Macro = {
             [37] = "Foe Requiem III", [47] = "Foe Requiem IV",
             [57] = "Foe Requiem V", [67] = "Foe Requiem VI",
         },
+        ["!Backspace"] = { [75] = "Maiden's Virelai" },
     },
-    -- Keep the existing CTRL+ALT sword/dagger weapon-skill layout.
+    -- CTRL+ALT = sword/dagger weapon skills.
     WS = {
         ["^!`"] = "Fast Blade", ["^!1"] = "Burning Blade", ["^!2"] = "Flat Blade",
         ["^!3"] = "Vorpal Blade", ["^!4"] = "Evisceration", ["^!5"] = "Wasp Sting",
@@ -8942,13 +8938,10 @@ local function ApplyBRDMacros(player)
         BindJA(key, ja, "<me>")
     end
     for key, spell in pairs(BRD.Macro.Ctrl) do
-        BindSpell(key, spell, "<me>")
+        BindSpell(key, spell, key == "^Backspace" and "<stpc>" or "<me>")
     end
     for key, tiers in pairs(BRD.Macro.TieredCtrl) do
         BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>")
-    end
-    for key, tiers in pairs(BRD.Macro.TieredCtrlTargeted) do
-        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>")
     end
     for key, spell in pairs(BRD.Macro.Alt) do
         BindSpell(key, spell, "<stnpc>")
