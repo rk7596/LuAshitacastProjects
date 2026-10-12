@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0411
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0425
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -8513,10 +8513,21 @@ local function MacroDeckLine(category, label)
     local parts = {}
     for _, key in ipairs(CONFIG.MacroKeys) do
         if MacroDeckCategory(key) == category and macroDeck[category][key] then
-            parts[#parts + 1] = key .. "=" .. macroDeck[category][key]
+            -- The category label identifies the modifier, so omit modifier
+            -- prefixes from the displayed key only. Actual binds remain unchanged.
+            local displayKey = key
+            if category == "CtrlAlt" then
+                displayKey = key:gsub("^%^!", "")
+            elseif category == "Ctrl" then
+                displayKey = key:gsub("^%^", "")
+            elseif category == "Alt" then
+                displayKey = key:gsub("^!", "")
+            end
+            parts[#parts + 1] = displayKey .. "=" .. macroDeck[category][key]
         end
     end
-    return label .. ": " .. (#parts > 0 and table.concat(parts, " | ") or "(none)")
+    -- One visible ellipsis is more compact than the old spaced pipe separator.
+    return label .. ": " .. (#parts > 0 and table.concat(parts, "…") or "(none)")
 end
 
 ShowMacroDeck = function()
