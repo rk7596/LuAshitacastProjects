@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0431
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0439
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -8631,7 +8631,8 @@ local function BindLevelledSpell(key, tiersByLevel, level, target, rank)
 end
 
 local function BindJA(key, name, target)
-    target = target or "<stnpc>"
+    -- Safe default: self/ally abilities require confirmation; enemy actions pass <stnpc>.
+    target = target or "<stpc>"
     QueueBind(key, '/recast "' .. name .. '";/ja "' .. name .. '" ' .. target)
 end
 
@@ -8696,7 +8697,7 @@ local function ApplyWARMacros(player)
     if not player or player.MainJob ~= 'WAR' then return end
 
     for key, ja in pairs(WAR.Macro.Alt or {}) do
-        local target = (ja == 'Provoke' or ja == 'Tomahawk') and '<stnpc>' or '<me>'
+        local target = (ja == 'Provoke' or ja == 'Tomahawk') and '<stnpc>' or '<stpc>'
         BindJA(key, ja, target)
     end
 
@@ -8714,19 +8715,19 @@ local function ApplyNINDNCMacros(player)
     local hasDNC = mainIsDNC or subIsDNC
     if not mainIsNIN then
         if mainIsDNC and subIsNIN then
-            BindJA('![', 'Quickstep')
-            BindJA('!]', 'Box Step')
+            BindJA('![', 'Quickstep', '<stnpc>')
+            BindJA('!]', 'Box Step', '<stnpc>')
             BindSpell('!-', 'Utsusemi: Ichi', '<stpc>')
             BindSpell('!=', 'Utsusemi: Ni', '<stpc>')
         elseif mainIsDNC then
-            BindJA('!-', 'Quickstep')
-            BindJA('!=', 'Box Step')
+            BindJA('!-', 'Quickstep', '<stnpc>')
+            BindJA('!=', 'Box Step', '<stnpc>')
         elseif subIsNIN then
             BindSpell('![', 'Utsusemi: Ichi', '<stpc>')
             BindSpell('!]', 'Utsusemi: Ni', '<stpc>')
         elseif subIsDNC then
-            BindJA('![', 'Quickstep')
-            BindJA('!]', 'Box Step')
+            BindJA('![', 'Quickstep', '<stnpc>')
+            BindJA('!]', 'Box Step', '<stnpc>')
         end
     end
     if hasDNC then
@@ -8785,20 +8786,20 @@ local function ApplyBLUMacros(player)
     BindSpell('^`', 'Wild Carrot', '<stpc>')
     BindSpell('^1', 'Magic Fruit', '<stpc>')
     BindSpell('^2', 'Plenilune Embrace', '<stpc>')
-    BindSpell('^3', 'Healing Breeze', '<me>')
-    BindSpell('^4', 'Battery Charge', '<me>')
-    BindSpell('^5', 'Animating Wail', '<me>')
-    BindSpell('^6', 'Diamondhide', '<me>')
-    BindSpell('^7', 'Zephyr Mantle', '<me>')
-    BindSpell('^8', 'Saline Coat', '<me>')
-    BindSpell('^9', 'Orcish Counterstance', '<me>')
-    BindSpell('^0', 'Cocoon', '<me>')
-    BindSpell('^-', 'Harden Shell', '<me>')
-    BindSpell('^=', 'Carcharian Verve', '<me>')
+    BindSpell('^3', 'Healing Breeze', '<stpc>')
+    BindSpell('^4', 'Battery Charge', '<stpc>')
+    BindSpell('^5', 'Animating Wail', '<stpc>')
+    BindSpell('^6', 'Diamondhide', '<stpc>')
+    BindSpell('^7', 'Zephyr Mantle', '<stpc>')
+    BindSpell('^8', 'Saline Coat', '<stpc>')
+    BindSpell('^9', 'Orcish Counterstance', '<stpc>')
+    BindSpell('^0', 'Cocoon', '<stpc>')
+    BindSpell('^-', 'Harden Shell', '<stpc>')
+    BindSpell('^=', 'Carcharian Verve', '<stpc>')
 
     -- Ctrl-Backspace retains the RDM-family "status removal" concept:
     -- Exuviation restores HP and removes a detrimental status effect.
-    BindSpell('^Backspace', 'Exuviation', '<me>')
+    BindSpell('^Backspace', 'Exuviation', '<stpc>')
 
     -- CTRL-BACKSLASH is intentionally NOT bound here.  It remains the
     -- universal Dynamic Enspell key for any job running /RDM.
@@ -8841,7 +8842,7 @@ local function ApplyBLMMacros(player)
     end
 
     for key, ja in pairs(BLM.Macro.JA) do
-        BindJA(key, ja, '<me>')
+        BindJA(key, ja, '<stpc>')
     end
 
     for key, ws in pairs(BLM.Macro.WS) do
@@ -8854,7 +8855,7 @@ local function ApplyPLDMacros(player)
     BindSpell('^`', 'Cure', '<stpc>')
     BindSpell('^1', 'Cure II', '<stpc>')
     BindSpell('^2', 'Cure III', '<stpc>')
-    BindJA('^3', 'Holy Circle', '<me>')
+    BindJA('^3', 'Holy Circle', '<stpc>')
     BindSpell('!1', 'Flash', '<stnpc>')
     BindJA('!5', 'Provoke', '<stnpc>')
     -- Utsusemi shared-job keys are owned by ApplyNINDNCMacros().
@@ -8866,13 +8867,13 @@ local function ApplySAMMacros(player)
 
     -- ALT: offensive / job abilities, ordered by acquisition level.
     for key, ja in pairs(SAM.Macro.Alt) do
-        local target = ja == 'Shikikoyo' and '<stpc>' or '<me>'
+        local target = '<stpc>'
         BindJA(key, ja, target)
     end
 
     -- CTRL: defensive / self abilities, ordered by acquisition level.
     for key, ja in pairs(SAM.Macro.Ctrl) do
-        BindJA(key, ja, '<me>')
+        BindJA(key, ja, '<stpc>')
     end
 
     -- CTRL+ALT: Great Katana weapon skills.
@@ -8886,12 +8887,13 @@ local function ApplyMNKMacros(player)
 
     -- ALT = offensive / accuracy JAs.
     for key, ja in pairs(MNK.Macro.Alt) do
-        BindJA(key, ja, '<me>')
+        local target = ja == 'Chi Blast' and '<stnpc>' or '<stpc>'
+        BindJA(key, ja, target)
     end
 
     -- CTRL = defensive / recovery JAs.
     for key, ja in pairs(MNK.Macro.Ctrl) do
-        BindJA(key, ja, '<me>')
+        BindJA(key, ja, '<stpc>')
     end
 
     -- CTRL+ALT = common hand-to-hand WS plus future weapon-gated level-75 WS.
@@ -8917,7 +8919,7 @@ local function ApplyWHMMacros(player)
     BindSpell('^0', 'Arise', '<stpc>')
     BindSpell('^-', 'Sacrifice', '<stpc>')
     BindSpell('^=', 'Esuna', '<stpc>')
-    BindSpell('^Backspace', 'Auspice', '<me>')
+    BindSpell('^Backspace', 'Auspice', '<stpc>')
 
     -- ALT: hostile magic / enfeebling / Divine damage.
     -- Alt-BACKTICK and Alt-2 are support-job-aware:
@@ -8970,16 +8972,16 @@ local function ApplyTHFMacros(player)
 
     for key, ja in pairs(THF.Macro.Alt) do
         local target = (ja == 'Accomplice' or ja == 'Collaborator') and '<stpc>' or '<stnpc>'
-        if ja == 'Sneak Attack' or ja == 'Trick Attack' or ja == 'Bully'
-            or ja == 'Feint' or ja == 'Conspirator' or ja == "Assassin's Charge"
+        if ja == 'Sneak Attack' or ja == 'Trick Attack'
+            or ja == 'Conspirator' or ja == "Assassin's Charge"
         then
-            target = '<me>'
+            target = '<stpc>'
         end
         BindJA(key, ja, target)
     end
 
     for key, ja in pairs(THF.Macro.Ctrl) do
-        local target = (ja == 'Steal') and '<stnpc>' or '<me>'
+        local target = (ja == 'Steal') and '<stnpc>' or '<stpc>'
         BindJA(key, ja, target)
     end
 
@@ -8992,13 +8994,13 @@ local function ApplyBRDMacros(player)
     if not player or player.MainJob ~= "BRD" then return end
 
     for key, ja in pairs(BRD.Macro.CtrlJA) do
-        BindJA(key, ja, "<me>")
+        BindJA(key, ja, "<stpc>")
     end
     for key, tiers in pairs(BRD.Macro.TieredCtrl) do
-        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>", 1)
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>", 1)
     end
     for key, tiers in pairs(BRD.Macro.TieredCtrlSecond) do
-        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>", 2)
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>", 2)
     end
     for key, tiers in pairs(BRD.Macro.TieredCtrlTargeted) do
         BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>", 1)
@@ -9017,10 +9019,10 @@ end
 local function ApplyDRGMacros(player)
     if not player or player.MainJob ~= 'DRG' then return end
     for key, ja in pairs(DRG.Macro.Alt) do
-        BindJA(key, ja, '<me>')
+        BindJA(key, ja, '<stpc>')
     end
     for key, ja in pairs(DRG.Macro.Ctrl) do
-        BindJA(key, ja, '<me>')
+        BindJA(key, ja, '<stpc>')
     end
     for key, ws in pairs(DRG.Macro.WS) do
         BindWS(key, ws)
@@ -9035,11 +9037,11 @@ local function ApplyDRKMacros(player)
     end
 
     for key, spell in pairs(DRK.Macro.Spells or {}) do
-        BindSpell(key, spell, '<me>')
+        BindSpell(key, spell, '<stpc>')
     end
 
     for key, ja in pairs(DRK.Macro.Ctrl) do
-        local target = ja == 'Weapon Bash' and '<stnpc>' or '<me>'
+        local target = ja == 'Weapon Bash' and '<stnpc>' or '<stpc>'
         BindJA(key, ja, target)
     end
 
@@ -9080,7 +9082,7 @@ local function ExecuteSMNBP(kind, index)
         gFunc.EquipSet(GetSet(SMN, setName))
     end
 
-    local target = kind == 'Rage' and '<stnpc>' or '<me>'
+    local target = kind == 'Rage' and '<stnpc>' or '<stpc>'
     AshitaCore:GetChatManager():QueueCommand(1, '/recast "' .. pact .. '";/pet "' .. pact .. '" ' .. target)
 end
 
