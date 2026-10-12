@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0143
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0145
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2887,7 +2887,7 @@ BRD.Sets.IdleByLevel = {
 }
 
 -- Resting has dedicated MP-oriented gear rather than simply inheriting Idle.
--- Unowned equipment (including Bard's Justaucorps) is deliberately omitted.
+-- Unconfirmed/unrecorded equipment (including Bard's Justaucorps) is omitted.
 BRD.Sets.Resting = {
     Head  = "Shade Tiara",
     Neck  = "Wing Pendant",
