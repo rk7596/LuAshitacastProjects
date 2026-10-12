@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0439
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0521
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2866,13 +2866,16 @@ BST.Macro = {
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 40; this job remains in active progression through 75.
--- Equipment.csv currently has no confirmed owned BRD instruments. Instruments
+-- Equipment.csv records eleven Sparks-purchased BRD instruments. Instruments
 -- occupy Range (not Ammo); all state/TP sets leave Range and Ammo unspecified.
--- Standard FFXI instrument mechanics: Wind provides greater song magic accuracy
--- at shorter AoE range; String provides wider AoE range with less song magic accuracy.
--- Song strength/accuracy combines Singing skill with only the equipped instrument's
--- matching Wind or String skill. No CatsEyeXI override is verified here. Preserve
--- manual Range choice; do not automate until exact owned instruments are logged.
+-- Standard FFXI instrument mechanics: Wind gives greater song magic accuracy at
+-- shorter AoE range; String gives wider AoE range with less song magic accuracy.
+-- Song skill combines Singing with the equipped instrument's matching Wind or String skill.
+-- Precast selects an owned, level-usable song-bonus instrument where mapped.
+-- Songs without a mapped owned bonus preserve the player's manual Range choice.
+-- Instrument swaps are direct Range-to-Range changes; no empty slot is requested.
+-- Standard item metadata is recorded, but CatsEyeXI/VanaCore overrides and TP retention
+-- should still be verified in-game.
 -- ============================================================================
 
 local BRD = JOBS.BRD
@@ -3000,6 +3003,18 @@ BRD.MA = {}
 for _, songName in ipairs(BRDDebuffSongs) do
     BRD.MA[songName] = "SongDebuff"
 end
+
+-- Only map confirmed-owned instruments. The helper below also handles songs
+-- that are not currently exposed on the macro deck.
+BRD.SongInstrumentByFamily = {
+    ["Minuet"] = "Cornette",
+    ["Minne"] = "Harp",
+    ["Madrigal"] = "Traversiere",
+    ["Threnody"] = "Piccolo",
+    ["Prelude"] = "Angel's Flute",
+    ["Elegy"] = "Horn",
+    ["Carol"] = "Crumhorn",
+}
 
 BRD.Sets.JA_Default = {}
 BRD.Sets.JA_Offensive = BRD.Sets.Engaged
@@ -7875,9 +7890,61 @@ local function EquipBLMSpellWeapons(player, action)
     end
 end
 
+-- Choose a song-specific instrument before casting. Only the Range slot is
+-- touched, and no intermediate empty-slot request is issued. Unmapped songs
+-- intentionally preserve the player's current instrument.
+local function EquipBRDSongInstrument(player, action)
+    if not player or player.MainJob ~= "BRD" or not action
+        or action.ActionType ~= "Spell" or not action.Name then
+        return
+    end
+
+    local name = action.Name
+    local level = tonumber(player.MainJobLevel) or 0
+    local instrument = nil
+    local requiredLevel = nil
+
+    if name:find("Mambo", 1, true) then
+        if level >= 68 then
+            instrument, requiredLevel = "Hellish Bugle", 68
+        elseif level >= 19 then
+            instrument, requiredLevel = "Gemshorn", 19
+        end
+    elseif name:find("Etude", 1, true) then
+        if level >= 70 then
+            instrument, requiredLevel = "Mythic Harp", 70
+        elseif level >= 36 then
+            instrument, requiredLevel = "Rose Harp", 36
+        end
+    else
+        for family, candidate in pairs(BRD.SongInstrumentByFamily or {}) do
+            if name:find(family, 1, true) then
+                instrument = candidate
+                break
+            end
+        end
+
+        local requiredLevels = {
+            ["Cornette"] = 4,
+            ["Harp"] = 14,
+            ["Traversiere"] = 32,
+            ["Piccolo"] = 9,
+            ["Angel's Flute"] = 48,
+            ["Horn"] = 40,
+            ["Crumhorn"] = 56,
+        }
+        requiredLevel = instrument and requiredLevels[instrument] or nil
+    end
+
+    if instrument and requiredLevel and level >= requiredLevel then
+        gFunc.Equip("Range", instrument)
+    end
+end
+
 -- ============================================================================
 -- SPELL PRECAST
 -- ============================================================================
+
 
 profile.HandlePrecast = function()
     local player = gData.GetPlayer()
@@ -7896,6 +7963,7 @@ profile.HandlePrecast = function()
         gFunc.EquipSet(GetSet(job, "Precast"))
         EquipWHMSpellWeapons(player, action)
         EquipBLMSpellWeapons(player, action)
+        EquipBRDSongInstrument(player, action)
     end
 end
 
