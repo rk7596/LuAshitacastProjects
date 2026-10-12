@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0521
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.1638
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2873,9 +2873,10 @@ BST.Macro = {
 -- Song skill combines Singing with the equipped instrument's matching Wind or String skill.
 -- Precast selects an owned, level-usable song-bonus instrument where mapped.
 -- Songs without a mapped owned bonus preserve the player's manual Range choice.
--- Instrument swaps are direct Range-to-Range changes; no empty slot is requested.
--- Standard item metadata is recorded, but CatsEyeXI/VanaCore overrides and TP retention
--- should still be verified in-game.
+-- Instrument swaps are direct Range-to-Range changes; no empty Range slot is requested.
+-- Precast marks Ammo as "displaced" so LuAshitacast tracks the ammo-slot change as
+-- required for fast instrument swaps. Standard item metadata is recorded, but
+-- CatsEyeXI/VanaCore overrides and TP retention still need in-game verification.
 -- ============================================================================
 
 local BRD = JOBS.BRD
@@ -7890,9 +7891,9 @@ local function EquipBLMSpellWeapons(player, action)
     end
 end
 
--- Choose a song-specific instrument before casting. Only the Range slot is
--- touched, and no intermediate empty-slot request is issued. Unmapped songs
--- intentionally preserve the player's current instrument.
+-- Choose a song-specific instrument before casting. Directly equip Range and mark
+-- Ammo as displaced, matching LuAshitacast's documented pattern for instrument swaps.
+-- Unmapped songs intentionally preserve the player's current instrument.
 local function EquipBRDSongInstrument(player, action)
     if not player or player.MainJob ~= "BRD" or not action
         or action.ActionType ~= "Spell" or not action.Name then
@@ -7938,6 +7939,7 @@ local function EquipBRDSongInstrument(player, action)
 
     if instrument and requiredLevel and level >= requiredLevel then
         gFunc.Equip("Range", instrument)
+        gFunc.Equip("Ammo", "displaced")
     end
 end
 
