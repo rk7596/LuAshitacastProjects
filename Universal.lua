@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0045
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0143
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2881,13 +2881,34 @@ BRD.Sets.Idle = {
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.IdleByLevel = {
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
+    [70] = { Waist = "Charmer's Sash" },
     [72] = { Head = "Bard's Roundlet" },
     [75] = { Head = "Walahra Turban", Back = "Aesir Mantle" },
 }
-BRD.Sets.Resting = BRD.Sets.Idle
-BRD.Sets.RestingByLevel = BRD.Sets.IdleByLevel
+
+-- Resting has dedicated MP-oriented gear rather than simply inheriting Idle.
+-- Unowned equipment (including Bard's Justaucorps) is deliberately omitted.
+BRD.Sets.Resting = {
+    Head  = "Shade Tiara",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Static Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Windurstian Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
+}
+BRD.Sets.RestingByLevel = {
+    [70] = { Waist = "Charmer's Sash" },
+    [72] = {
+        Head = "Yigit Turban", Ear1 = "Ethereal Earring",
+        Ear2 = "Magnetic Earring", Hands = "Yigit Gages",
+        Legs = "Errant Slops",
+    },
+}
 
 BRD.Sets.Engaged = {
     Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
@@ -2927,8 +2948,7 @@ BRD.Sets.Spell_Buff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.Spell_BuffByLevel = {
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
+    [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
@@ -2938,8 +2958,7 @@ BRD.Sets.SongDebuff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.SongDebuffByLevel = {
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
+    [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
     [73] = { Hands = "Bard's Cuffs" },
@@ -3032,13 +3051,10 @@ BRD.Sets.WS_DEXINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRMNDByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_MNDByLevel = {
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_CHRByLevel = {
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Waist = "Charmer's Sash" },
+    [70] = { Waist = "Charmer's Sash" },
     [72] = { Head = "Bard's Roundlet" },
     [75] = { Back = "Aesir Mantle" },
 }
@@ -3075,7 +3091,7 @@ BRD.Macro = {
         ["!4"] = "Foe Lullaby", ["!5"] = "Horde Lullaby",
         ["!6"] = "Battlefield Elegy", ["!7"] = "Magic Finale",
         ["!8"] = "Mage's Ballad II", ["!9"] = "Victory March",
-        ["!0"] = "Valor Minuet IV",
+        ["!0"] = "Valor Minuet IV", ["!-"] = "Maiden's Virelai",
     },
     Ctrl = {
         ["^-"] = "Sword Madrigal", ["^="] = "Blade Madrigal",
