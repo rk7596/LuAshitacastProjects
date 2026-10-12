@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0012
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0030
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2982,8 +2982,30 @@ BRD.Sets.WS_STRDEX = {
     Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.WS_DEX = BRD.Sets.WS_STRDEX
-BRD.Sets.WS_STRINT = BRD.Sets.WS_STR
-BRD.Sets.WS_STRMND = BRD.Sets.WS_STR
+BRD.Sets.WS_DEXINT = {
+    Head = "Empress Hairpin", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_STRINT = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_STRMND = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring", Ring2 = "Tamas Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
+BRD.Sets.WS_MND = {
+    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
+    Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
+    Legs = "Shade Tights", Feet = "Shade Leggings",
+}
 BRD.Sets.WS_CHR = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
     Ear2 = "Static Earring", Body = "Shade Harness", Hands = "Shade Mittens",
@@ -3006,7 +3028,14 @@ local BRD_WS_PhysicalByLevel = {
 BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_DEXINTByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRINTByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_STRMNDByLevel = BRD_WS_PhysicalByLevel
+BRD.Sets.WS_MNDByLevel = {
+    [49] = { Neck = "Star Necklace" },
+    [72] = { Body = "Errant Hpl." },
+    [75] = { Back = "Aesir Mantle" },
+}
 BRD.Sets.WS_CHRByLevel = {
     [49] = { Neck = "Star Necklace" },
     [70] = { Waist = "Charmer's Sash" },
@@ -3024,11 +3053,11 @@ BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
     ["Flat Blade"] = "WS_STR", ["Shining Blade"] = "WS_STRMND",
     ["Circle Blade"] = "WS_STR", ["Vorpal Blade"] = "WS_STRDEX",
-    ["Savage Blade"] = "WS_STRDEX", ["Spirits Within"] = "WS_HP",
-    ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEX",
+    ["Spirits Within"] = "WS_HP",
+    ["Wasp Sting"] = "WS_DEX", ["Gust Slash"] = "WS_DEXINT",
     ["Viper Bite"] = "WS_DEX", ["Shadowstitch"] = "WS_CHR",
-    ["Cyclone"] = "WS_STRINT", ["Energy Steal"] = "WS_DEX",
-    ["Energy Drain"] = "WS_DEX", ["Dancing Edge"] = "WS_STRDEX",
+    ["Cyclone"] = "WS_DEXINT", ["Energy Steal"] = "WS_MND",
+    ["Energy Drain"] = "WS_MND", ["Dancing Edge"] = "WS_STRDEX",
     ["Evisceration"] = "WS_DEX",
 }
 
@@ -3052,9 +3081,9 @@ BRD.Macro = {
     },
     WS = {
         ["^!`"] = "Fast Blade", ["^!1"] = "Burning Blade", ["^!2"] = "Flat Blade",
-        ["^!3"] = "Vorpal Blade", ["^!4"] = "Savage Blade", ["^!5"] = "Wasp Sting",
+        ["^!3"] = "Vorpal Blade", ["^!4"] = "Evisceration", ["^!5"] = "Wasp Sting",
         ["^!6"] = "Viper Bite", ["^!7"] = "Cyclone", ["^!8"] = "Energy Drain",
-        ["^!9"] = "Evisceration", ["^!0"] = "Spirits Within", ["^!-"] = "Dancing Edge",
+        ["^!9"] = "Dancing Edge", ["^!0"] = "Spirits Within", ["^!-"] = "Energy Steal",
         ["^!="] = "Shining Blade",
     },
 }
