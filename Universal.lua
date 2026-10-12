@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0235
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0342
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3127,19 +3127,62 @@ BRD.WeaponsByLevel = {
     [70] = { Main = "Joyeuse", DWMain = "Joyeuse", DWSub = "Chiroptera Dagger" },
 }
 BRD.Macro = {
-    Alt = {
-        ["!`"] = "Pianissimo", ["!1"] = "Soul Voice",
-        ["!2"] = "Troubadour", ["!3"] = "Nightingale",
-    },
-    Spells = {
-        ["!4"] = "Foe Lullaby", ["!5"] = "Horde Lullaby",
-        ["!6"] = "Battlefield Elegy", ["!7"] = "Magic Finale",
-        ["!8"] = "Mage's Ballad II", ["!9"] = "Victory March",
-        ["!0"] = "Valor Minuet IV", ["!-"] = "Maiden's Virelai",
+    -- CTRL is self/party support. Standard party songs are self-centered AoE;
+    -- target <me> so nearby party members receive them. Pianissimo's single-target
+    -- Ballad option is available on Ctrl-Backspace after activating the JA.
+    CtrlJA = {
+        ["^`"] = "Pianissimo", ["^1"] = "Soul Voice",
+        ["^2"] = "Troubadour", ["^3"] = "Nightingale",
     },
     Ctrl = {
-        ["^-"] = "Sword Madrigal", ["^="] = "Blade Madrigal",
+        ["^0"] = "Dextrous Etude",
+        ["^-"] = "Hunter's Prelude",
+        ["^="] = "Chocobo Mazurka",
     },
+    -- Standard FFXI learn levels through this profile's level-75 endpoint.
+    -- ApplyMacroDeck refreshes these commands on a main-job level change.
+    TieredCtrl = {
+        ["^4"] = {
+            [3] = "Valor Minuet", [23] = "Valor Minuet II",
+            [43] = "Valor Minuet III", [63] = "Valor Minuet IV",
+        },
+        ["^5"] = { [29] = "Advancing March", [60] = "Victory March" },
+        ["^6"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
+        ["^7"] = {
+            [5] = "Army's Paeon", [15] = "Army's Paeon II",
+            [35] = "Army's Paeon III", [45] = "Army's Paeon IV",
+            [65] = "Army's Paeon V",
+        },
+        ["^8"] = {
+            [1] = "Knight's Minne", [21] = "Knight's Minne II",
+            [41] = "Knight's Minne III", [61] = "Knight's Minne IV",
+        },
+        ["^9"] = { [11] = "Sword Madrigal", [51] = "Blade Madrigal" },
+    },
+    -- Single-target Ballad: activate Pianissimo, then select an ally.
+    TieredCtrlTargeted = {
+        ["^Backspace"] = { [25] = "Mage's Ballad", [55] = "Mage's Ballad II" },
+    },
+    -- ALT is reserved for hostile spells/songs; these select an enemy target.
+    Alt = {
+        ["!3"] = "Magic Finale",
+        ["!5"] = "Fire Threnody", ["!6"] = "Ice Threnody",
+        ["!7"] = "Wind Threnody", ["!8"] = "Earth Threnody",
+        ["!9"] = "Lightning Threnody", ["!0"] = "Water Threnody",
+        ["!-"] = "Light Threnody", ["!="] = "Dark Threnody",
+        ["!Backspace"] = "Maiden's Virelai",
+    },
+    TieredAlt = {
+        ["!`"] = { [16] = "Foe Lullaby" },
+        ["!1"] = { [27] = "Horde Lullaby" },
+        ["!2"] = { [39] = "Battlefield Elegy", [59] = "Carnage Elegy" },
+        ["!4"] = {
+            [7] = "Foe Requiem", [17] = "Foe Requiem II",
+            [37] = "Foe Requiem III", [47] = "Foe Requiem IV",
+            [57] = "Foe Requiem V", [67] = "Foe Requiem VI",
+        },
+    },
+    -- Keep the existing CTRL+ALT sword/dagger weapon-skill layout.
     WS = {
         ["^!`"] = "Fast Blade", ["^!1"] = "Burning Blade", ["^!2"] = "Flat Blade",
         ["^!3"] = "Vorpal Blade", ["^!4"] = "Evisceration", ["^!5"] = "Wasp Sting",
@@ -8512,6 +8555,28 @@ local function BindSpell(key, name, target)
     QueueBind(key, '/recast "' .. name .. '";/ma "' .. name .. '" ' .. target)
 end
 
+-- Bind the highest-ranked spell whose required main-job level has been reached.
+-- ApplyMacroDeck() includes MainJobLevel in its signature, so the selected spell
+-- refreshes on level-up without per-poll rebinds. Reusable for families such as
+-- BLM Stone tiers and BRD song tiers.
+local function BindLevelledSpell(key, tiersByLevel, level, target)
+    local jobLevel = tonumber(level) or 0
+    local selectedLevel = -1
+    local selectedSpell = nil
+
+    for minimumLevel, spellName in pairs(tiersByLevel or {}) do
+        minimumLevel = tonumber(minimumLevel)
+        if minimumLevel and minimumLevel <= jobLevel and minimumLevel > selectedLevel then
+            selectedLevel = minimumLevel
+            selectedSpell = spellName
+        end
+    end
+
+    if selectedSpell then
+        BindSpell(key, selectedSpell, target)
+    end
+end
+
 local function BindJA(key, name, target)
     target = target or "<stnpc>"
     QueueBind(key, '/recast "' .. name .. '";/ja "' .. name .. '" ' .. target)
@@ -8873,19 +8938,23 @@ end
 local function ApplyBRDMacros(player)
     if not player or player.MainJob ~= "BRD" then return end
 
-    for key, ja in pairs(BRD.Macro.Alt) do
+    for key, ja in pairs(BRD.Macro.CtrlJA) do
         BindJA(key, ja, "<me>")
-    end
-    for key, spell in pairs(BRD.Macro.Spells) do
-        local target = "<me>"
-        if spell == "Foe Lullaby" or spell == "Horde Lullaby"
-            or spell == "Battlefield Elegy" or spell == "Finale" then
-            target = "<stnpc>"
-        end
-        BindSpell(key, spell, target)
     end
     for key, spell in pairs(BRD.Macro.Ctrl) do
         BindSpell(key, spell, "<me>")
+    end
+    for key, tiers in pairs(BRD.Macro.TieredCtrl) do
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<me>")
+    end
+    for key, tiers in pairs(BRD.Macro.TieredCtrlTargeted) do
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stpc>")
+    end
+    for key, spell in pairs(BRD.Macro.Alt) do
+        BindSpell(key, spell, "<stnpc>")
+    end
+    for key, tiers in pairs(BRD.Macro.TieredAlt) do
+        BindLevelledSpell(key, tiers, player.MainJobLevel, "<stnpc>")
     end
     for key, ws in pairs(BRD.Macro.WS) do
         BindWS(key, ws)
