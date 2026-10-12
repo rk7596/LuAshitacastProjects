@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0232
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0235
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2912,9 +2912,9 @@ BRD.Sets.Resting = {
     Feet  = "Shade Leggings",
 }
 BRD.Sets.RestingByLevel = {
-    -- Chatoyant Staff is standard level 51 All Jobs and adds MP recovered while
-    -- healing +10. CatsEyeXI-specific item-level overrides are not confirmed.
-    [51] = { Main = "Chatoyant Staff" },
+    -- Standard FFXI lists Chatoyant Staff at level 51 with MP recovered while
+    -- healing +10, but Equipment.csv records it at level 75 and CatsEyeXI
+    -- metadata is pending. Respect the inventory ledger until verified in-game.
     [70] = { Waist = "Charmer's Sash" },
     [72] = {
         Head = "Yigit Turban", Ear1 = "Ethereal Earring",
@@ -2922,8 +2922,8 @@ BRD.Sets.RestingByLevel = {
         Legs = "Errant Slops",
     },
     -- Bard's Cannions' standard Courtly Measure latent grants INT/MND/CHR+8
-    -- while the weapon is sheathed; keep the level-75 MP-rich alternative here.
-    [75] = { Legs = "Bard's Cannions" },
+    -- while the weapon is sheathed; keep the level-75 set conservative.
+    [75] = { Main = "Chatoyant Staff", Legs = "Bard's Cannions" },
 }
 
 BRD.Sets.Engaged = {
