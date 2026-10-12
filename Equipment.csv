@@ -28,10 +28,10 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 26,Bagua Sandals,True,,,,,present in Universal.lua; metadata pending
 27,Balrahn's Ring,True,Ring,75.0,ALL,,inventory-confirmed; metadata pending
 28,Balrahn\'s Ring,True,,,,,present in Universal.lua; metadata pending
-29,Bard's Cannions,True,,,,,present in Universal.lua; metadata pending
-30,Bard's Cuffs,True,,,,,present in Universal.lua; metadata pending
-31,Bard's Roundlet,True,,,,,present in Universal.lua; metadata pending
-32,Bard's Slippers,True,,,,,present in Universal.lua; metadata pending
+29,Bard's Cannions,True,Legs,75.0,BRD,DEF+31 HP+17 MP+42 Enhances Courtly Measure,owned; standard FFXI metadata verified; no owned +1 assumed
+30,Bard's Cuffs,True,Hands,73.0,BRD,DEF+18 HP+16 Evasion+5 Wind Instrument Skill+3 Enmity-3,owned; standard FFXI metadata verified; no owned +1 assumed
+31,Bard's Roundlet,True,Head,72.0,BRD,DEF+19 HP+13 CHR+5 Singing Skill+5 Enmity-3,owned; standard FFXI metadata verified; no owned +1 assumed
+32,Bard's Slippers,True,Feet,71.0,BRD,DEF+14 HP+12 Parrying Skill+3 String Instrument Skill+3 Enmity-2,owned; standard FFXI metadata verified; no owned +1 assumed
 33,Bellona's Ring,True,,,,,present in Universal.lua; metadata pending
 34,Blau Dolch,True,Main,72.0,THF,,inventory-confirmed; metadata pending
 35,Blood Cuisses,True,Legs,73.0,RDM PLD DRK RNG DRG BLU COR RUN,Lv73 movement-overlay piece for DRK and other listed jobs,verified
@@ -46,11 +46,11 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 44,Chaos Flanchard,True,Legs,56.0,DRK,,inventory-confirmed; metadata pending
 45,Chaos Gauntlets,True,Hands,54.0,DRK,Enhances Weapon Bash; Weapon Bash +10,verified
 46,Chaos Sollerets,True,Feet,52.0,DRK,Enhances Arcane Circle,verified
-47,Charmer's Sash,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
+47,Charmer's Sash,True,Waist,73.0,WHM BLM RDM DRK BRD SMN BLU SCH GEO,DEF+5 MP+25 INT+5 CHR+5 Magic Atk. Bonus+3 Drain/Aspir potency+5,CatsEyeXI-specific item metadata verified
 48,Charmer\'s Sash,True,,,,,present in Universal.lua; metadata pending
 49,Chasuble +1,True,Body,74.0,RDM,,inventory-confirmed; metadata pending
 50,Chatoyant Staff,True,Main,75.0,ALL,,inventory-confirmed; metadata pending
-51,Chiroptera Dagger,True,,,,,present in Universal.lua; metadata pending
+51,Chiroptera Dagger,True,Main,38.0,WAR THF PLD DRK BRD RNG SAM NIN DRG COR PUP,DMG+13 Delay+192 Ranged Accuracy+12,standard FFXI item data; CatsEyeXI override pending
 52,Chivalrous Chain,True,Neck,60,ALL,,present in Universal.lua; item metadata pending verification
 53,Comm. Bottes,True,,,,,present in Universal.lua; metadata pending
 54,Comm. Trews,True,,,,,present in Universal.lua; metadata pending
@@ -118,7 +118,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 116,Hollow Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
 117,Homam Cosciales,True,Legs,75.0,THF PLD DRK DRG BLU,HP+26 MP+26 Accuracy+3 Haste+3% Fast Cast effect,verified
 118,Jalzahn's Ring,True,,,,,present in Universal.lua; metadata pending
-119,Joyeuse,True,Main,70.0,PLD RDM BLU COR,,inventory-confirmed; metadata pending
+119,Joyeuse,True,Main,70.0,WAR PLD RDM BRD DRG COR DNC BLU,DMG+35 Delay+224 Occasionally attacks twice,existing inventory record retained; BRD eligibility corrected from standard FFXI
 120,Kirin's Pole,True,Main,75.0,WHM BLM RDM,,inventory-confirmed; metadata pending
 121,Koenig Shield,True,,,,,present in Universal.lua; metadata pending
 122,Koga Chainmail,True,Body,74.0,NIN,DEF 46 Accuracy+12 Attack+16 Ranged Accuracy+10 Ranged Attack+10,verified CatsEyeXI reference
@@ -220,7 +220,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 218,Summoner's Horn,True,,,,,present in Universal.lua; metadata pending
 219,Summoner's Pgch.,True,,,,,present in Universal.lua; metadata pending
 220,Summoner's Spats,True,,,,,present in Universal.lua; metadata pending
-221,Suppanomimi,True,Ear,72.0,NIN THF DNC,,inventory-confirmed; metadata pending
+221,Suppanomimi,True,Ear,72.0,ALL,HP+5 MP+5 Dual Wield+5,verified standard FFXI data; use only when CanDualWield is true
 222,Swift Belt,True,Waist,50.0,ALL,,inventory-confirmed; metadata pending
 223,Tamas Ring,True,Ring,30.0,ALL,MP+15 INT+2 MND+2 Enmity-3,verified
 224,Tartaglia,True,,,,,present in Universal.lua; metadata pending
