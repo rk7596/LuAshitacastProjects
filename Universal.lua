@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-11.1912
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.0005
 -- Ashita v4 / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -589,7 +589,10 @@ local function GetStateSet(job, player)
         -- source (native or support job). CanDualWield() is the same shared
         -- decision used by the weapon selector.
         local dualWieldSet = job.Sets and job.Sets.EngagedDualWield
-        if CanDualWield(player) and type(dualWieldSet) == "table" and next(dualWieldSet) ~= nil then
+        if (player.MainJobLevel or 0) >= 72
+            and CanDualWield(player)
+            and type(dualWieldSet) == "table"
+            and next(dualWieldSet) ~= nil then
             stateSet = MergeSets(stateSet, dualWieldSet)
         end
         return stateSet
@@ -7739,7 +7742,7 @@ profile.HandlePrecast = function()
     end
 
     if action.ActionType == "Spell" then
-        gFunc.EquipSet(job.Sets.Precast)
+        gFunc.EquipSet(GetSet(job, "Precast"))
         EquipWHMSpellWeapons(player, action)
         EquipBLMSpellWeapons(player, action)
     end
@@ -8136,7 +8139,9 @@ local function ShowNamedSet(requestedName)
     end
 
     local set = GetSet(job, setName)
-    if setName == "Engaged" and CanDualWield(player) then
+    if setName == "Engaged"
+        and (player.MainJobLevel or 0) >= 72
+        and CanDualWield(player) then
         local dualWieldSet = job.Sets and job.Sets.EngagedDualWield
         if type(dualWieldSet) == "table" and next(dualWieldSet) ~= nil then
             set = MergeSets(set, dualWieldSet)
@@ -8763,6 +8768,25 @@ local function ApplyTHFMacros(player)
     end
 end
 
+local function ApplyBRDMacros(player)
+    if not player or player.MainJob ~= "BRD" then return end
+
+    for key, ja in pairs(BRD.Macro.Alt) do
+        BindJA(key, ja, "<me>")
+    end
+    for key, spell in pairs(BRD.Macro.Spells) do
+        local target = "<me>"
+        if spell == "Foe Lullaby" or spell == "Horde Lullaby"
+            or spell == "Battlefield Elegy" or spell == "Finale" then
+            target = "<stnpc>"
+        end
+        BindSpell(key, spell, target)
+    end
+    for key, ws in pairs(BRD.Macro.WS) do
+        BindWS(key, ws)
+    end
+end
+
 local function ApplyDRGMacros(player)
     if not player or player.MainJob ~= 'DRG' then return end
     for key, ja in pairs(DRG.Macro.Alt) do
@@ -8879,6 +8903,7 @@ ApplyMacroDeck = function(player, force)
     ApplyDRGMacros(player)
     ApplyDRKMacros(player)
     ApplySMNMacros(player)
+    ApplyBRDMacros(player)
 
     -- Shared NIN/DNC bindings are deliberately installed LAST so job-local
     -- macros cannot overwrite the hybrid-key matrix.  Ctrl-BACKSLASH remains
