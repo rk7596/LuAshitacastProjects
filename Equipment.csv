@@ -299,3 +299,8 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 297,Piccolo,True,Range,9.0,BRD,Wind Instrument; Threnody +1,owned; Sparks purchase reported; standard FFXI metadata verified; CatsEyeXI override pending
 298,Rose Harp,True,Range,36.0,BRD,String Instrument; Etude +1,owned; Sparks purchase reported; standard FFXI metadata verified; CatsEyeXI override pending
 299,Traversiere,True,Range,32.0,BRD,Wind Instrument; Madrigal +1,owned; Sparks purchase reported; standard FFXI metadata verified; CatsEyeXI override pending
+300,Choral Slippers,True,Feet,52.0,BRD,DEF+10 HP+10 AGI+3 Evasion+5 Wind elemental defense+10,assumed base BRD Artifact Armor acquisition at level 52 per user request; not bag-verified; AF+1 not assumed
+301,Choral Roundlet,True,Head,54.0,BRD,DEF+15 HP+11 MND+3 Parrying Skill+5 Enmity-1,assumed base BRD Artifact Armor acquisition at level 54 per user request; not bag-verified; AF+1 not assumed
+302,Choral Cannions,True,Legs,56.0,BRD,DEF+27 HP+12 STR+5 Wind Instrument Skill+3 Enmity-1,assumed base BRD Artifact Armor acquisition at level 56 per user request; not bag-verified; AF+1 not assumed
+303,Choral Justaucorps,True,Body,58.0,BRD,DEF+38 HP+13 VIT+3 String Instrument Skill+3 Enmity-1,assumed base BRD Artifact Armor acquisition at level 58 per user request; not bag-verified; AF+1 not assumed
+304,Choral Cuffs,True,Hands,60.0,BRD,DEF+15 HP+14 CHR+4 Singing Skill+5 Enmity-1,assumed base BRD Artifact Armor acquisition at level 60 per user request; not bag-verified; AF+1 not assumed
