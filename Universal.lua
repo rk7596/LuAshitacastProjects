@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-12.1638
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1543
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2865,7 +2865,11 @@ BST.Macro = {
 -- END BST
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 40; this job remains in active progression through 75.
+-- Current job level: 60; this job remains in active progression through 75.
+-- Artifact Armor is the Choral Attire set (Lv. 52-60); Bard's Attire is Relic Armor.
+-- Equipment.csv currently confirms the Bard's Relic pieces only, not Choral AF.
+-- Keep unconfirmed Choral pieces out of active sets until ownership or a base-AF
+-- future-acquisition assumption is explicitly recorded.
 -- Equipment.csv records eleven Sparks-purchased BRD instruments. Instruments
 -- occupy Range (not Ammo); all state/TP sets leave Range and Ammo unspecified.
 -- Standard FFXI instrument mechanics: Wind gives greater song magic accuracy at
