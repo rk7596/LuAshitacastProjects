@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1543
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1918
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -147,7 +147,7 @@ local CONFIG = {
 local CurrentJobLevels = {
     WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 75, RNG = 43,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
-    BLM = 75, THF = 75, DRK = 75, BRD = 40, SAM = 75, DRG = 75,
+    BLM = 75, THF = 75, DRK = 75, BRD = 60, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
 
@@ -2866,10 +2866,10 @@ BST.Macro = {
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 60; this job remains in active progression through 75.
--- Artifact Armor is the Choral Attire set (Lv. 52-60); Bard's Attire is Relic Armor.
--- Equipment.csv currently confirms the Bard's Relic pieces only, not Choral AF.
--- Keep unconfirmed Choral pieces out of active sets until ownership or a base-AF
--- future-acquisition assumption is explicitly recorded.
+-- Choral Attire is BRD Artifact Armor; Bard's Attire is the later Relic set.
+-- Per the requested BRD progression, Equipment.csv assumes the five base Choral
+-- AF pieces are acquired at their level milestones. This is not bag verification;
+-- AF+1 is not assumed. Owned Bard's Relic items remain governed by their own levels.
 -- Equipment.csv records eleven Sparks-purchased BRD instruments. Instruments
 -- occupy Range (not Ammo); all state/TP sets leave Range and Ammo unspecified.
 -- Standard FFXI instrument mechanics: Wind gives greater song magic accuracy at
@@ -2894,6 +2894,12 @@ BRD.Sets.Idle = {
 -- Bard's Cannions' standard Courtly Measure latent is useful while sheathed;
 -- do not assume it activates with the weapon drawn (CatsEyeXI override unverified).
 BRD.Sets.IdleByLevel = {
+    -- Base Choral AF improves the generic Idle set's defense/HP and Bard-relevant stats.
+    [52] = { Feet = "Choral Slippers" },
+    [54] = { Head = "Choral Roundlet" },
+    [56] = { Legs = "Choral Cannions" },
+    [58] = { Body = "Choral Justaucorps" },
+    [60] = { Hands = "Choral Cuffs" },
     [70] = { Waist = "Charmer's Sash" },
     [72] = {
         Head = "Bard's Roundlet", Ear1 = "Ethereal Earring",
@@ -2956,11 +2962,27 @@ BRD.Sets.PDT = {
     Feet = "Shade Leggings",
 }
 BRD.Sets.PDTByLevel = {
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
+    [52] = { Feet = "Choral Slippers" },
+    [54] = { Head = "Choral Roundlet" },
+    [56] = { Legs = "Choral Cannions" },
+    [58] = { Body = "Choral Justaucorps" },
+    [60] = { Hands = "Choral Cuffs" },
+    [72] = {
+        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring",
+    },
+    [73] = { Hands = "Bard's Cuffs" },
 }
 BRD.Sets.MDT = BRD.Sets.PDT
 BRD.Sets.MDTByLevel = {
-    [72] = { Ear1 = "Ethereal Earring", Ear2 = "Static Earring" },
+    [52] = { Feet = "Choral Slippers" },
+    [54] = { Head = "Choral Roundlet" },
+    [56] = { Legs = "Choral Cannions" },
+    [58] = { Body = "Choral Justaucorps" },
+    [60] = { Hands = "Choral Cuffs" },
+    [72] = {
+        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Static Earring",
+    },
+    [73] = { Hands = "Bard's Cuffs" },
 }
 
 BRD.Sets.Precast = {}
@@ -2974,10 +2996,17 @@ BRD.Sets.Spell_Buff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.Spell_BuffByLevel = {
+    [52] = { Feet = "Choral Slippers" },
+    [54] = { Head = "Choral Roundlet" },
+    [56] = { Legs = "Choral Cannions" },
+    [58] = { Body = "Choral Justaucorps" },
+    [60] = { Hands = "Choral Cuffs" },
     [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
-    [73] = { Hands = "Bard's Cuffs" },
+    -- Keep Choral Cuffs' Singing Skill +5 for all buff songs; Bard's Cuffs are
+    -- reserved for the debuff set where Wind Instrument Skill and lower enmity
+    -- are the intended tradeoff.
     -- Standard Ninurta's Sash Haste improves recast; no verified owned song-duration
     -- piece is available to supersede it. CatsEyeXI effects should be confirmed in-game.
     [75] = { Waist = "Ninurta's Sash" },
@@ -2987,6 +3016,11 @@ BRD.Sets.SongDebuff = {
     Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
 }
 BRD.Sets.SongDebuffByLevel = {
+    [52] = { Feet = "Choral Slippers" },
+    [54] = { Head = "Choral Roundlet" },
+    [56] = { Legs = "Choral Cannions" },
+    [58] = { Body = "Choral Justaucorps" },
+    [60] = { Hands = "Choral Cuffs" },
     [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
@@ -3085,6 +3119,7 @@ BRD.Sets.WS_HP = {
 BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
 local BRD_WS_PhysicalByLevel = {
     [50] = { Waist = "Swift Belt" },
+    [56] = { Legs = "Choral Cannions" },
     [60] = { Neck = "Chivalrous Chain" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
@@ -3124,6 +3159,7 @@ BRD.Sets.WS_CHRByLevel = {
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_HPByLevel = {
+    [54] = { Head = "Choral Roundlet" },
     [57] = { Ring1 = "Bomb Queen Ring" },
     [72] = { Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
     [73] = { Hands = "Bard's Cuffs" },
