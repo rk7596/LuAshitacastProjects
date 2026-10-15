@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1918
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1921
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2905,6 +2905,7 @@ BRD.Sets.IdleByLevel = {
         Head = "Bard's Roundlet", Ear1 = "Ethereal Earring",
         Ear2 = "Magnetic Earring",
     },
+    [73] = { Hands = "Bard's Cuffs" },
     [75] = {
         Head = "Walahra Turban", Back = "Aesir Mantle",
         Legs = "Bard's Cannions",
@@ -2948,6 +2949,7 @@ BRD.Sets.Engaged = {
 }
 BRD.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt" },
+    [56] = { Legs = "Choral Cannions" },
     [60] = { Neck = "Chivalrous Chain" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
