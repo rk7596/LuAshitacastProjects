@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1921
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1927
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2899,11 +2899,12 @@ BRD.Sets.IdleByLevel = {
     [54] = { Head = "Choral Roundlet" },
     [56] = { Legs = "Choral Cannions" },
     [58] = { Body = "Choral Justaucorps" },
-    [60] = { Hands = "Choral Cuffs" },
+    [60] = { Head = "Patroclus's Helm", Hands = "Choral Cuffs" },
     [70] = { Waist = "Charmer's Sash" },
+    -- Patroclus's Helm remains the general idle head until Walahra at 75;
+    -- Bard's Roundlet is reserved for song casting, where Singing skill matters.
     [72] = {
-        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring",
-        Ear2 = "Magnetic Earring",
+        Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring",
     },
     [73] = { Hands = "Bard's Cuffs" },
     [75] = {
@@ -2950,7 +2951,7 @@ BRD.Sets.Engaged = {
 BRD.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt" },
     [56] = { Legs = "Choral Cannions" },
-    [60] = { Neck = "Chivalrous Chain" },
+    [60] = { Head = "Patroclus's Helm", Neck = "Chivalrous Chain" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
