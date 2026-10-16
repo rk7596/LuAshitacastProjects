@@ -286,7 +286,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 283,Beast Jackcoat,True,Body,58,BST,HP+20 VIT+3 Enhances Reward effect; Charm+5,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
 284,Beast Trousers,True,Legs,60,BST,HP+15 CHR+4 Enhances Killer effects; Charm+6,owned; base Beast Artifact armor; standard FFXI effects pending CatsEyeXI confirmation
 286,Ryl.Grd. Collar,True,Neck,55,WAR PLD DRK BST SAM NIN,,user-confirmed item; exact stats pending verification
-287,Patroclus's Helm,True,Head,60,BST,,user-selected in active BST Engaged progression; stats and broader job restrictions pending verification
+287,Patroclus's Helm,True,Head,60.0,WAR THF PLD DRK BST BRD DRG RUN,DEF+21 STR+2 Evasion-5 Haste+2% Enmity-5,owned; standard FFXI stats and eligibility verified; Rare/Ex; CatsEyeXI override pending
 288,Furia Mail,True,Body,71.0,BST DRG,DEF+48 STR+3 DEX+4 Attack+7 Store TP+3,user-confirmed owned; standard FFXI stats verified; CatsEyeXI overrides pending
 289,Angel's Flute,True,Range,48.0,BRD,Wind Instrument; Prelude +1,owned; Sparks purchase reported; standard FFXI metadata verified; CatsEyeXI override pending
 290,Cornette,True,Range,4.0,BRD,Wind Instrument; Minuet +1,owned; Sparks purchase reported; standard FFXI metadata verified; CatsEyeXI override pending
