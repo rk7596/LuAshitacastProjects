@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0710
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0714
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -8084,10 +8084,8 @@ local function GetGlobalWaltzSet(player)
     local level = tonumber(player.MainJobLevel) or 0
     local mainJob = player.MainJob
 
-    -- Star Necklace is All Jobs and CHR+3 (with HP-to-MP conversion).
-    if level >= 59 then
-        set.Neck = "Star Necklace"
-    end
+    -- Avoid Star Necklace here: its CHR+3 converts 15 HP to MP, a poor trade
+    -- for a small, rounding-dependent Waltz gain during a temporary gear swap.
 
     -- Shade Tiara is CHR+2. DNC main gets its Waltz-potency relic head at 72.
     if mainJob == "DNC" then
