@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0653
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0710
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -140,7 +140,7 @@ local CONFIG = {
 -- ============================================================================
 -- FINLEY CURRENT JOB LEVELS
 -- ============================================================================
--- Current character levels as of 2026-10-11.  These levels are authoritative
+-- Current character levels as of 2026-10-17.  These levels are authoritative
 -- for equipment/action availability.  Macro decks are intentionally allowed to
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
@@ -3126,7 +3126,8 @@ local BRD_WS_PhysicalByLevel = {
     [60] = { Neck = "Chivalrous Chain" },
     [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [75] = { Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
+    -- Haste is not a weaponskill damage stat; keep the last owned general WS waist.
+    [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
