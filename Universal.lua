@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1519
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1606
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3683,6 +3683,218 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 
 
 -- ============================================================================
+-- ============================================================================
+-- RNG: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
+-- ============================================================================
+-- Current job level: 43; progression is planned through level 75.
+-- Ranger's damage comes primarily from Archery/Marksmanship, so ranged shots
+-- use dedicated Preshot/Midshot gear instead of separate distance-based
+-- Engaged sets.  These handlers fire from the player's actual /range action.
+--
+-- Shot priority:
+--   Recycle > Ranged Accuracy > Ranged Attack > Store TP > STR > AGI.
+-- Frugal Cape is kept for its Recycle effect, even when Ryl. Army Mantle is
+-- selected by the shared melee-state overlay at levels 55-74.
+--
+-- CatsEyeXI overrides confirmed by the user:
+--   Noct armor receives the custom stats in Equipment.csv.
+--   Pln. Dastanas and Pln. Crackows use the listed CatsEyeXI stats/job list.
+--   Pln. Crackows are scheduled for purchase at 1500 Greeter Moogle points;
+--   the current 1400-point balance was reported on 2026-10-17. They are
+--   preconfigured for level 72 per explicit user request, but not yet owned.
+--   Hornetneedle is planned for RNG Sub at level 48; equip eligibility should
+--   be confirmed on CatsEyeXI.
+-- ============================================================================
+
+local RNG = JOBS.RNG
+
+RNG.Sets.Idle = {
+    Head  = "Noct Beret",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Noct Doublet",
+    Hands = "Noct Gloves",
+    Ring1 = "San d'Orian Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Mrc.Cpt. Belt",
+    Legs  = "Noct Brais",
+    Feet  = "Noct Gaiters",
+}
+
+RNG.Sets.IdleByLevel = {
+    [72] = {
+        Body  = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Feet  = "Pln. Crackows",
+    },
+    [75] = {
+        Head  = "Walahra Turban",
+        Neck  = "Ancient Torque",
+        Back  = "Cerberus Mantle",
+        Waist = "Ninurta's Sash",
+    },
+}
+
+-- Ranger has no dedicated resting gear in the confirmed inventory; use the
+-- same level-appropriate safe set rather than pretending mage HMP gear fits.
+RNG.Sets.Resting = RNG.Sets.Idle
+RNG.Sets.RestingByLevel = RNG.Sets.IdleByLevel
+
+RNG.Sets.Engaged = {
+    -- Melee-state fallback. Shots replace this with Preshot/Midshot immediately.
+    Head  = "Empress Hairpin",
+    Neck  = "Spike Necklace",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Noct Doublet",
+    Hands = "Noct Gloves",
+    Ring1 = "San d'Orian Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Mrc.Cpt. Belt",
+    Legs  = "Noct Brais",
+    Feet  = "Noct Gaiters",
+}
+
+RNG.Sets.EngagedByLevel = {
+    [50] = {
+        Ring1 = "Rajas Ring",
+        Waist = "Swift Belt",
+    },
+    [60] = {
+        Neck = "Chivalrous Chain",
+    },
+    [72] = {
+        Body  = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Feet  = "Pln. Crackows",
+    },
+    [74] = {
+        Neck = "Ancient Torque",
+    },
+    [75] = {
+        Back  = "Cerberus Mantle",
+        Waist = "Ninurta's Sash",
+    },
+}
+
+-- Conservative defensive fallbacks from confirmed gear. No unowned PDT/MDT
+-- equipment is assumed; Noct's evasion augments make it the best documented
+-- low-level defensive base currently in the ledger.
+RNG.Sets.PDT = {
+    Head  = "Noct Beret",
+    Neck  = "Wing Pendant",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Noct Doublet",
+    Hands = "Noct Gloves",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Noct Brais",
+    Feet  = "Noct Gaiters",
+}
+RNG.Sets.MDT = RNG.Sets.PDT
+
+-- The same ranged set is equipped when /range starts and again at shot time.
+-- Keeping Range and Ammo here means the bow/arrow choice is honored even when
+-- Alt-F12 has disabled automatic Engaged Main/Sub selection. Range is never
+-- cleared in between: this directly equips the selected bow.
+RNG.Sets.Preshot = {
+    Head  = "Empress Hairpin",
+    Neck  = "Spike Necklace",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Noct Doublet",
+    Hands = "Noct Gloves",
+    Ring1 = "San d'Orian Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Mrc.Cpt. Belt",
+    Legs  = "Noct Brais",
+    Feet  = "Noct Gaiters",
+    Range = "Shikar Bow",
+    Ammo  = "Scorpion Arrow",
+}
+
+RNG.Sets.PreshotByLevel = {
+    [50] = {
+        Ring1 = "Rajas Ring",
+        Waist = "Ryl.Kgt. Belt",
+    },
+    [60] = {
+        Neck = "Chivalrous Chain",
+    },
+    [72] = {
+        Body  = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Feet  = "Pln. Crackows",
+    },
+    [75] = {
+        Range = "Failnaught",
+    },
+}
+
+RNG.Sets.Midshot = RNG.Sets.Preshot
+RNG.Sets.MidshotByLevel = RNG.Sets.PreshotByLevel
+
+-- Sharpshot/Barrage/Eagle Eye Shot use the current ranged-accuracy outfit.
+-- JA equipment uses the same level gates as the actual shot.
+RNG.Sets.JA_Default = {}
+RNG.Sets.JA_Offensive = RNG.Sets.Preshot
+RNG.Sets.JA_OffensiveByLevel = RNG.Sets.PreshotByLevel
+RNG.Sets.JA_Defensive = {}
+RNG.Sets.JA_Enmity = {}
+
+RNG.JA = {
+    ["Sharpshot"] = "JA_Offensive",
+    ["Barrage"] = "JA_Offensive",
+    ["Eagle Eye Shot"] = "JA_Offensive",
+}
+
+-- Ranged WS retain the same Recycle/accuracy-first priorities. Individual WSC
+-- set specialization can be added after verifying each CatsEyeXI WS formula;
+-- unknown or unlisted WS safely use this owned-gear baseline.
+RNG.Sets.WS_Default = RNG.Sets.Preshot
+RNG.Sets.WS_DefaultByLevel = RNG.Sets.PreshotByLevel
+RNG.WS = {
+    ["Flaming Arrow"] = "WS_Default",
+    ["Piercing Arrow"] = "WS_Default",
+    ["Dulling Arrow"] = "WS_Default",
+    ["Sidewinder"] = "WS_Default",
+    ["Blast Arrow"] = "WS_Default",
+    ["Arching Arrow"] = "WS_Default",
+    ["Empyreal Arrow"] = "WS_Default",
+    ["Refulgent Arrow"] = "WS_Default",
+}
+
+-- Chiroptera Dagger contributes Ranged Accuracy +12 as the normal Main weapon.
+-- Hornetneedle is added only at level 48. The Range weapon advances from the
+-- requested Shikar Bow to owned Failnaught at level 75.
+RNG.Weapons = {
+    Main  = "Chiroptera Dagger",
+    Range = "Shikar Bow",
+    Ammo  = "Scorpion Arrow",
+}
+
+RNG.WeaponsByLevel = {
+    [48] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Hornetneedle",
+        Range = "Shikar Bow",
+        Ammo  = "Scorpion Arrow",
+    },
+    [75] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Hornetneedle",
+        Range = "Failnaught",
+        Ammo  = "Scorpion Arrow",
+    },
+}
+
+-- END RNG
+
 -- COR: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
 -- Current job level: 50
@@ -6221,11 +6433,8 @@ JOBS.DNC.JA = {
     ["Trance"] = "JA_Offensive",
 }
 
-JOBS.RNG.JA = {
-    ["Sharpshot"] = "JA_Offensive",
-    ["Barrage"] = "JA_Offensive",
-    ["Eagle Eye Shot"] = "JA_Offensive",
-}
+-- Ranger's job-ability mapping is defined in its dedicated section above.
+JOBS.RNG.JA = RNG.JA
 
 JOBS.COR.JA = {
     ["Phantom Roll"] = "JA_Offensive",
@@ -6314,6 +6523,16 @@ local SkillchainWeaponskills = {
     ["Shark Bite"] = true,
     ["Evisceration"] = true,
     ["Mandalic Stab"] = true,
+
+    -- Ranger Archery WS with standard skillchain properties.
+    ["Flaming Arrow"] = true,
+    ["Piercing Arrow"] = true,
+    ["Dulling Arrow"] = true,
+    ["Sidewinder"] = true,
+    ["Blast Arrow"] = true,
+    ["Arching Arrow"] = true,
+    ["Empyreal Arrow"] = true,
+    ["Refulgent Arrow"] = true,
 
     -- Ninja katana WS with skillchain properties.
     ["Blade: Rin"] = true,
@@ -8013,7 +8232,9 @@ profile.HandlePreshot = function()
 
     local job = GetJob(player)
     if job then
-        gFunc.EquipSet(job.Sets.Preshot)
+        -- Resolve level overlays here so planned RNG gear milestones apply
+        -- during the action itself, not only when the Engaged state is polled.
+        gFunc.EquipSet(GetSet(job, "Preshot"))
     end
 end
 
@@ -8025,7 +8246,7 @@ profile.HandleMidshot = function()
 
     local job = GetJob(player)
     if job then
-        gFunc.EquipSet(job.Sets.Midshot)
+        gFunc.EquipSet(GetSet(job, "Midshot"))
     end
 end
 
