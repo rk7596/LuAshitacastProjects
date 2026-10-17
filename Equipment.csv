@@ -181,7 +181,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 179,Runeist Bottes,True,,,,,present in Universal.lua; metadata pending
 180,Runeist Trousers,True,,,,,present in Universal.lua; metadata pending
 181,Ryl. Army Mantle,True,Back,55,ALL,DEF+6 Enmity+2,inventory record retained; standard FFXI stats recorded; not preferred for BST state sets
-182,Ryl.Kgt. Belt,True,,,,,present in Universal.lua; metadata pending
+182,Ryl.Kgt. Belt,True,Waist,50.0,ALL,,user-confirmed level-50 ranged/out-of-melee belt; full stat metadata pending
 183,Salire Belt,True,Waist,70.0,ALL,,inventory-confirmed; metadata pending
 184,Saotome Domaru,True,,,,,present in Universal.lua; metadata pending
 185,Saotome Haidate,True,,,,,present in Universal.lua; metadata pending
@@ -310,3 +310,10 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 308,Noct Gloves,True,Hands,30.0,THF RNG COR,DEF+5 Ranged Accuracy+1 DEX+2 Ranged Attack+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
 309,Noct Brais,True,Legs,30.0,THF RNG COR,DEF+12 DEX+1 Ranged Accuracy+1 AGI+2 Accuracy+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
 310,Noct Gaiters,True,Feet,30.0,THF RNG COR,DEF+4 DEX+1 Accuracy+2 Ranged Attack+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
+311,Hornetneedle,True,Sub,48.0,RNG,,user-directed Ranger offhand at level 48; CatsEyeXI eligibility and item metadata pending in-game verification
+312,Shikar Bow,True,Range,36.0,RNG,,user-confirmed current Ranger bow; detailed item stats pending verification
+313,Scorpion Arrow,True,Ammo,40.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+24 Delay+90 Ranged Accuracy+5,obtained and confirmed by user; standard FFXI ammo data verified
+314,San d'Orian Ring,True,Ring,1.0,ALL,STR+1 MND+1,owned per user-provided Ranger progression; standard stats verified
+315,Mrc.Cpt. Belt,True,Waist,30.0,ALL,All stats+1,owned per user-provided Ranger progression
+316,Pln. Dastanas,True,Hands,72.0,MNK RDM THF BST RNG NIN DRG COR PUP DNC RUN,DEF+19 Accuracy+5 Ranged Accuracy+5 Ranged Attack+5,obtained and confirmed by user; CatsEyeXI stats supplied by user
+317,Pln. Crackows,False,Feet,72.0,MNK RDM THF BST RNG NIN DRG COR PUP DNC RUN,DEF+13 DEX+4 Accuracy+3 Ranged Accuracy+3,planned Greeter Moogle purchase on 2026-10-18; user reported 1400/1500 points on 2026-10-17; user authorized inclusion in level-72 Ranger sets before acquisition
