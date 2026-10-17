@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-15.1927
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0653
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -147,7 +147,7 @@ local CONFIG = {
 local CurrentJobLevels = {
     WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 75, RNG = 43,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
-    BLM = 75, THF = 75, DRK = 75, BRD = 60, SAM = 75, DRG = 75,
+    BLM = 75, THF = 75, DRK = 75, BRD = 72, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
 
@@ -2865,7 +2865,7 @@ BST.Macro = {
 -- END BST
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 60; this job remains in active progression through 75.
+-- Current job level: 72; this job remains in active progression through 75.
 -- Choral Attire is BRD Artifact Armor; Bard's Attire is the later Relic set.
 -- Per the requested BRD progression, Equipment.csv assumes the five base Choral
 -- AF pieces are acquired at their level milestones. This is not bag verification;
@@ -2989,7 +2989,11 @@ BRD.Sets.MDTByLevel = {
 }
 
 BRD.Sets.Precast = {}
-BRD.Sets.PrecastByLevel = { [75] = { Ear1 = "Loquac. Earring" } }
+-- Fast Cast plus Haste belong at Precast so they can affect song recast.
+-- Song midcast keeps Charmer's Sash for its CHR bonus instead.
+BRD.Sets.PrecastByLevel = {
+    [75] = { Ear1 = "Loquac. Earring", Waist = "Ninurta's Sash" },
+}
 
 -- Skill pieces cover the two possible instrument families: Bard's Cuffs add
 -- Wind Instrument skill; Bard's Slippers add String Instrument skill. Only the
@@ -3007,12 +3011,9 @@ BRD.Sets.Spell_BuffByLevel = {
     [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
-    -- Keep Choral Cuffs' Singing Skill +5 for all buff songs; Bard's Cuffs are
-    -- reserved for the debuff set where Wind Instrument Skill and lower enmity
-    -- are the intended tradeoff.
-    -- Standard Ninurta's Sash Haste improves recast; no verified owned song-duration
-    -- piece is available to supersede it. CatsEyeXI effects should be confirmed in-game.
-    [75] = { Waist = "Ninurta's Sash" },
+    -- Choral Cuffs keep Singing Skill +5 and CHR+4; Bard's Cuffs have only
+    -- Wind Instrument Skill +3 and are better left in Idle/defensive sets.
+    -- Charmer's Sash remains the song-midcast waist for its CHR+5.
 }
 BRD.Sets.SongDebuff = {
     Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
@@ -3027,10 +3028,9 @@ BRD.Sets.SongDebuffByLevel = {
     [70] = { Waist = "Charmer's Sash" },
     [71] = { Feet = "Bard's Slippers" },
     [72] = { Head = "Bard's Roundlet" },
-    [73] = { Hands = "Bard's Cuffs" },
-    -- CHR contributes to song magic accuracy, and Cannions supply +8 CHR while
-    -- the weapon is sheathed. Latent behavior on CatsEyeXI remains unconfirmed.
-    [75] = { Legs = "Bard's Cannions" },
+    -- Keep Choral Cannions for their Wind Instrument Skill +3 and Choral Cuffs
+    -- for Singing Skill +5 / CHR+4. At 75, Bard's Cannions' Courtly Measure latent
+    -- is not assumed to work during an active song cast.
 }
 -- Foe Requiem VII is level 76 in standard FFXI, beyond this profile's level-75 cap.
 local BRDDebuffSongs = {
@@ -3181,9 +3181,24 @@ BRD.WS = {
     ["Evisceration"] = "WS_DEX",
 }
 
+-- Main/Sub choices are state weapons and remain independent of the TP lock.
+-- Dual Wield uses the requested fast multi-hit pair from BRD72; without DW,
+-- Joyeuse stays Main and the shield is added once level 74 permits it.
 BRD.Weapons = { Main = "Chiroptera Dagger" }
 BRD.WeaponsByLevel = {
-    [70] = { Main = "Joyeuse", DWMain = "Joyeuse", DWSub = "Chiroptera Dagger" },
+    [70] = {
+        Main = "Joyeuse",
+        DWMain = "Joyeuse", DWSub = "Chiroptera Dagger",
+    },
+    [72] = {
+        Main = "Joyeuse",
+        DWMain = "Blau Dolch", DWSub = "Octave Club",
+    },
+    [74] = {
+        Main = "Joyeuse",
+        DWMain = "Blau Dolch", DWSub = "Octave Club",
+        Shield = "Genbu's Shield",
+    },
 }
 local BRDBalladTiers = {
     [25] = "Mage's Ballad",
@@ -8044,6 +8059,62 @@ end
 -- JOB ABILITIES
 -- ============================================================================
 
+-- Shared Waltz CHR/potency overlay. Keep this outside per-job sets so all
+-- main jobs that can use DNC support abilities share one readable rule.
+local WaltzAbilities = {
+    ["Curing Waltz"] = true,
+    ["Curing Waltz II"] = true,
+    ["Divine Waltz"] = true,
+}
+
+local WaltzCHRHeadJobs = {
+    WAR = true, MNK = true, RDM = true, THF = true, PLD = true,
+    DRK = true, BST = true, BRD = true, SAM = true, NIN = true,
+    DRG = true, BLU = true, COR = true, DNC = true, RUN = true,
+}
+
+local WaltzCHRWaistJobs = {
+    WHM = true, BLM = true, RDM = true, DRK = true, BRD = true,
+    SMN = true, BLU = true, SCH = true, GEO = true,
+}
+
+local function GetGlobalWaltzSet(player)
+    local set = {}
+    local level = tonumber(player.MainJobLevel) or 0
+    local mainJob = player.MainJob
+
+    -- Star Necklace is All Jobs and CHR+3 (with HP-to-MP conversion).
+    if level >= 59 then
+        set.Neck = "Star Necklace"
+    end
+
+    -- Shade Tiara is CHR+2. DNC main gets its Waltz-potency relic head at 72.
+    if mainJob == "DNC" then
+        if level >= 72 then
+            set.Head = "Etoile Tiara"
+        elseif level >= 25 then
+            set.Head = "Shade Tiara"
+        end
+        if level >= 74 then
+            set.Legs = "Etoile Tights"
+        end
+    elseif level >= 25 and WaltzCHRHeadJobs[mainJob] then
+        set.Head = "Shade Tiara"
+    end
+
+    -- Charmer's Sash supplies CHR+5 only on jobs permitted to equip it.
+    if level >= 70 and WaltzCHRWaistJobs[mainJob] then
+        set.Waist = "Charmer's Sash"
+    end
+
+    -- Choral Cuffs provide CHR+4 for BRD-main /DNC without using unowned gear.
+    if mainJob == "BRD" and level >= 60 then
+        set.Hands = "Choral Cuffs"
+    end
+
+    return set
+end
+
 profile.HandleAbility = function()
     local player = gData.GetPlayer()
     local action = gData.GetAction()
@@ -8074,6 +8145,15 @@ profile.HandleAbility = function()
     local setName = job.JA[action.Name]
     if setName then
         gFunc.EquipSet(GetSet(job, setName))
+    end
+
+    -- Only overlay actual DNC Waltz abilities; every other JA keeps normal gear.
+    if WaltzAbilities[action.Name]
+        and (player.MainJob == "DNC" or player.SubJob == "DNC") then
+        local waltzSet = GetGlobalWaltzSet(player)
+        if next(waltzSet) ~= nil then
+            gFunc.EquipSet(waltzSet)
+        end
     end
 end
 
