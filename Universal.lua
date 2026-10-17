@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0733
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0738
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3126,10 +3126,10 @@ local BRD_WS_PhysicalByLevel = {
     [56] = { Legs = "Choral Cannions" },
     [60] = { Neck = "Chivalrous Chain" },
     [70] = { Ring2 = "Mars's Ring" },
-    [74] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    -- Haste is not a weaponskill damage stat; keep the last owned general WS waist.
-    [75] = { Back = "Aesir Mantle" },
+    [74] = { Neck = "Ancient Torque" },
+    -- Cerberus Mantle adds STR+3 and Attack+12 for physical weaponskills.
+    [75] = { Back = "Cerberus Mantle" },
 }
 BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
 BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
@@ -3159,6 +3159,8 @@ BRD.Sets.WS_STRMNDByLevel = BRD_WS_MagicalByLevel
 -- are not relevant to the amount stolen under standard FFXI mechanics.
 BRD.Sets.WS_MNDByLevel = {
     [72] = { Ear1 = "Static Earring", Legs = "Errant Slops" },
+    -- Dew Silk Cape +1 adds MND+6 for level-75 Energy Steal/Energy Drain.
+    [75] = { Back = "Dew Silk Cape +1" },
 }
 BRD.Sets.WS_CHRByLevel = {
     [70] = { Waist = "Charmer's Sash" },
