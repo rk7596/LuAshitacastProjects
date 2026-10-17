@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0858
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1519
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -147,7 +147,7 @@ local CONFIG = {
 local CurrentJobLevels = {
     WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 75, RNG = 43,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
-    BLM = 75, THF = 75, DRK = 75, BRD = 72, SAM = 75, DRG = 75,
+    BLM = 75, THF = 75, DRK = 75, BRD = 75, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
 }
 
