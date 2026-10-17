@@ -40,7 +40,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 38,Bounding Boots,True,Feet,7.0,ALL,DEX+3 AGI+3,verified
 39,Brutal Earring,True,Ear,72.0,ALL,Double Attack +5%,verified
 40,Bushinomimi,True,,,,,present in Universal.lua; metadata pending
-41,Cerberus Mantle,True,Back,75.0,ALL,DEF+12 STR+3 Fire resistance+10 Attack+12 Enmity+3,inventory-confirmed; standard FFXI stats and BRD eligibility verified; CatsEyeXI override pending
+41,Cerberus Mantle,True,Back,75.0,WAR MNK RDM THF PLD DRK BST BRD RNG SAM NIN DRG BLU COR DNC RUN,DEF+12 STR+3 Fire resistance+10 Attack+12 Enmity+3,inventory-confirmed; standard FFXI stats/job eligibility verified; CatsEyeXI override pending
 42,Chaos Burgeonet,True,Head,60.0,DRK,Dark Magic Skill+5; enhances Souleater,verified
 43,Chaos Cuirass,True,Body,58.0,DRK,DEF46 HP+20 VIT+3 Attack+5 Enfeebling Magic Skill+5,verified
 44,Chaos Flanchard,True,Legs,56.0,DRK,,inventory-confirmed; metadata pending
@@ -58,7 +58,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 56,Commodore Belt,True,,,,,present in Universal.lua; metadata pending
 57,Commodore Gants,True,,,,,present in Universal.lua; metadata pending
 58,Demon Arrow,True,,,,,present in Universal.lua; metadata pending
-59,Dew Silk Cape +1,True,Back,75.0,ALL,DEF+8 MND+6 Light resistance+15 Enmity-3 Cure potency+3%,inventory-confirmed; standard FFXI stats/level and BRD eligibility verified; CatsEyeXI override pending
+59,Dew Silk Cape +1,True,Back,75.0,WHM BLM RDM BRD SMN BLU PUP SCH GEO,DEF+8 MND+6 Light resistance+15 Enmity-3 Cure potency+3%,inventory-confirmed; standard FFXI stats/level/job eligibility verified; CatsEyeXI override pending
 60,Dls. Chapeau +1,True,Head,75.0,RDM,,inventory-confirmed; metadata pending
 61,Dls. Gloves +1,True,Hands,73.0,RDM,,inventory-confirmed; metadata pending
 62,Drachen Brais,True,,,,,present in Universal.lua; metadata pending
