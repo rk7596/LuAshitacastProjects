@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0712
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0733
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -300,7 +300,7 @@ local function GetLevelSetOverlay(job, name)
             end
         else
             -- Chivalrous Chain is All Jobs; job-specific higher-level overlays
-            -- below can still supersede it (e.g. Ancient Torque at Lv70).
+            -- below can still supersede it (e.g. Ancient Torque at Lv74).
             result.Neck = "Chivalrous Chain"
         end
     end
@@ -2952,7 +2952,8 @@ BRD.Sets.EngagedByLevel = {
     [50] = { Waist = "Swift Belt" },
     [56] = { Legs = "Choral Cannions" },
     [60] = { Head = "Patroclus's Helm", Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [70] = { Ring2 = "Mars's Ring" },
+    [74] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
 }
@@ -3124,7 +3125,8 @@ local BRD_WS_PhysicalByLevel = {
     [50] = { Waist = "Swift Belt" },
     [56] = { Legs = "Choral Cannions" },
     [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Neck = "Ancient Torque", Ring2 = "Mars's Ring" },
+    [70] = { Ring2 = "Mars's Ring" },
+    [74] = { Neck = "Ancient Torque" },
     [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
     -- Haste is not a weaponskill damage stat; keep the last owned general WS waist.
     [75] = { Back = "Aesir Mantle" },
@@ -3142,10 +3144,11 @@ local BRD_WS_MagicalByLevel = {
     [47] = { Ear1 = "Moldavite Earring" },
     [60] = { Neck = "Chivalrous Chain" },
     [70] = {
-        Neck = "Ancient Torque", Ring2 = "Mars's Ring",
+        Ring2 = "Mars's Ring",
         Waist = "Charmer's Sash",
     },
     [72] = { Ear2 = "Hollow Earring" },
+    [74] = { Neck = "Ancient Torque" },
     [75] = { Back = "Aesir Mantle" },
 }
 BRD.Sets.WS_DEXINTByLevel = BRD_WS_MagicalByLevel
@@ -8097,6 +8100,9 @@ local function GetGlobalWaltzSet(player)
         if level >= 74 then
             set.Legs = "Etoile Tights"
         end
+    elseif mainJob == "BRD" and level >= 72 then
+        -- Bard's Roundlet is owned and BRD-eligible; its CHR+5 beats Shade Tiara's CHR+2.
+        set.Head = "Bard's Roundlet"
     elseif level >= 25 and WaltzCHRHeadJobs[mainJob] then
         set.Head = "Shade Tiara"
     end
