@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1610
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1612
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3766,6 +3766,9 @@ RNG.Sets.EngagedByLevel = {
     [60] = {
         Neck = "Chivalrous Chain",
     },
+    [70] = {
+        Ring2 = "Mars's Ring",
+    },
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
@@ -3775,6 +3778,7 @@ RNG.Sets.EngagedByLevel = {
         Neck = "Ancient Torque",
     },
     [75] = {
+        Head  = "Walahra Turban",
         Back  = "Cerberus Mantle",
         Waist = "Ninurta's Sash",
     },
