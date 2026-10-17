@@ -310,7 +310,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 308,Noct Gloves,True,Hands,30.0,THF RNG COR,DEF+5 Ranged Accuracy+1 DEX+2 Ranged Attack+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
 309,Noct Brais,True,Legs,30.0,THF RNG COR,DEF+12 DEX+1 Ranged Accuracy+1 AGI+2 Accuracy+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
 310,Noct Gaiters,True,Feet,30.0,THF RNG COR,DEF+4 DEX+1 Accuracy+2 Ranged Attack+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
-311,Hornetneedle,False,Sub,48.0,RNG,,planned level-48 Ranger offhand; not confirmed owned; CatsEyeXI eligibility and item metadata pending in-game verification
+311,Hornetneedle,True,Sub,47.0,RNG,DMG+4 Resist Death+4 Delay-10 DEX+2,owned and augmented; CatsEyeXI custom augments confirmed by user; displayed combined augment: DMG/Resist "Death":+4; profile intentionally begins Sub use at level 48; CatsEyeXI equip eligibility to be tested
 312,Shikar Bow,True,Range,40.0,RNG,DMG+54 Delay+540 Ranged Accuracy+4 Ranged Attack+12,user-confirmed current Ranger bow; standard item level/stats verified; CatsEyeXI override pending
 313,Scorpion Arrow,True,Ammo,40.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+24 Delay+90 Ranged Accuracy+5,obtained and confirmed by user; standard FFXI ammo data verified
 314,San d'Orian Ring,True,Ring,1.0,ALL,STR+1 MND+1,owned per user-provided Ranger progression; standard stats verified
