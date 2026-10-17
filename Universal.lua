@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0819
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0823
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2992,19 +2992,6 @@ BRD.Sets.SongDebuff = {
     Feet  = "Bard's Slippers",
 }
 
-local BRDDebuffSongs = {
-    "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
-    "Magic Finale", "Maiden's Virelai",
-    "Foe Requiem", "Foe Requiem II", "Foe Requiem III", "Foe Requiem IV",
-    "Foe Requiem V", "Foe Requiem VI",
-    "Fire Threnody", "Ice Threnody", "Wind Threnody", "Earth Threnody",
-    "Lightning Threnody", "Water Threnody", "Light Threnody", "Dark Threnody",
-}
-BRD.MA = {}
-for _, songName in ipairs(BRDDebuffSongs) do
-    BRD.MA[songName] = "SongDebuff"
-end
-
 -- Foe Requiem VII is level 76 in standard FFXI, beyond this profile's level-75 cap.
 local BRDDebuffSongs = {
     "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
@@ -3019,7 +3006,7 @@ for _, songName in ipairs(BRDDebuffSongs) do
     BRD.MA[songName] = "SongDebuff"
 end
 
--- Only map confirmed-owned instruments. The helper below also handles songs
+-- Only map confirmed-owned instruments.-- Only map confirmed-owned instruments. The helper below also handles songs
 -- that are not currently exposed on the macro deck.
 BRD.SongInstrumentByFamily = {
     ["Minuet"] = "Cornette",
@@ -3053,9 +3040,9 @@ BRD.Sets.WS_STR = {
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
     Back  = "Cerberus Mantle",
+    Waist = "Swift Belt",
     Legs  = "Choral Cannions",
     Feet  = "Dusk Ledelsens +1",
-    -- Waist intentionally unspecified; no owned physical-WS upgrade is established.
 }
 
 BRD.Sets.WS_STRDEX = {
@@ -3068,6 +3055,7 @@ BRD.Sets.WS_STRDEX = {
     Ring1 = "Rajas Ring",
     Ring2 = "Mars's Ring",
     Back  = "Cerberus Mantle",
+    Waist = "Swift Belt",
     Legs  = "Choral Cannions",
     Feet  = "Dusk Ledelsens +1",
 }
@@ -3122,7 +3110,6 @@ BRD.Sets.WS_MND = {
     Head  = "Shade Tiara",
     Neck  = "Wing Pendant",
     Ear1  = "Static Earring",
-    Ear2  = "Wing Earring",
     Body  = "Shade Harness",
     Hands = "Shade Mittens",
     Ring1 = "Tamas Ring",
@@ -3149,22 +3136,20 @@ BRD.Sets.WS_CHR = {
 
 BRD.Sets.WS_HP = {
     Head  = "Bard's Roundlet",
-    Neck  = "Wing Pendant",
+    Neck  = "Ancient Torque",
     Ear1  = "Ethereal Earring",
     Ear2  = "Magnetic Earring",
-    Body  = "Shade Harness",
+    Body  = "Choral Justaucorps",
     Hands = "Bard's Cuffs",
     Ring1 = "Bomb Queen Ring",
-    Ring2 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
     Back  = "Aesir Mantle",
     Legs  = "Bard's Cannions",
     Feet  = "Bard's Slippers",
 }
 
 BRD.Sets.WS_Utility = {}
-BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
-
-BRD.WS = {
+BRD.Sets.WS_Default = BRD.Sets.WS_STRDEXBRD.WS = {BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
     ["Red Lotus Blade"] = "WS_STRINT", ["Seraph Blade"] = "WS_STRMND",
     ["Flat Blade"] = "WS_STR",
