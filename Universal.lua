@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0738
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0819
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -2865,11 +2865,11 @@ BST.Macro = {
 -- END BST
 -- BRD: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 72; this job remains in active progression through 75.
+-- Current job level: 75; BRD is graduated and uses final level-75 equipment sets.
 -- Choral Attire is BRD Artifact Armor; Bard's Attire is the later Relic set.
--- Per the requested BRD progression, Equipment.csv assumes the five base Choral
--- AF pieces are acquired at their level milestones. This is not bag verification;
--- AF+1 is not assumed. Owned Bard's Relic items remain governed by their own levels.
+-- Equipment.csv retains the user-authorized assumption that the five base Choral
+-- AF pieces were acquired at their level milestones. This is not bag verification;
+-- AF+1 is not assumed. Only recorded Bard's Relic pieces are treated as owned.
 -- Equipment.csv records eleven Sparks-purchased BRD instruments. Instruments
 -- occupy Range (not Ammo); all state/TP sets leave Range and Ammo unspecified.
 -- Standard FFXI instrument mechanics: Wind gives greater song magic accuracy at
@@ -2886,153 +2886,125 @@ BST.Macro = {
 local BRD = JOBS.BRD
 
 BRD.Sets.Idle = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
--- Bard's Cannions' standard Courtly Measure latent is useful while sheathed;
--- do not assume it activates with the weapon drawn (CatsEyeXI override unverified).
-BRD.Sets.IdleByLevel = {
-    -- Base Choral AF improves the generic Idle set's defense/HP and Bard-relevant stats.
-    [52] = { Feet = "Choral Slippers" },
-    [54] = { Head = "Choral Roundlet" },
-    [56] = { Legs = "Choral Cannions" },
-    [58] = { Body = "Choral Justaucorps" },
-    [60] = { Head = "Patroclus's Helm", Hands = "Choral Cuffs" },
-    [70] = { Waist = "Charmer's Sash" },
-    -- Patroclus's Helm remains the general idle head until Walahra at 75;
-    -- Bard's Roundlet is reserved for song casting, where Singing skill matters.
-    [72] = {
-        Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring",
-    },
-    [73] = { Hands = "Bard's Cuffs" },
-    [75] = {
-        Head = "Walahra Turban", Back = "Aesir Mantle",
-        Legs = "Bard's Cannions",
-    },
+    Head  = "Walahra Turban",
+    Neck  = "Wing Pendant",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Magnetic Earring",
+    Body  = "Choral Justaucorps",
+    Hands = "Bard's Cuffs",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Charmer's Sash",
+    Legs  = "Bard's Cannions",
+    Feet  = "Choral Slippers",
 }
 
--- Resting has dedicated MP-oriented gear rather than simply inheriting Idle.
--- Unconfirmed/unrecorded equipment (including Bard's Justaucorps) is omitted.
+-- Dedicated MP-resting gear. Gnole Torque supplies MP recovered while healing +3.
+-- Bard's Cannions' Courtly Measure latent is retained for resting while sheathed.
 BRD.Sets.Resting = {
-    Head  = "Shade Tiara",
-    Neck  = "Wing Pendant",
-    Ear1  = "Wing Earring",
+    Main  = "Chatoyant Staff",
+    Head  = "Yigit Turban",
+    Neck  = "Gnole Torque",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Magnetic Earring",
     Body  = "Shade Harness",
-    Hands = "Shade Mittens",
+    Hands = "Yigit Gages",
     Ring1 = "Tamas Ring",
     Ring2 = "Windurstian Ring",
     Back  = "Frugal Cape",
-    Legs  = "Shade Tights",
+    Waist = "Charmer's Sash",
+    Legs  = "Bard's Cannions",
     Feet  = "Shade Leggings",
-}
-BRD.Sets.RestingByLevel = {
-    -- Standard FFXI lists Chatoyant Staff at level 51 with MP recovered while
-    -- healing +10, but Equipment.csv records it at level 75 and CatsEyeXI
-    -- metadata is pending. Respect the inventory ledger until verified in-game.
-    [70] = { Waist = "Charmer's Sash" },
-    [72] = {
-        Head = "Yigit Turban", Ear1 = "Ethereal Earring",
-        Ear2 = "Magnetic Earring", Hands = "Yigit Gages",
-        Legs = "Errant Slops",
-    },
-    -- Bard's Cannions' standard Courtly Measure latent grants INT/MND/CHR+8
-    -- while the weapon is sheathed; keep the level-75 set conservative.
-    [75] = { Main = "Chatoyant Staff", Legs = "Bard's Cannions" },
 }
 
 BRD.Sets.Engaged = {
-    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
+    Head  = "Walahra Turban",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Ninurta's Sash",
+    Legs  = "Choral Cannions",
+    Feet  = "Dusk Ledelsens +1",
 }
-BRD.Sets.EngagedByLevel = {
-    [50] = { Waist = "Swift Belt" },
-    [56] = { Legs = "Choral Cannions" },
-    [60] = { Head = "Patroclus's Helm", Neck = "Chivalrous Chain" },
-    [70] = { Ring2 = "Mars's Ring" },
-    [74] = { Neck = "Ancient Torque" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [75] = { Head = "Walahra Turban", Back = "Aesir Mantle", Waist = "Ninurta's Sash" },
-}
+
+-- Shared state logic overlays Suppanomimi only when the character can Dual Wield.
 BRD.Sets.EngagedDualWield = { Ear2 = "Suppanomimi" }
 
 BRD.Sets.PDT = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Sattva Ring", Back = "Frugal Cape", Legs = "Shade Tights",
-    Feet = "Shade Leggings",
-}
-BRD.Sets.PDTByLevel = {
-    [52] = { Feet = "Choral Slippers" },
-    [54] = { Head = "Choral Roundlet" },
-    [56] = { Legs = "Choral Cannions" },
-    [58] = { Body = "Choral Justaucorps" },
-    [60] = { Hands = "Choral Cuffs" },
-    [72] = {
-        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring",
-    },
-    [73] = { Hands = "Bard's Cuffs" },
-}
-BRD.Sets.MDT = BRD.Sets.PDT
-BRD.Sets.MDTByLevel = {
-    [52] = { Feet = "Choral Slippers" },
-    [54] = { Head = "Choral Roundlet" },
-    [56] = { Legs = "Choral Cannions" },
-    [58] = { Body = "Choral Justaucorps" },
-    [60] = { Hands = "Choral Cuffs" },
-    [72] = {
-        Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Static Earring",
-    },
-    [73] = { Hands = "Bard's Cuffs" },
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Magnetic Earring",
+    Body  = "Choral Justaucorps",
+    Hands = "Bard's Cuffs",
+    Ring1 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Choral Cannions",
+    Feet  = "Choral Slippers",
 }
 
-BRD.Sets.Precast = {}
--- Fast Cast plus Haste belong at Precast so they can affect song recast.
--- Song midcast keeps Charmer's Sash for its CHR bonus instead.
-BRD.Sets.PrecastByLevel = {
-    [75] = { Ear1 = "Loquac. Earring", Waist = "Ninurta's Sash" },
+BRD.Sets.MDT = {
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Static Earring",
+    Body  = "Choral Justaucorps",
+    Hands = "Bard's Cuffs",
+    Ring1 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Legs  = "Choral Cannions",
+    Feet  = "Choral Slippers",
 }
 
--- Skill pieces cover the two possible instrument families: Bard's Cuffs add
--- Wind Instrument skill; Bard's Slippers add String Instrument skill. Only the
--- skill matching the equipped instrument contributes to combined skill.
+-- Fast Cast and Haste reduce song cast/recast time; instruments are selected separately.
+BRD.Sets.Precast = {
+    Ear1  = "Loquac. Earring",
+    Waist = "Ninurta's Sash",
+}
+
 BRD.Sets.Spell_Buff = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
-    Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
+    -- Singing skill and CHR for buff songs; instrument-family skill comes from gear
+    -- plus the selected instrument's matching Wind or String skill.
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Body  = "Choral Justaucorps",
+    Hands = "Choral Cuffs",
+    Waist = "Charmer's Sash",
+    Legs  = "Choral Cannions",
+    Feet  = "Bard's Slippers",
 }
-BRD.Sets.Spell_BuffByLevel = {
-    [52] = { Feet = "Choral Slippers" },
-    [54] = { Head = "Choral Roundlet" },
-    [56] = { Legs = "Choral Cannions" },
-    [58] = { Body = "Choral Justaucorps" },
-    [60] = { Hands = "Choral Cuffs" },
-    [70] = { Waist = "Charmer's Sash" },
-    [71] = { Feet = "Bard's Slippers" },
-    [72] = { Head = "Bard's Roundlet" },
-    -- Choral Cuffs keep Singing Skill +5 and CHR+4; Bard's Cuffs have only
-    -- Wind Instrument Skill +3 and are better left in Idle/defensive sets.
-    -- Charmer's Sash remains the song-midcast waist for its CHR+5.
-}
+
 BRD.Sets.SongDebuff = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Body = "Shade Harness",
-    Hands = "Shade Mittens", Legs = "Shade Tights", Feet = "Shade Leggings",
+    -- Keep Choral Cuffs/Cannions for Singing/Wind skill; Bard's Roundlet adds
+    -- Singing Skill +5 and CHR +5. Bard's Cannions' latent is not assumed while casting.
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Body  = "Choral Justaucorps",
+    Hands = "Choral Cuffs",
+    Waist = "Charmer's Sash",
+    Legs  = "Choral Cannions",
+    Feet  = "Bard's Slippers",
 }
-BRD.Sets.SongDebuffByLevel = {
-    [52] = { Feet = "Choral Slippers" },
-    [54] = { Head = "Choral Roundlet" },
-    [56] = { Legs = "Choral Cannions" },
-    [58] = { Body = "Choral Justaucorps" },
-    [60] = { Hands = "Choral Cuffs" },
-    [70] = { Waist = "Charmer's Sash" },
-    [71] = { Feet = "Bard's Slippers" },
-    [72] = { Head = "Bard's Roundlet" },
-    -- Keep Choral Cannions for their Wind Instrument Skill +3 and Choral Cuffs
-    -- for Singing Skill +5 / CHR+4. At 75, Bard's Cannions' Courtly Measure latent
-    -- is not assumed to work during an active song cast.
+
+local BRDDebuffSongs = {
+    "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
+    "Magic Finale", "Maiden's Virelai",
+    "Foe Requiem", "Foe Requiem II", "Foe Requiem III", "Foe Requiem IV",
+    "Foe Requiem V", "Foe Requiem VI",
+    "Fire Threnody", "Ice Threnody", "Wind Threnody", "Earth Threnody",
+    "Lightning Threnody", "Water Threnody", "Light Threnody", "Dark Threnody",
 }
+BRD.MA = {}
+for _, songName in ipairs(BRDDebuffSongs) do
+    BRD.MA[songName] = "SongDebuff"
+end
+
 -- Foe Requiem VII is level 76 in standard FFXI, beyond this profile's level-75 cap.
 local BRDDebuffSongs = {
     "Battlefield Elegy", "Carnage Elegy", "Foe Lullaby", "Horde Lullaby",
@@ -3072,108 +3044,126 @@ BRD.JA = {
 }
 
 BRD.Sets.WS_STR = {
-    Head = "Shade Tiara", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
+    Head  = "Shade Tiara",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Legs  = "Choral Cannions",
+    Feet  = "Dusk Ledelsens +1",
+    -- Waist intentionally unspecified; no owned physical-WS upgrade is established.
 }
+
 BRD.Sets.WS_STRDEX = {
-    Head = "Empress Hairpin", Neck = "Spike Necklace", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
+    Head  = "Empress Hairpin",
+    Neck  = "Ancient Torque",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Cerberus Mantle",
+    Legs  = "Choral Cannions",
+    Feet  = "Dusk Ledelsens +1",
 }
 BRD.Sets.WS_DEX = BRD.Sets.WS_STRDEX
-BRD.Sets.WS_DEXINT = {
-    Head = "Empress Hairpin", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_STRINT = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_STRMND = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Tamas Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_MND = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Tamas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_CHR = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Rajas Ring", Ring2 = "Sattva Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_HP = {
-    Head = "Shade Tiara", Neck = "Wing Pendant", Ear1 = "Wing Earring",
-    Body = "Shade Harness", Hands = "Shade Mittens",
-    Ring1 = "Sattva Ring", Ring2 = "Rajas Ring", Back = "Frugal Cape",
-    Legs = "Shade Tights", Feet = "Shade Leggings",
-}
-BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
-local BRD_WS_PhysicalByLevel = {
-    [50] = { Waist = "Swift Belt" },
-    [56] = { Legs = "Choral Cannions" },
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = { Ring2 = "Mars's Ring" },
-    [72] = { Ear1 = "Brutal Earring", Ear2 = "Hollow Earring", Feet = "Dusk Ledelsens +1" },
-    [74] = { Neck = "Ancient Torque" },
-    -- Cerberus Mantle adds STR+3 and Attack+12 for physical weaponskills.
-    [75] = { Back = "Cerberus Mantle" },
-}
-BRD.Sets.WS_STRByLevel = BRD_WS_PhysicalByLevel
-BRD.Sets.WS_STRDEXByLevel = BRD_WS_PhysicalByLevel
-BRD.Sets.WS_DEXByLevel = BRD_WS_PhysicalByLevel
 
--- Magical sword/dagger WS get Moldavite's Magic Attack Bonus +5 from Lv47.
--- Keep it in Ear1 through Lv75; add the best available compatible second ear.
--- Damaging magical WS benefit from INT/Magic Attack Bonus, not melee Attack
--- or Haste. Standard Charmer's Sash provides INT+5 and Magic Attack Bonus+3;
--- its CatsEyeXI item overrides have not been confirmed.
-local BRD_WS_MagicalByLevel = {
-    [47] = { Ear1 = "Moldavite Earring" },
-    [60] = { Neck = "Chivalrous Chain" },
-    [70] = {
-        Ring2 = "Mars's Ring",
-        Waist = "Charmer's Sash",
-    },
-    [72] = { Ear2 = "Hollow Earring" },
-    [74] = { Neck = "Ancient Torque" },
-    [75] = { Back = "Aesir Mantle" },
+BRD.Sets.WS_DEXINT = {
+    Head  = "Empress Hairpin",
+    Neck  = "Ancient Torque",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Charmer's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
 }
-BRD.Sets.WS_DEXINTByLevel = BRD_WS_MagicalByLevel
-BRD.Sets.WS_STRINTByLevel = BRD_WS_MagicalByLevel
-BRD.Sets.WS_STRMNDByLevel = BRD_WS_MagicalByLevel
--- Energy Steal/Drain steal MP without dealing damage and use 100% MND WSC.
--- Static Earring and Errant Slops are owned and add MND; DA/DEX/Attack/MAB
--- are not relevant to the amount stolen under standard FFXI mechanics.
-BRD.Sets.WS_MNDByLevel = {
-    [72] = { Ear1 = "Static Earring", Legs = "Errant Slops" },
-    -- Dew Silk Cape +1 adds MND+6 for level-75 Energy Steal/Energy Drain.
-    [75] = { Back = "Dew Silk Cape +1" },
+
+BRD.Sets.WS_STRINT = {
+    Head  = "Shade Tiara",
+    Neck  = "Ancient Torque",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Charmer's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
 }
-BRD.Sets.WS_CHRByLevel = {
-    [70] = { Waist = "Charmer's Sash" },
-    [72] = { Head = "Bard's Roundlet", Ear1 = "Brutal Earring", Ear2 = "Hollow Earring" },
-    [75] = { Back = "Aesir Mantle" },
+
+BRD.Sets.WS_STRMND = {
+    Head  = "Shade Tiara",
+    Neck  = "Ancient Torque",
+    Ear1  = "Moldavite Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Mars's Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Charmer's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
 }
-BRD.Sets.WS_HPByLevel = {
-    [54] = { Head = "Choral Roundlet" },
-    [57] = { Ring1 = "Bomb Queen Ring" },
-    [72] = { Head = "Bard's Roundlet", Ear1 = "Ethereal Earring", Ear2 = "Magnetic Earring" },
-    [73] = { Hands = "Bard's Cuffs" },
-    [75] = { Ring1 = "Bomb Queen Ring", Back = "Aesir Mantle", Legs = "Bard's Cannions", Feet = "Bard's Slippers" },
+
+BRD.Sets.WS_MND = {
+    Head  = "Shade Tiara",
+    Neck  = "Wing Pendant",
+    Ear1  = "Static Earring",
+    Ear2  = "Wing Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Tamas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Dew Silk Cape +1",
+    Legs  = "Errant Slops",
+    Feet  = "Shade Leggings",
 }
+
+BRD.Sets.WS_CHR = {
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Ear1  = "Brutal Earring",
+    Ear2  = "Hollow Earring",
+    Body  = "Shade Harness",
+    Hands = "Shade Mittens",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Aesir Mantle",
+    Waist = "Charmer's Sash",
+    Legs  = "Shade Tights",
+    Feet  = "Shade Leggings",
+}
+
+BRD.Sets.WS_HP = {
+    Head  = "Bard's Roundlet",
+    Neck  = "Wing Pendant",
+    Ear1  = "Ethereal Earring",
+    Ear2  = "Magnetic Earring",
+    Body  = "Shade Harness",
+    Hands = "Bard's Cuffs",
+    Ring1 = "Bomb Queen Ring",
+    Ring2 = "Rajas Ring",
+    Back  = "Aesir Mantle",
+    Legs  = "Bard's Cannions",
+    Feet  = "Bard's Slippers",
+}
+
+BRD.Sets.WS_Utility = {}
+BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
+
 BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
     ["Red Lotus Blade"] = "WS_STRINT", ["Seraph Blade"] = "WS_STRMND",
@@ -3187,25 +3177,16 @@ BRD.WS = {
     ["Evisceration"] = "WS_DEX",
 }
 
--- Main/Sub choices are state weapons and remain independent of the TP lock.
--- Dual Wield uses the requested fast multi-hit pair from BRD72; without DW,
--- Joyeuse stays Main and the shield is added once level 74 permits it.
-BRD.Weapons = { Main = "Chiroptera Dagger" }
-BRD.WeaponsByLevel = {
-    [70] = {
-        Main = "Joyeuse",
-        DWMain = "Joyeuse", DWSub = "Chiroptera Dagger",
-    },
-    [72] = {
-        Main = "Joyeuse",
-        DWMain = "Blau Dolch", DWSub = "Octave Club",
-    },
-    [74] = {
-        Main = "Joyeuse",
-        DWMain = "Blau Dolch", DWSub = "Octave Club",
-        Shield = "Genbu's Shield",
-    },
+-- Main/Sub choices are now the final level-75 configuration.
+-- Dual Wield selects Blau Dolch + Octave Club; otherwise use Joyeuse and
+-- Genbu's Shield. The shared toggle and TP lock remain independent.
+BRD.Weapons = {
+    Main   = "Joyeuse",
+    DWMain = "Blau Dolch",
+    DWSub  = "Octave Club",
+    Shield = "Genbu's Shield",
 }
+
 local BRDBalladTiers = {
     [25] = "Mage's Ballad",
     [55] = "Mage's Ballad II",
