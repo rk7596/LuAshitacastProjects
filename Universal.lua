@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0714
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0712
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
