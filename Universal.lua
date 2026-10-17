@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1606
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1610
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3890,6 +3890,30 @@ RNG.WeaponsByLevel = {
         Sub   = "Hornetneedle",
         Range = "Failnaught",
         Ammo  = "Scorpion Arrow",
+    },
+}
+
+RNG.Macro = {
+    -- ALT job abilities. Hostile actions require enemy target selection.
+    Alt = {
+        ["!1"] = "Sharpshot",
+        ["!2"] = "Barrage",
+        ["!3"] = "Shadowbind",
+        ["!4"] = "Camouflage",
+        ["!5"] = "Unlimited Shot",
+        ["!6"] = "Scavenge",
+        ["!Backspace"] = "Eagle Eye Shot",
+    },
+    -- CTRL+ALT ranged weaponskills; BindWS always uses <stnpc>.
+    WS = {
+        ["^!`"] = "Flaming Arrow",
+        ["^!1"] = "Piercing Arrow",
+        ["^!2"] = "Dulling Arrow",
+        ["^!3"] = "Sidewinder",
+        ["^!4"] = "Blast Arrow",
+        ["^!5"] = "Arching Arrow",
+        ["^!6"] = "Empyreal Arrow",
+        ["^!7"] = "Refulgent Arrow",
     },
 }
 
@@ -9405,6 +9429,22 @@ local function ApplyBRDMacros(player)
     end
 end
 
+local function ApplyRNGMacros(player)
+    if not player or player.MainJob ~= "RNG" then return end
+
+    for key, ja in pairs(RNG.Macro.Alt) do
+        local target = "<stpc>"
+        if ja == "Shadowbind" or ja == "Eagle Eye Shot" then
+            target = "<stnpc>"
+        end
+        BindJA(key, ja, target)
+    end
+
+    for key, ws in pairs(RNG.Macro.WS) do
+        BindWS(key, ws)
+    end
+end
+
 local function ApplyDRGMacros(player)
     if not player or player.MainJob ~= 'DRG' then return end
     for key, ja in pairs(DRG.Macro.Alt) do
@@ -9519,6 +9559,7 @@ ApplyMacroDeck = function(player, force)
     ApplySAMMacros(player)
     ApplyMNKMacros(player)
     ApplyDRGMacros(player)
+    ApplyRNGMacros(player)
     ApplyDRKMacros(player)
     ApplySMNMacros(player)
     ApplyBRDMacros(player)
