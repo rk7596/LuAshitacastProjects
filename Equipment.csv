@@ -33,7 +33,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 31,Bard's Roundlet,True,Head,72.0,BRD,DEF+19 HP+13 CHR+5 Singing Skill+5 Enmity-3,owned; standard FFXI metadata verified; no owned +1 assumed
 32,Bard's Slippers,True,Feet,71.0,BRD,DEF+14 HP+12 Parrying Skill+3 String Instrument Skill+3 Enmity-2,owned; standard FFXI metadata verified; no owned +1 assumed
 33,Bellona's Ring,True,,,,,present in Universal.lua; metadata pending
-34,Blau Dolch,True,Main,72.0,THF,,inventory-confirmed; metadata pending
+34,Blau Dolch,True,Main,72.0,THF BRD,,owned; BRD eligibility is a user-directed CatsEyeXI configuration; verify successful equip in-game; metadata pending
 35,Blood Cuisses,True,Legs,73.0,RDM PLD DRK RNG DRG BLU COR RUN,Lv73 movement-overlay piece for DRK and other listed jobs,verified
 36,Bloodbead Ring,True,,,,,present in Universal.lua; metadata pending
 37,Bomb Queen Ring,True,Ring,57.0,ALL,,inventory-confirmed; metadata pending
@@ -82,8 +82,8 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 80,Ethereal Earring,True,Ear,72.0,ALL,,inventory-confirmed; metadata pending
 81,Etoile Bangles,True,,,,,present in Universal.lua; metadata pending
 82,Etoile Casaque,True,,,,,present in Universal.lua; metadata pending
-83,Etoile Tiara,True,,,,,present in Universal.lua; metadata pending
-84,Etoile Tights,True,,,,,present in Universal.lua; metadata pending
+83,Etoile Tiara,True,Head,72.0,DNC,DEF+18 HP+20 STR+4 Attack+5 Waltz potency+5%,owned; standard FFXI metadata verified; DNC-main Waltz upgrade; CatsEyeXI override pending
+84,Etoile Tights,True,Legs,74.0,DNC,DEF+28 STR+3 CHR+3 Haste+3% Increases Jig duration,owned; standard FFXI metadata verified; DNC-main CHR option; CatsEyeXI override pending
 85,Etoile Toe Shoes,True,,,,,present in Universal.lua; metadata pending
 86,Evoker's Bracers,True,,,,,present in Universal.lua; metadata pending
 87,Evoker's Doublet,True,,,,,present in Universal.lua; metadata pending
@@ -101,7 +101,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 99,Futhark Mitons,True,,,,,present in Universal.lua; metadata pending
 100,Fylgja Torque +1,True,,,,,present in Universal.lua; metadata pending
 101,Genbu's Kabuto,True,,,,,present in Universal.lua; metadata pending
-102,Genbu's Shield,True,Sub,74.0,PLD RDM WHM,,inventory-confirmed; metadata pending
+102,Genbu's Shield,True,Sub,74.0,PLD RDM WHM BRD,,owned; BRD non-DW offhand configured per user request from level 74; CatsEyeXI eligibility must be verified in-game
 103,Glamor Jupon,True,Body,73.0,RDM,,inventory-confirmed; metadata pending
 104,Gloom Breastplate,True,Body,50.0,DRK,Enhances Souleater,verified
 105,Glt. Breeches +1,True,,,,,present in Universal.lua; metadata pending
@@ -158,7 +158,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 156,Myochin Kote,True,,,,,present in Universal.lua; metadata pending
 157,Ninurta's Sash,True,Waist,75.0,ALL,,inventory-confirmed; metadata pending
 158,Ninurta\'s Sash,True,,,,,present in Universal.lua; metadata pending
-159,Octave Club,True,Sub,75.0,THF,,inventory-confirmed; metadata pending
+159,Octave Club,True,Sub,63.0,WAR MNK WHM BLM RDM THF PLD DRK BST BRD RNG SAM NIN DRG SMN,,owned; standard item level/job data recorded; BRD offhand planned from level 72; CatsEyeXI eligibility/level override pending in-game verification
 160,Ogre Ledelsens +1,True,Feet,73.0,WAR MNK THF PLD DRK BST SAM NIN DRG,,inventory-confirmed; metadata pending
 161,Ossa Grip,True,,,,,present in Universal.lua; metadata pending
 162,Pantin Babouches,True,,,,,present in Universal.lua; metadata pending
@@ -209,7 +209,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 207,Sorcerer\'s Tonban,True,,,,,present in Universal.lua; metadata pending
 208,Sowilo Claymore,True,,,,,present in Universal.lua; metadata pending
 209,Spike Necklace,True,Neck,21.0,ALL,STR+3 DEX+3 MND-6,verified
-210,Star Necklace,True,,,,,present in Universal.lua; metadata pending
+210,Star Necklace,True,Neck,59.0,ALL,DEF+1 CHR+3 Converts 15 HP to MP,Rare/Ex; inventory-confirmed by existing ledger; All Jobs; non-AH quest reward
 211,Static Earring,True,Ear,72,ALL,MND+2 Magic Defense Bonus+2 Magic Burst Damage+5%,inventory-confirmed; standard FFXI effects verified; CatsEyeXI override pending
 212,Stone Gorget,True,Neck,71.0,ALL,,inventory-confirmed; metadata pending
 213,Stone-splitter,True,Main,71.0,DRG,,inventory-confirmed; metadata pending
