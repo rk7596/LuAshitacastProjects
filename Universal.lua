@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0823
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.0826
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3149,7 +3149,9 @@ BRD.Sets.WS_HP = {
 }
 
 BRD.Sets.WS_Utility = {}
-BRD.Sets.WS_Default = BRD.Sets.WS_STRDEXBRD.WS = {BRD.WS = {
+BRD.Sets.WS_Default = BRD.Sets.WS_STRDEX
+
+BRD.WS = {
     ["Fast Blade"] = "WS_STRDEX", ["Burning Blade"] = "WS_STRINT",
     ["Red Lotus Blade"] = "WS_STRINT", ["Seraph Blade"] = "WS_STRMND",
     ["Flat Blade"] = "WS_STR",
