@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1855
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1921
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3721,8 +3721,8 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 --   Pln. Crackows are scheduled for purchase at 1500 Greeter Moogle points;
 --   the current 1400-point balance was reported on 2026-10-17. They are
 --   preconfigured for level 72 per explicit user request, but not yet owned.
---   Hornetneedle is planned for RNG Sub at level 48; equip eligibility should
---   be confirmed on CatsEyeXI.
+--   Hornetneedle is owned and custom-augmented for RNG Sub at level 48;
+--   CatsEyeXI equip eligibility should still be confirmed in game.
 -- ============================================================================
 
 local RNG = JOBS.RNG
