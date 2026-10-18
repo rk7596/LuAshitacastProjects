@@ -35,7 +35,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 33,Bellona's Ring,True,,,,,present in Universal.lua; metadata pending
 34,Blau Dolch,True,Main,72.0,THF BRD,,owned; BRD eligibility is a user-directed CatsEyeXI configuration; verify successful equip in-game; metadata pending
 35,Blood Cuisses,True,Legs,73.0,RDM PLD DRK RNG DRG BLU COR RUN,Lv73 movement-overlay piece for DRK and other listed jobs,verified
-36,Bloodbead Ring,True,,,,,present in Universal.lua; metadata pending
+36,Bloodbead Ring,True,Ring,62.0,ALL,DEF+2 HP+50 MP-10,owned; standard FFXI stats verified; CatsEyeXI override pending
 37,Bomb Queen Ring,True,Ring,57.0,ALL,,inventory-confirmed; metadata pending
 38,Bounding Boots,True,Feet,7.0,ALL,DEX+3 AGI+3,verified
 39,Brutal Earring,True,Ear,72.0,ALL,Double Attack +5%,verified
@@ -135,7 +135,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 133,Magus Jubbah +1,True,,,,,present in Universal.lua; metadata pending
 134,Magus Keffiyeh +1,True,Head,75.0,BLU,,inventory-confirmed; metadata pending
 135,Magus Shalwar +1,True,Legs,73.0,BLU,,inventory-confirmed; metadata pending
-136,Mars's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+136,Mars's Ring,True,Ring,75.0,ALL,Accuracy+8 Attack+8 Evasion-8 DEF-8,owned; standard FFXI stats verified; CatsEyeXI override pending
 137,Mars\'s Ring,True,,,,,present in Universal.lua; metadata pending
 138,Melee Crown,True,,,,,present in Universal.lua; metadata pending
 139,Melee Cyclas,True,,,,,present in Universal.lua; metadata pending
@@ -229,7 +229,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 227,Temple Gaiters,True,,,,,present in Universal.lua; metadata pending
 228,Temple Gloves,True,,,,,present in Universal.lua; metadata pending
 229,Track Pants +1,True,Legs,70.0,ALL,Movement overlay; no Feet slot,verified
-230,Ulthalam's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
+230,Ulthalam's Ring,True,Ring,50.0,ALL,Accuracy+4 Attack+4; Assault: STR+4 DEX+4 and Regen+1/tic,owned; standard FFXI stats verified; CatsEyeXI override pending
 231,Valor Gauntlets,True,,,,,present in Universal.lua; metadata pending
 232,Valor Leggings,True,Legs,73.0,PLD,,inventory-confirmed; metadata pending
 233,Valor Surcoat,True,,,,,present in Universal.lua; metadata pending
