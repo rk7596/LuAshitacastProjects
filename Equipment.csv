@@ -57,7 +57,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 55,Comm. Tricorne,True,,,,,present in Universal.lua; metadata pending
 56,Commodore Belt,True,,,,,present in Universal.lua; metadata pending
 57,Commodore Gants,True,,,,,present in Universal.lua; metadata pending
-58,Demon Arrow,True,,,,,present in Universal.lua; metadata pending
+58,Demon Arrow,True,Ammo,60.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+34 Delay+90 Ranged Accuracy+5 Additional effect: Weakens attacks,owned; quantity 2 stacks of 99 arrows; standard FFXI ammo stats verified; CatsEyeXI effect behavior pending
 59,Dew Silk Cape +1,True,Back,75.0,WHM BLM RDM BRD SMN BLU PUP SCH GEO,DEF+8 MND+6 Light resistance+15 Enmity-3 Cure potency+3%,inventory-confirmed; standard FFXI stats/level/job eligibility verified; CatsEyeXI override pending
 60,Dls. Chapeau +1,True,Head,75.0,RDM,,inventory-confirmed; metadata pending
 61,Dls. Gloves +1,True,Hands,73.0,RDM,,inventory-confirmed; metadata pending
@@ -91,7 +91,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 89,Evoker's Pigaches,True,,,,,present in Universal.lua; metadata pending
 90,Evoker's Ring,True,,,,,present in Universal.lua; metadata pending
 91,Evoker's Spats,True,,,,,present in Universal.lua; metadata pending
-92,Failnaught,True,Range,75.0,RNG,,inventory-confirmed; metadata pending
+92,Failnaught,True,Range,69.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+72 Delay+582 Ranged Accuracy+10 Subtle Blow+5 Enmity-5,owned; standard FFXI item level/stats/job eligibility verified; CatsEyeXI override pending
 93,Fed. Signet Staff,True,,,,,present in Universal.lua; metadata pending
 94,Fencer's Ring,True,Ring,70.0,ALL,,inventory-confirmed; metadata pending
 95,Fortitude Torque,True,Neck,70.0,ALL,,inventory-confirmed; metadata pending
@@ -312,8 +312,13 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 310,Noct Gaiters,True,Feet,30.0,THF RNG COR,DEF+4 DEX+1 Accuracy+2 Ranged Attack+2,owned; CatsEyeXI Navigating the Nest custom augment confirmed by user; standard item level/jobs verified; custom stats supersede retail; eligibility pending in-game test
 311,Hornetneedle,True,Sub,48.0,RNG,DMG+4 Resist Death+4 Delay-10 DEX+2,owned and augmented; CatsEyeXI custom augments confirmed by user; combined display text is DMG/Resist Death:+4; profile use begins at level 48; CatsEyeXI equip eligibility to be tested
 312,Shikar Bow,True,Range,40.0,RNG,DMG+54 Delay+540 Ranged Accuracy+4 Ranged Attack+12,user-confirmed current Ranger bow; standard item level/stats verified; CatsEyeXI override pending
-313,Scorpion Arrow,True,Ammo,40.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+24 Delay+90 Ranged Accuracy+5,obtained and confirmed by user; standard FFXI ammo data verified
+313,Scorpion Arrow,True,Ammo,40.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+24 Delay+90 Ranged Accuracy+5,owned; quantity 2 stacks of 99 arrows; standard FFXI ammo stats verified; CatsEyeXI behavior pending
 314,San d'Orian Ring,True,Ring,1.0,ALL,STR+1 MND+1,owned per user-provided Ranger progression; standard stats verified
 315,Mrc.Cpt. Belt,True,Waist,30.0,ALL,All stats+1,owned per user-provided Ranger progression
 316,Pln. Dastanas,True,Hands,72.0,MNK RDM THF BST RNG NIN DRG COR PUP DNC RUN,DEF+19 Accuracy+5 Ranged Accuracy+5 Ranged Attack+5,obtained and confirmed by user; CatsEyeXI stats supplied by user
 317,Pln. Crackows,False,Feet,72.0,MNK RDM THF BST RNG NIN DRG COR PUP DNC RUN,DEF+13 DEX+4 Accuracy+3 Ranged Accuracy+3,planned Greeter Moogle purchase on 2026-10-18; user reported 1400/1500 points on 2026-10-17; user authorized inclusion in level-72 Ranger sets before acquisition
+318,Bodkin Arrow,True,Ammo,50.0,WAR RDM THF PLD DRK BST RNG SAM NIN,DMG+28 Delay+90 Ranged Accuracy+5,owned; quantity 1 stack of 99 arrows; standard FFXI ammo stats verified; CatsEyeXI behavior pending
+319,Eurytos' Bow,True,Range,55.0,RNG,DMG+71 Delay+490 STR+3 AGI+3 Ranged Accuracy+2 Ranged Attack+23,owned per user inventory update; standard FFXI item stats verified; CatsEyeXI override pending
+320,Jr.Msk. Tuck +1,True,Sub,43.0,WAR BLM RDM THF PLD DRK BST BRD RNG NIN DRG COR DNC RUN,DMG+22 Delay+220 Outside own nation's controlled areas: Ranged Accuracy+4 Ranged Attack+4,owned per user inventory update; standard item stats verified; CatsEyeXI job/territory behavior pending; intentionally not equipped before level 48
+321,Kriegsbeil,True,Sub,70.0,WAR DRK BST RNG RUN,DMG+48 Delay+276 AGI+5 Ranged Accuracy+4 Ranged Attack+8,owned per user inventory update; standard FFXI item stats verified; Ranger offhand only when Dual Wield is available
+322,Jagd Gorget,True,Neck,40.0,RDM THF BRD RNG NIN,DEF+2 MP+6 Ranged Accuracy+5 Ranged Attack+6,owned per user inventory update; standard FFXI item stats verified; immediate Ranger shot-neck upgrade
