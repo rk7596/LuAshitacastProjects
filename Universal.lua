@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1921
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1924
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3718,9 +3718,12 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 -- CatsEyeXI overrides confirmed by the user:
 --   Noct armor receives the custom stats in Equipment.csv.
 --   Pln. Dastanas and Pln. Crackows use the listed CatsEyeXI stats/job list.
---   Pln. Crackows are scheduled for purchase at 1500 Greeter Moogle points;
---   the current 1400-point balance was reported on 2026-10-17. They are
---   preconfigured for level 72 per explicit user request, but not yet owned.
+--   Pln. Seraweels are owned per user confirmation; standard item stats are
+--   recorded in Equipment.csv, with any CatsEyeXI override still unconfirmed.
+--   Pln. Crackows require 1500 Greeter Moogle points. On 2026-10-18, the user
+--   reported 100 points and expects to earn the remaining 1400 in seven days.
+--   They are preconfigured for level 72 per explicit user request, but remain
+--   unowned until purchase is confirmed.
 --   Hornetneedle is owned and custom-augmented for RNG Sub at level 48;
 --   CatsEyeXI equip eligibility should still be confirmed in game.
 -- ============================================================================
@@ -3746,6 +3749,7 @@ RNG.Sets.IdleByLevel = {
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
+        Legs  = "Pln. Seraweels",
         Feet  = "Pln. Crackows",
     },
     [75] = {
@@ -3791,6 +3795,7 @@ RNG.Sets.EngagedByLevel = {
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
+        Legs  = "Pln. Seraweels",
         Feet  = "Pln. Crackows",
     },
     [74] = {
@@ -3860,6 +3865,7 @@ RNG.Sets.PreshotByLevel = {
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
+        Legs  = "Pln. Seraweels",
         Feet  = "Pln. Crackows",
     },
 }
