@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1924
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1931
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -3737,7 +3737,7 @@ RNG.Sets.Idle = {
     Ear2  = "Wing Earring",
     Body  = "Noct Doublet",
     Hands = "Noct Gloves",
-    Ring1 = "San d'Orian Ring",
+    Ring1 = "Rajas Ring",
     Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Waist = "Mrc.Cpt. Belt",
@@ -3746,6 +3746,10 @@ RNG.Sets.Idle = {
 }
 
 RNG.Sets.IdleByLevel = {
+    -- Idle survivability: Bloodbead Ring adds HP+50 from level 62.
+    [62] = {
+        Ring1 = "Bloodbead Ring",
+    },
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
@@ -3773,7 +3777,7 @@ RNG.Sets.Engaged = {
     Ear2  = "Wing Earring",
     Body  = "Noct Doublet",
     Hands = "Noct Gloves",
-    Ring1 = "San d'Orian Ring",
+    Ring1 = "Rajas Ring",
     Ring2 = "Sattva Ring",
     Back  = "Frugal Cape",
     Waist = "Mrc.Cpt. Belt",
@@ -3783,14 +3787,11 @@ RNG.Sets.Engaged = {
 
 RNG.Sets.EngagedByLevel = {
     [50] = {
-        Ring1 = "Rajas Ring",
+        Ring2 = "Ulthalam's Ring",
         Waist = "Swift Belt",
     },
     [60] = {
         Neck = "Chivalrous Chain",
-    },
-    [70] = {
-        Ring2 = "Mars's Ring",
     },
     [72] = {
         Body  = "Pln. Khazagand",
@@ -3803,6 +3804,7 @@ RNG.Sets.EngagedByLevel = {
     },
     [75] = {
         Head  = "Walahra Turban",
+        Ring2 = "Mars's Ring",
         Back  = "Cerberus Mantle",
         Waist = "Ninurta's Sash",
     },
