@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-17.1612
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1855
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -145,7 +145,7 @@ local CONFIG = {
 -- be prepared through level 75, per project rules; equipment and executable
 -- action mappings should not assume a job has reached 75 yet.
 local CurrentJobLevels = {
-    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 75, RNG = 43,
+    WAR = 75, WHM = 75, RDM = 75, PLD = 75, BST = 75, RNG = 44,
     NIN = 75, SMN = 75, COR = 50, DNC = 40, GEO = 51, MNK = 75,
     BLM = 75, THF = 75, DRK = 75, BRD = 75, SAM = 75, DRG = 75,
     BLU = 75, PUP = 55, SCH = 40, RUN = 51,
@@ -442,6 +442,25 @@ local function EquipJobWeapons(job, player)
         end
         if IsDefined(job.Weapons.DWSub) then
             gFunc.Equip("Sub", job.Weapons.DWSub)
+        end
+        return
+    end
+
+    -- RNG may have a ranged-stat offhand configured at later level milestones,
+    -- but only request it when the current main/support combination can Dual Wield.
+    if player.MainJob == "RNG" then
+        local rangedWeapons = GetWeaponConfig(job, player) or {}
+        if IsDefined(rangedWeapons.Main) then
+            gFunc.Equip("Main", rangedWeapons.Main)
+        end
+        if CanDualWield(player) and IsDefined(rangedWeapons.Sub) then
+            gFunc.Equip("Sub", rangedWeapons.Sub)
+        end
+        if IsDefined(rangedWeapons.Range) then
+            gFunc.Equip("Range", rangedWeapons.Range)
+        end
+        if IsDefined(rangedWeapons.Ammo) then
+            gFunc.Equip("Ammo", rangedWeapons.Ammo)
         end
         return
     end
@@ -3686,7 +3705,7 @@ DRG.Weapons = { Main="Stone-splitter", Sub="Axe Grip" }
 -- ============================================================================
 -- RNG: CHARACTER-SPECIFIC EQUIPMENT / ACTION DATA
 -- ============================================================================
--- Current job level: 43; progression is planned through level 75.
+-- Current job level: 44; progression is planned through level 75.
 -- Ranger's damage comes primarily from Archery/Marksmanship, so ranged shots
 -- use dedicated Preshot/Midshot gear instead of separate distance-based
 -- Engaged sets.  These handlers fire from the player's actual /range action.
@@ -3807,7 +3826,8 @@ RNG.Sets.MDT = RNG.Sets.PDT
 -- cleared in between: this directly equips the selected bow.
 RNG.Sets.Preshot = {
     Head  = "Empress Hairpin",
-    Neck  = "Spike Necklace",
+    -- Jagd Gorget's Ranged Accuracy +5 / Ranged Attack +6 is the immediate shot-neck upgrade.
+    Neck  = "Jagd Gorget",
     Ear1  = "Wing Earring",
     Ear2  = "Wing Earring",
     Body  = "Noct Doublet",
@@ -3826,17 +3846,21 @@ RNG.Sets.PreshotByLevel = {
     [50] = {
         Ring1 = "Rajas Ring",
         Waist = "Ryl.Kgt. Belt",
+        Ammo  = "Bodkin Arrow",
+    },
+    [55] = {
+        Range = "Eurytos' Bow",
     },
     [60] = {
-        Neck = "Chivalrous Chain",
+        Ammo = "Demon Arrow",
+    },
+    [69] = {
+        Range = "Failnaught",
     },
     [72] = {
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
         Feet  = "Pln. Crackows",
-    },
-    [75] = {
-        Range = "Failnaught",
     },
 }
 
@@ -3882,6 +3906,10 @@ RNG.Weapons = {
     Ammo  = "Scorpion Arrow",
 }
 
+-- Each milestone is a complete weapon choice because GetWeaponConfig selects
+-- the newest eligible entry rather than merging several level tables.
+-- Jr.Msk. Tuck +1 is recorded in Equipment.csv but deliberately not equipped:
+-- the chosen plan leaves Sub empty until Hornetneedle becomes the level-48 option.
 RNG.WeaponsByLevel = {
     [48] = {
         Main  = "Chiroptera Dagger",
@@ -3889,11 +3917,35 @@ RNG.WeaponsByLevel = {
         Range = "Shikar Bow",
         Ammo  = "Scorpion Arrow",
     },
-    [75] = {
+    [50] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Hornetneedle",
+        Range = "Shikar Bow",
+        Ammo  = "Bodkin Arrow",
+    },
+    [55] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Hornetneedle",
+        Range = "Eurytos' Bow",
+        Ammo  = "Bodkin Arrow",
+    },
+    [60] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Hornetneedle",
+        Range = "Eurytos' Bow",
+        Ammo  = "Demon Arrow",
+    },
+    [69] = {
         Main  = "Chiroptera Dagger",
         Sub   = "Hornetneedle",
         Range = "Failnaught",
-        Ammo  = "Scorpion Arrow",
+        Ammo  = "Demon Arrow",
+    },
+    [70] = {
+        Main  = "Chiroptera Dagger",
+        Sub   = "Kriegsbeil",
+        Range = "Failnaught",
+        Ammo  = "Demon Arrow",
     },
 }
 
@@ -8628,6 +8680,11 @@ local function GetDisplayedWeaponSlots(job, player)
     end
 
     local weapons = GetWeaponConfig(job, player) or {}
+    if player.MainJob == "RNG" then
+        return weapons.Main,
+            (CanDualWield(player) and weapons.Sub or nil),
+            weapons.Range, weapons.Ammo
+    end
     if CanDualWield(player)
         and IsDefined(weapons.DWMain)
         and IsDefined(weapons.DWSub) then
