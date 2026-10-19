@@ -4765,7 +4765,7 @@ RDM.Sets.WS_FlamingArrowByLevel = {
     [75] = {
         Head  = "Hecate's Crown",
         Ear2  = "Moldavite Earring",
-        Ring2 = "Tamas Ring",
+        Ring2 = "Bellona's Ring",
     },
 }
 
