@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2316
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2317
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -271,11 +271,14 @@ end
 
 -- Idle Merman's Ring use is limited to a slot whose previous ring has no HP/MP.
 local IdleMermanRingSlots = {
-    WAR = "Ring1", THF = "Ring1", DRK = "Ring1", BST = "Ring1",
-    BRD = "Ring1", DRG = "Ring1", COR = "Ring1", PUP = "Ring1",
-    DNC = "Ring1", PLD = "Ring1", BLU = "Ring1", SAM = "Ring1",
-    MNK = "Ring2", RUN = "Ring1",
-    SMN = "Ring2", SCH = "Ring2", GEO = "Ring2",
+    WAR = { "Ring1", "Ring2" }, THF = { "Ring1", "Ring2" },
+    DRK = { "Ring1", "Ring2" }, BST = { "Ring1", "Ring2" },
+    BRD = { "Ring1" }, DRG = { "Ring1", "Ring2" },
+    COR = { "Ring1", "Ring2" }, PUP = { "Ring1", "Ring2" },
+    DNC = { "Ring1", "Ring2" }, PLD = { "Ring1" },
+    BLU = { "Ring1", "Ring2" }, SAM = { "Ring1" },
+    MNK = { "Ring2" }, RUN = { "Ring1" },
+    SMN = { "Ring2" }, SCH = { "Ring2" }, GEO = { "Ring2" },
 }
 
 local function GetLevelSetOverlay(job, name)
@@ -344,9 +347,11 @@ local function GetLevelSetOverlay(job, name)
             result.Ring2 = "Scorpion Ring +1"
         end
     elseif name == "Idle" and level >= 70 then
-        local idleRingSlot = IdleMermanRingSlots[player.MainJob]
-        if idleRingSlot then
-            result[idleRingSlot] = "Merman's Ring"
+        local idleRingSlots = IdleMermanRingSlots[player.MainJob]
+        if idleRingSlots then
+            for _, idleRingSlot in ipairs(idleRingSlots) do
+                result[idleRingSlot] = "Merman's Ring"
+            end
         end
     end
 
@@ -3926,9 +3931,33 @@ RNG.Sets.JA_Shadowbind = {}
 RNG.Sets.JA_ShadowbindByLevel = {
     [52] = { Hands = "Hunter's Bracers" },
 }
-RNG.Sets.JA_Sharpshot = {}
+RNG.Sets.JA_Sharpshot = RNG.Sets.JA_Offensive
 RNG.Sets.JA_SharpshotByLevel = {
+    [50] = {
+        Ring1 = "Jalzahn's Ring",
+        Waist = "Ryl.Kgt. Belt",
+        Ammo = "Bodkin Arrow",
+    },
+    [54] = { Head = "Hunter's Beret" },
+    [55] = {
+        Range = "Eurytos' Bow",
+        Ring1 = "Scorpion Ring +1",
+        Ring2 = "Scorpion Ring +1",
+    },
     [56] = { Legs = "Hunter's Braccae" },
+    [58] = { Body = "Hunter's Jerkin" },
+    [60] = { Ammo = "Demon Arrow" },
+    [69] = { Range = "Failnaught" },
+    [70] = {
+        Ring1 = "Merman's Ring",
+        Ring2 = "Merman's Ring",
+    },
+    [72] = {
+        Body = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Legs = "Pln. Seraweels",
+        Feet = "Pln. Crackows",
+    },
 }
 RNG.Sets.JA_Camouflage = {}
 RNG.Sets.JA_CamouflageByLevel = {
