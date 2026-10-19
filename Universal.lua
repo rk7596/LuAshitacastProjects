@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-19.0002
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-19.0028
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -4784,90 +4784,48 @@ RDM.Weapons = {
     Shield = "Genbu's Shield",
 }
 
--- RDM /RNG ranged attacks use the shared Preshot/Midshot callbacks.
--- Shot priority: Recycle > Ranged Accuracy > Ranged Attack > STR > AGI.
+-- RDM is level 75; use the actual endgame ranged outfit directly.
+-- Physical Archery WS prioritize Recycle > Ranged Accuracy > Ranged Attack > STR > AGI.
+-- The common WS handler applies Fotia Gorget to these skillchain-property WS.
 RDM.Sets.Preshot = {
-    Head  = "Empress Hairpin",
+    Head  = "Pln. Qalansuwa",
     Neck  = "Jagd Gorget",
-    Ear1  = "Wing Earring",
+    Ear1  = "Hollow Earring",
     Ear2  = "Wing Earring",
-    Ring1 = "Rajas Ring",
-    Ring2 = "Sattva Ring",
+    Body  = "Pln. Khazagand",
+    Hands = "Pln. Dastanas",
+    Ring1 = "Merman's Ring",
+    Ring2 = "Merman's Ring",
     Back  = "Frugal Cape",
     Waist = "Mrc.Cpt. Belt",
+    Legs  = "Pln. Seraweels",
     Feet  = "Bounding Boots",
-    Ammo  = "Scorpion Arrow",
-}
-
-RDM.Sets.PreshotByLevel = {
-    [50] = {
-        Ring1 = "Jalzahn's Ring",
-        Ammo  = "Bodkin Arrow",
-    },
-    [55] = {
-        Ring1 = "Scorpion Ring +1",
-        Ring2 = "Scorpion Ring +1",
-    },
-    [60] = {
-        Ammo = "Demon Arrow",
-    },
-    [69] = {
-        Range = "Failnaught",
-    },
-    [70] = {
-        Ring1 = "Merman's Ring",
-        Ring2 = "Merman's Ring",
-    },
-    [72] = {
-        Head  = "Pln. Qalansuwa",
-        Ear1  = "Hollow Earring",
-        Body  = "Pln. Khazagand",
-        Hands = "Pln. Dastanas",
-        Legs  = "Pln. Seraweels",
-    },
+    Range = "Failnaught",
+    Ammo  = "Demon Arrow",
 }
 
 RDM.Sets.Midshot = RDM.Sets.Preshot
-RDM.Sets.MidshotByLevel = RDM.Sets.PreshotByLevel
 
--- Physical Archery WS use the shot set's Recycle / ranged-accuracy foundation.
--- Sidewinder has a substantial accuracy penalty, so keep Ranged Accuracy high.
 RDM.Sets.WS_Archery = RDM.Sets.Preshot
-RDM.Sets.WS_ArcheryByLevel = RDM.Sets.PreshotByLevel
 
--- Flaming Arrow is a hybrid Fire WS: MAB strengthens its magical component.
--- Owned MAB pieces replace the base set's head, ear and second ring at level 75.
-RDM.Sets.WS_FlamingArrow = RDM.Sets.Preshot
-RDM.Sets.WS_FlamingArrowByLevel = {
-    [50] = {
-        Ring1 = "Jalzahn's Ring",
-        Ammo  = "Bodkin Arrow",
-    },
-    [55] = {
-        Ring1 = "Scorpion Ring +1",
-        Ring2 = "Scorpion Ring +1",
-    },
-    [60] = {
-        Ammo = "Demon Arrow",
-    },
-    [69] = {
-        Range = "Failnaught",
-    },
-    [70] = {
-        Ring1 = "Merman's Ring",
-        Ring2 = "Merman's Ring",
-    },
-    [72] = {
-        Head  = "Pln. Qalansuwa",
-        Ear1  = "Hollow Earring",
-        Body  = "Pln. Khazagand",
-        Hands = "Pln. Dastanas",
-        Legs  = "Pln. Seraweels",
-    },
-    [75] = {
-        Head  = "Hecate's Crown",
-        Ear2  = "Moldavite Earring",
-    },
+-- Flaming Arrow is a hybrid Fire WS with STR/AGI modifiers and a magical
+-- damage component. Wlk. Chapeau +1's confirmed CatsEyeXI MAB+6 augment beats
+-- Hecate's Crown's MAB+4; Moldavite Earring adds another MAB+5.
+RDM.Sets.WS_FlamingArrow = {
+    Head  = "Wlk. Chapeau +1",
+    Neck  = "Jagd Gorget",
+    Ear1  = "Hollow Earring",
+    Ear2  = "Moldavite Earring",
+    Body  = "Pln. Khazagand",
+    Hands = "Pln. Dastanas",
+    Ring1 = "Merman's Ring",
+    Ring2 = "Merman's Ring",
+    Back  = "Frugal Cape",
+    Waist = "Mrc.Cpt. Belt",
+    Legs  = "Pln. Seraweels",
+    Feet  = "Bounding Boots",
+    Range = "Failnaught",
+    Ammo  = "Demon Arrow",
 }
 
 -- RDM owns this WS map. Other jobs may use the same WS names but must define
