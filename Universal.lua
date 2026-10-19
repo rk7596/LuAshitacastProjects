@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.1931
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2209
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -122,6 +122,7 @@ local CONFIG = {
         '^`','^1','^2','^3','^4','^5','^6','^7','^8','^9','^0','^-','^=',
         '!`','!1','!2','!3','!4','!5','!6','!7','!8','!9','!0','!-','!=',
         '^!`','^!1','^!2','^!3','^!4','^!5','^!6','^!7','^!8','^!9','^!0','^!-','^!=',
+        '^!F1','^!F2','^!F3','^!F4',
         '!Backspace','^Backspace', "^[", "^]", "^'","![", "!]", "!'","!\\",
     },
 }
@@ -4696,8 +4697,80 @@ RDM.Weapons = {
     Shield = "Genbu's Shield",
 }
 
--- RDM owns this WS map.  Other jobs may legitimately use the same WS name but
--- must define their own mapping and sets inside their own job section.
+-- RDM /RNG ranged attacks use the shared Preshot/Midshot callbacks.
+-- Shot priority: Recycle > Ranged Accuracy > Ranged Attack > STR > AGI.
+RDM.Sets.Preshot = {
+    Head  = "Empress Hairpin",
+    Neck  = "Jagd Gorget",
+    Ear1  = "Wing Earring",
+    Ear2  = "Wing Earring",
+    Ring1 = "Rajas Ring",
+    Ring2 = "Sattva Ring",
+    Back  = "Frugal Cape",
+    Waist = "Mrc.Cpt. Belt",
+    Feet  = "Bounding Boots",
+    Ammo  = "Scorpion Arrow",
+}
+
+RDM.Sets.PreshotByLevel = {
+    [50] = {
+        Ring1 = "Jalzahn's Ring",
+        Ammo  = "Bodkin Arrow",
+    },
+    [60] = {
+        Ammo = "Demon Arrow",
+    },
+    [69] = {
+        Range = "Failnaught",
+    },
+    [72] = {
+        Ear1  = "Hollow Earring",
+        Body  = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Legs  = "Pln. Seraweels",
+    },
+    [75] = {
+        Ring2 = "Bellona's Ring",
+    },
+}
+
+RDM.Sets.Midshot = RDM.Sets.Preshot
+RDM.Sets.MidshotByLevel = RDM.Sets.PreshotByLevel
+
+-- Physical Archery WS use the shot set's Recycle / ranged-accuracy foundation.
+-- Sidewinder has a substantial accuracy penalty, so keep Ranged Accuracy high.
+RDM.Sets.WS_Archery = RDM.Sets.Preshot
+RDM.Sets.WS_ArcheryByLevel = RDM.Sets.PreshotByLevel
+
+-- Flaming Arrow is a hybrid Fire WS: MAB strengthens its magical component.
+-- Owned MAB pieces replace the base set's head, ear and second ring at level 75.
+RDM.Sets.WS_FlamingArrow = RDM.Sets.Preshot
+RDM.Sets.WS_FlamingArrowByLevel = {
+    [50] = {
+        Ring1 = "Jalzahn's Ring",
+        Ammo  = "Bodkin Arrow",
+    },
+    [60] = {
+        Ammo = "Demon Arrow",
+    },
+    [69] = {
+        Range = "Failnaught",
+    },
+    [72] = {
+        Ear1  = "Hollow Earring",
+        Body  = "Pln. Khazagand",
+        Hands = "Pln. Dastanas",
+        Legs  = "Pln. Seraweels",
+    },
+    [75] = {
+        Head  = "Hecate's Crown",
+        Ear2  = "Moldavite Earring",
+        Ring2 = "Tamas Ring",
+    },
+}
+
+-- RDM owns this WS map. Other jobs may use the same WS names but must define
+-- their own mapping and sets in their own job section.
 RDM.WS = {
     ["Wasp Sting"]       = "WS-Physical-DEX",
     ["Viper Bite"]       = "WS-Physical-DEX",
@@ -4723,6 +4796,13 @@ RDM.WS = {
     ["Gust Slash"]       = "WS-Magical-INT-MND",
     ["Cyclone"]          = "WS-Magical-INT-DEX",
     ["Aeolian Edge"]     = "WS-Magical-INT-DEX",
+
+    -- RDM/RNG-accessible Archery WS. Flaming Arrow is hybrid Fire; the others
+    -- use the physical ranged baseline. Blast Arrow requires RNG main job.
+    ["Flaming Arrow"] = "WS_FlamingArrow",
+    ["Piercing Arrow"] = "WS_Archery",
+    ["Dulling Arrow"] = "WS_Archery",
+    ["Sidewinder"] = "WS_Archery",
 }
 
 RDM.MA = {
@@ -9128,6 +9208,9 @@ local RDMMacroWS = {
     ['^!6'] = 'Gust Slash', ['^!7'] = 'Cyclone', ['^!8'] = 'Energy Drain',
     ['^!9'] = 'Evisceration', ['^!0'] = 'Knights of Round', ['^!-'] = 'Spirits Within',
     ['^!='] = 'Spirit Taker',
+    -- Dedicated RDM/RNG Archery WS test keys; existing spell/WS bindings stay intact.
+    ['^!F1'] = 'Flaming Arrow', ['^!F2'] = 'Piercing Arrow',
+    ['^!F3'] = 'Dulling Arrow', ['^!F4'] = 'Sidewinder',
 }
 
 local function ApplyRDMMacros(player)
