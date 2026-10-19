@@ -248,7 +248,7 @@ Item,Owned,Slot,Level,Jobs,Verified Stats/Effects,Status
 246,Wizard\'s Coat,True,,,,,present in Universal.lua; metadata pending
 247,Wizzan Grip,True,Sub,70.0,ALL,,inventory-confirmed; metadata pending
 248,Wlk. Boots +1,True,Feet,71.0,RDM,,inventory-confirmed; metadata pending
-249,Wlk. Chapeau +1,True,Head,75.0,RDM,,inventory-confirmed; metadata pending
+249,Wlk. Chapeau +1,True,Head,75.0,RDM,INT+5 Magic Attack Bonus+6 (CatsEyeXI custom augment),owned; base INT+5 and custom MAB+6 augment confirmed by user
 250,Wlk. Gloves +1,True,Hands,73.0,RDM,,inventory-confirmed; metadata pending
 251,Wlk. Tabard +1,True,Body,75.0,RDM,,inventory-confirmed; metadata pending
 252,Wlk. Tights +1,True,Legs,75.0,RDM,,inventory-confirmed; metadata pending
