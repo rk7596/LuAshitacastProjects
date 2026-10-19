@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2317
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-19.0002
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -4819,6 +4819,7 @@ RDM.Sets.PreshotByLevel = {
         Ring2 = "Merman's Ring",
     },
     [72] = {
+        Head  = "Pln. Qalansuwa",
         Ear1  = "Hollow Earring",
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
@@ -4857,6 +4858,7 @@ RDM.Sets.WS_FlamingArrowByLevel = {
         Ring2 = "Merman's Ring",
     },
     [72] = {
+        Head  = "Pln. Qalansuwa",
         Ear1  = "Hollow Earring",
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
