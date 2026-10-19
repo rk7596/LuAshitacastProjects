@@ -1,5 +1,5 @@
 -- ============================================================================
--- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2209
+-- Universal.lua - Universal Luashitacast Profile - Version: 2026-10-18.2316
 -- VanaCore (beta) / LuAshitacast 2.x / CatsEyeXI
 --
 -- IMPORTANT AUTO-LOAD NOTE
@@ -269,6 +269,15 @@ local function GetJob(player)
     return JOBS[player.MainJob]
 end
 
+-- Idle Merman's Ring use is limited to a slot whose previous ring has no HP/MP.
+local IdleMermanRingSlots = {
+    WAR = "Ring1", THF = "Ring1", DRK = "Ring1", BST = "Ring1",
+    BRD = "Ring1", DRG = "Ring1", COR = "Ring1", PUP = "Ring1",
+    DNC = "Ring1", PLD = "Ring1", BLU = "Ring1", SAM = "Ring1",
+    MNK = "Ring2", RUN = "Ring1",
+    SMN = "Ring2", SCH = "Ring2", GEO = "Ring2",
+}
+
 local function GetLevelSetOverlay(job, name)
     if not job or not name then
         return nil
@@ -323,6 +332,22 @@ local function GetLevelSetOverlay(job, name)
     -- therefore wins when a job has a more appropriate item for that slot.
     for _, minimumLevel in ipairs(thresholds) do
         result = MergeSets(result, byLevel[minimumLevel])
+    end
+
+    -- Shared ranged-ring progression applies without changing the job's weapon/ammo.
+    if name == "Preshot" or name == "Midshot" then
+        if level >= 70 then
+            result.Ring1 = "Merman's Ring"
+            result.Ring2 = "Merman's Ring"
+        elseif level >= 55 then
+            result.Ring1 = "Scorpion Ring +1"
+            result.Ring2 = "Scorpion Ring +1"
+        end
+    elseif name == "Idle" and level >= 70 then
+        local idleRingSlot = IdleMermanRingSlots[player.MainJob]
+        if idleRingSlot then
+            result[idleRingSlot] = "Merman's Ring"
+        end
     end
 
     if next(result) == nil then
@@ -3852,18 +3877,30 @@ RNG.Sets.Preshot = {
 
 RNG.Sets.PreshotByLevel = {
     [50] = {
-        Ring1 = "Rajas Ring",
+        Ring1 = "Jalzahn's Ring",
         Waist = "Ryl.Kgt. Belt",
         Ammo  = "Bodkin Arrow",
     },
+    [54] = {
+        Head = "Hunter's Beret",
+    },
     [55] = {
         Range = "Eurytos' Bow",
+        Ring1 = "Scorpion Ring +1",
+        Ring2 = "Scorpion Ring +1",
+    },
+    [58] = {
+        Body = "Hunter's Jerkin",
     },
     [60] = {
         Ammo = "Demon Arrow",
     },
     [69] = {
         Range = "Failnaught",
+    },
+    [70] = {
+        Ring1 = "Merman's Ring",
+        Ring2 = "Merman's Ring",
     },
     [72] = {
         Body  = "Pln. Khazagand",
@@ -3884,9 +3921,30 @@ RNG.Sets.JA_OffensiveByLevel = RNG.Sets.PreshotByLevel
 RNG.Sets.JA_Defensive = {}
 RNG.Sets.JA_Enmity = {}
 
+-- Base Hunter's Attire pieces enhance these job abilities.
+RNG.Sets.JA_Shadowbind = {}
+RNG.Sets.JA_ShadowbindByLevel = {
+    [52] = { Hands = "Hunter's Bracers" },
+}
+RNG.Sets.JA_Sharpshot = {}
+RNG.Sets.JA_SharpshotByLevel = {
+    [56] = { Legs = "Hunter's Braccae" },
+}
+RNG.Sets.JA_Camouflage = {}
+RNG.Sets.JA_CamouflageByLevel = {
+    [58] = { Body = "Hunter's Jerkin" },
+}
+RNG.Sets.JA_Scavenge = {}
+RNG.Sets.JA_ScavengeByLevel = {
+    [60] = { Feet = "Hunter's Socks" },
+}
+
 RNG.JA = {
-    ["Sharpshot"] = "JA_Offensive",
+    ["Sharpshot"] = "JA_Sharpshot",
     ["Barrage"] = "JA_Offensive",
+    ["Shadowbind"] = "JA_Shadowbind",
+    ["Camouflage"] = "JA_Camouflage",
+    ["Scavenge"] = "JA_Scavenge",
     ["Eagle Eye Shot"] = "JA_Offensive",
 }
 
@@ -4717,20 +4775,25 @@ RDM.Sets.PreshotByLevel = {
         Ring1 = "Jalzahn's Ring",
         Ammo  = "Bodkin Arrow",
     },
+    [55] = {
+        Ring1 = "Scorpion Ring +1",
+        Ring2 = "Scorpion Ring +1",
+    },
     [60] = {
         Ammo = "Demon Arrow",
     },
     [69] = {
         Range = "Failnaught",
     },
+    [70] = {
+        Ring1 = "Merman's Ring",
+        Ring2 = "Merman's Ring",
+    },
     [72] = {
         Ear1  = "Hollow Earring",
         Body  = "Pln. Khazagand",
         Hands = "Pln. Dastanas",
         Legs  = "Pln. Seraweels",
-    },
-    [75] = {
-        Ring2 = "Bellona's Ring",
     },
 }
 
@@ -4750,11 +4813,19 @@ RDM.Sets.WS_FlamingArrowByLevel = {
         Ring1 = "Jalzahn's Ring",
         Ammo  = "Bodkin Arrow",
     },
+    [55] = {
+        Ring1 = "Scorpion Ring +1",
+        Ring2 = "Scorpion Ring +1",
+    },
     [60] = {
         Ammo = "Demon Arrow",
     },
     [69] = {
         Range = "Failnaught",
+    },
+    [70] = {
+        Ring1 = "Merman's Ring",
+        Ring2 = "Merman's Ring",
     },
     [72] = {
         Ear1  = "Hollow Earring",
@@ -4765,7 +4836,6 @@ RDM.Sets.WS_FlamingArrowByLevel = {
     [75] = {
         Head  = "Hecate's Crown",
         Ear2  = "Moldavite Earring",
-        Ring2 = "Bellona's Ring",
     },
 }
 
